@@ -1,0 +1,24 @@
+.DS_Store
+dist
+build
+nbproject
+build.xml
+persistence.xml
+
+# icms/dist/*
+# icms/dist/**/*
+# icms/build/*
+# icms/build/**/*
+# icms
+# icms/ICMS-ejb/build/*
+# icms/ICMS-ejb/build/**/*
+# icms/ICMS-ejb/dist/*
+# icms/ICMS-ejb/dist/**/*
+# icms/ICMS-war/build/*
+# icms/ICMS-war/build/**/*
+# icms/ICMS-war/dist/*
+# icms/ICMS-war/dist/**/*
+# icms/ICMS-ejb/src/conf/persistence.xml
+# icms
+# icms/nbproject/*
+# icms/nbproject/**/*

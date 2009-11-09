@@ -1,6 +1,8 @@
-package ICMSservlet;
+package icms_servlet;
 
-import ICMSejb.*;
+
+
+import icms_ejb.*;
 import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJB;

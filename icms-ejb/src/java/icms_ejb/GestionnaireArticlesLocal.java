@@ -1,4 +1,4 @@
-package ICMSejb;
+package icms_ejb;
 
 import java.util.List;
 import javax.ejb.Local;

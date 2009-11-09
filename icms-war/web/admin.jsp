@@ -1,4 +1,4 @@
-<%@page import="ICMS.SessionsServlet;" %>
+<%@page import="icms_servlet.SessionsServlet;" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
@@ -9,7 +9,7 @@
         <title>Login</title>
     </head>
     <body>
-        <form action="/ICMS-war/login" method="post">
+        <form action="/icms-war/login" method="post">
           <input type="hidden" name="action" value="<%= SessionsServlet.CREATE %>" />
           Login : <input type="text" name="login">
           Password : <input type="password" name="password">

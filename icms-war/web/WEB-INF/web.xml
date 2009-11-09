@@ -2,11 +2,11 @@
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     <servlet>
         <servlet-name>login</servlet-name>
-        <servlet-class>ICMSservlet.SessionsServlet</servlet-class>
+        <servlet-class>icms_servlet.SessionsServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Articles.index</servlet-name>
-        <servlet-class>ICMSservlet.ArticlesServlet</servlet-class>
+        <servlet-class>icms_servlet.ArticlesServlet</servlet-class>
         <init-param>
             <param-name>action</param-name>
             <param-value>1</param-value>
@@ -14,7 +14,7 @@
         </servlet>
     <servlet>
         <servlet-name>Articles.create</servlet-name>
-        <servlet-class>ICMSservlet.ArticlesServlet</servlet-class>
+        <servlet-class>icms_servlet.ArticlesServlet</servlet-class>
         <init-param>
             <param-name>action</param-name>
             <param-value>3</param-value>
@@ -22,7 +22,7 @@
         </servlet>
     <servlet>
         <servlet-name>Article.show</servlet-name>
-        <servlet-class>ICMSservlet.ArticlesServlet</servlet-class>
+        <servlet-class>icms_servlet.ArticlesServlet</servlet-class>
         <init-param>
             <param-name>action</param-name>
             <param-value>4</param-value>
@@ -30,7 +30,7 @@
         </servlet>
     <servlet>
         <servlet-name>Articles.new</servlet-name>
-        <servlet-class>ICMSservlet.ArticlesServlet</servlet-class>
+        <servlet-class>icms_servlet.ArticlesServlet</servlet-class>
         <init-param>
             <param-name>action</param-name>
             <param-value>2</param-value>

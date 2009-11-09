@@ -6,23 +6,23 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Articles</title>
-    <link href="/ICMS-war/stylesheets/style.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="/icms-war/stylesheets/style.css" rel="stylesheet" type="text/css" media="screen" />
   </head>
   <body>
     <jsp:include page="header.jsp" />
 
-    <a href="/ICMS-war/articles/new">Nouvel article</a>
+    <a href="/icms-war/articles/new">Nouvel article</a>
 
     <c:forEach var="u" items="${requestScope['listeArticles']}">
       <div class="post">
-        <h2 class="title"><a href="/ICMS-war/article/${u.permalink}">${u.title}</a></h2>
+        <h2 class="title"><a href="/icms-war/article/${u.permalink}">${u.title}</a></h2>
         <p class="meta">
           ${u.publishedAt}
           <%--Posted by <a href="#">${u.author.name}</a>--%>
         </p>
         <div class="entry">
           ${u.intro}
-          <div><a href="/ICMS-war/article/${u.permalink}" class="links">View Full Story</a></div>
+          <div><a href="/icms-war/article/${u.permalink}" class="links">View Full Story</a></div>
         </div>
       </div>
     </c:forEach>

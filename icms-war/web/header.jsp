@@ -7,7 +7,7 @@
 	<div id="header">
 		<div id="menu">
 			<ul>
-				<li><a href="/ICMS-war/articles" class="first">Home</a></li>
+				<li><a href="/icms-war/articles" class="first">Home</a></li>
 				<li class="current_page_item"><a href="#">Blog</a></li>
 				<li><a href="#">About</a></li>
 				<li><a href="#">Contact</a></li>

@@ -1,4 +1,4 @@
-package ICMSejb;
+package icms_ejb;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -172,6 +172,6 @@ public class Article implements Serializable {
 
     @Override
     public String toString() {
-        return "ICMS.Article[id=" + getId() + "]";
+        return "Article[id=" + getId() + "]";
     }
 }

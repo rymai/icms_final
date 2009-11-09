@@ -1,4 +1,4 @@
-package ICMSejb;
+package icms_ejb;
 
 import java.io.Serializable;
 import javax.persistence.Entity;

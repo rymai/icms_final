@@ -1,9 +1,9 @@
-<%@page import="ICMS.ArticlesServlet;" %>
+<%@page import="icms_servlet.ArticlesServlet;" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
   "http://www.w3.org/TR/html4/loose.dtd">
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<script type="text/javascript" src="/ICMS-war/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
+<script type="text/javascript" src="/icms-war/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
 <script type="text/javascript">
   tinyMCE.init({
     // General options
@@ -26,7 +26,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Admin!</title>
-    <link href="/ICMS-war/stylesheets/style.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="/icms-war/stylesheets/style.css" rel="stylesheet" type="text/css" media="screen" />
   </head>
   <body>
     <jsp:include page="header.jsp" />
@@ -50,7 +50,7 @@
     </div>
 
     <div id="tinyMCE">
-      <form method="post" action="/ICMS-war/articles/create">
+      <form method="post" action="/icms-war/articles/create">
         <label for="title">Titre de l'article :</label>
         <input type="text" id="title" name="title">
         <br />

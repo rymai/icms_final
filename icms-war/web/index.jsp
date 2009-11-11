@@ -11,7 +11,7 @@
   <body>
     <jsp:include page="header.jsp" />
 
-    <a href="/icms-war/articles/new">Nouvel article</a>
+    <a href="/icms-war/admin/articles/new">Nouvel article</a>
 
     <c:forEach var="u" items="${requestScope['listeArticles']}">
       <div class="post">

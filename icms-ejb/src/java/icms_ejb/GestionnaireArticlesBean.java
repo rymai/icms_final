@@ -23,7 +23,7 @@ public class GestionnaireArticlesBean implements GestionnaireArticlesLocal {
         em.merge(a);
     }
 
-    public void remove(int id) {
+    public void destroy(int id) {
         Article a = find(id);
         em.remove(em.merge(a));
     }

@@ -12,7 +12,7 @@
     <jsp:include page="header.jsp" />
 
     <div class="post">
-      <h2 class="title"><a href="/icms-war/article/${u.permalink}"><c:out value="${requestScope['article'].title}" escapeXml="false"/></a></h2>
+      <h2 class="title"><a href="/icms-war/article/<c:out value="${requestScope['article'].permalink}" escapeXml="true"/>"><c:out value="${requestScope['article'].title}" escapeXml="true"/></a></h2>
       <p class="meta">
         ${u.publishedAt}
         <%--Posted by <a href="#">${u.author.name}</a>--%>

@@ -1,26 +1,26 @@
 package icms_ejb;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "USERS")
 @NamedQueries({
   @NamedQuery(name = "Users.findAll",
               query = "SELECT u FROM User u"),
-  @NamedQuery(name = "Users.findAdmins",
-              query = "SELECT u FROM User u WHERE u.lvl = 'admin'"),
   @NamedQuery(name = "Users.findByLoginAndPassword",
-              query = "SELECT u FROM User u WHERE u.login = :login AND u.password = :password")
+              query = "SELECT u FROM User u WHERE u.login = :login AND u.password = :password"),
+  @NamedQuery(name = "Users.findById",
+              query = "SELECT u FROM User u WHERE u.id = :id"),
+  @NamedQuery(name = "Users.findAdmins",
+              query = "SELECT u FROM User u WHERE u.lvl = 'admin'")
 })
 public class User implements Serializable {
   private static final long serialVersionUID = 1L;
 
   @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Integer id;
   private String login;
   private String password;
   private String lvl;
@@ -32,6 +32,10 @@ public class User implements Serializable {
     this.login = login;
     this.password = password;
     this.lvl = lvl;
+  }
+
+  public Integer getId() {
+    return id;
   }
 
   /**

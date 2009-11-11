@@ -10,39 +10,76 @@ import javax.servlet.http.*;
 public class SessionsServlet extends HttpServlet {
 
   @EJB
-  private GestionnaireUsersLocal gestionnaireUsers;
+  private icms_ejb.GestionnaireArticlesLocal gestionnaireArticles;
+  @EJB
+  private icms_ejb.GestionnaireUsersLocal gestionnaireUsers;
+  @EJB
+  private icms_ejb.GestionnaireSessionsLocal gestionnaireSessions;
   
   // Not EJB
-  private String page = "index";
-
-  // Actions
-  public final static int INDEX = 1;
-  public final static int NEW = 2;
-  public final static int CREATE = 3;
-  public final static int SHOW = 4;
-  public final static int EDIT = 5;
-  public final static int UPDATE = 6;
-  public final static int DESTROY = 7;
+  private static HttpSession session;
+  private String page = "index.jsp";
 
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     response.setContentType("text/html;charset=UTF-8");
 
-    switch (Integer.parseInt(request.getParameter("action"))) {
-      case CREATE:
+    SessionsServlet.getSession(request);
+    User u = SessionsServlet.getUserFromSession(gestionnaireUsers);
+    request.setAttribute("current_user", u);
+
+    // Priority for the action parameter passed by the page, not by the servlet config
+    int action = request.getParameter("action") != null ? Integer.parseInt(request.getParameter(
+            "action")) : getServletConfig().getInitParameter("action") != null ? Integer.parseInt(getServletConfig().
+            getInitParameter("action")) : -1;
+
+    switch (action) {
+      case Config.CREATE:
         User user = gestionnaireUsers.findUserByLoginAndPassword(request.getParameter("login"),
                                                                  request.getParameter("password"));
         if (user != null) {
-          // Initialiser la session (cookies)
+          setUserToSession(user);
           List<User> listeUsers = gestionnaireUsers.all();
           request.setAttribute("listeUsers", listeUsers);
-          page = "consoleAdmin";
-        } else page = "admin";
+          page = "index.jsp";
+        } else {
+          page = "login";
+        }
+        break;
+
+      case Config.DESTROY:
+        session.removeAttribute("user_id");
+        if (gestionnaireSessions.destroy()) {
+          page = "";
+        }
+        break;
+
+      default:
+        page = getUserFromSession(gestionnaireUsers) != null ? "admin" : "";
         break;
     }
-    
-    RequestDispatcher dp = request.getRequestDispatcher(page + ".jsp");
+
+    RequestDispatcher dp = request.getRequestDispatcher("/" + page);
     dp.forward(request, response);
+  }
+
+  public static HttpSession getSession(HttpServletRequest request) {
+    session = request.getSession(true);
+    return request.getSession(true);
+  }
+
+  public void setUserToSession(User user) {
+    System.out.println("user "+user.getLogin() + " mis en session!");
+    session.setAttribute("user_id", user.getId());
+    System.out.println("setUserToSession, user_id : " + session.getAttribute("user_id"));
+  }
+
+  public static User getUserFromSession(GestionnaireUsersLocal gestionnaire) {
+    Integer id = null;
+    id = (Integer) session.getAttribute("user_id");
+    if (id != null)
+      return gestionnaire.find(id);
+    return null;
   }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

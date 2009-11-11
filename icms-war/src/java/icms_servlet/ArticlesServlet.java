@@ -14,15 +14,7 @@ public class ArticlesServlet extends HttpServlet {
   @EJB
   private GestionnaireUsersLocal gestionnaireUsers;
   // Not EJB
-  private String page = "index";
-  // Actions
-  public final static int INDEX = 1;
-  public final static int NEW = 2;
-  public final static int CREATE = 3;
-  public final static int SHOW = 4;
-  public final static int EDIT = 5;
-  public final static int UPDATE = 6;
-  public final static int DESTROY = 7;
+  private String page = "index.jsp";
 
   /**
    * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -35,48 +27,57 @@ public class ArticlesServlet extends HttpServlet {
           throws ServletException, IOException {
     response.setContentType("text/html;charset=UTF-8");
 
-//    System.out.println("action: " + getServletConfig().getInitParameter("action"));
+    SessionsServlet.getSession(request);
+    User u = SessionsServlet.getUserFromSession(gestionnaireUsers);
+    request.setAttribute("current_user", u);
 
-    int action = getServletConfig().getInitParameter("action") != null ? Integer.parseInt(getServletConfig().
+//    gestionnaireUsers.creerAdmin();
+
+    // Priority for the action parameter passed by the page, not by the servlet config
+    int action = request.getParameter("action") != null ? Integer.parseInt(request.getParameter(
+            "action")) : getServletConfig().getInitParameter("action") != null ? Integer.parseInt(getServletConfig().
             getInitParameter("action")) : -1;
 
     switch (action) {
-      case CREATE:
+      case Config.CREATE:
         gestionnaireArticles.create((String) request.getParameter("title"), (String) request.
                 getParameter("permalink"), (String) request.getParameter("intro"),
                                     (String) request.getParameter("content"));
         List<User> listeUsers = gestionnaireUsers.all();
         request.setAttribute("listeUsers", listeUsers);
-        page = "index";
+        page = "";
         break;
 
-      case NEW:
-        page = "consoleAdmin";
+      case Config.NEW:
+        page = "admin.jsp";
         break;
 
-      case SHOW:
+      case Config.SHOW:
         String perme = request.getPathInfo().substring(request.getPathInfo().
-                lastIndexOf("/")+1);
+                lastIndexOf("/") + 1);
         System.out.println("perme: " + perme);
         Article article = gestionnaireArticles.findByPermalink(perme);
         if (article != null) {
           request.setAttribute("article", article);
-          page = "article";
+          page = "article.jsp";
         } else {
-          page = "index";
+          page = "index.jsp";
         }
         break;
 
       default:
-        page = "index";
+        page = "index.jsp";
         break;
     }
-//    System.out.println(page);
-    if (page.equals("index")) {
+
+    if (page.equals("index.jsp")) {
       List<Article> listeArticles = gestionnaireArticles.all();
       request.setAttribute("listeArticles", listeArticles);
+      List<User> listeUsers = gestionnaireUsers.all();
+      request.setAttribute("listeUsers", listeUsers);
     }
-    RequestDispatcher dp = request.getRequestDispatcher("/" + page + ".jsp");
+
+    RequestDispatcher dp = request.getRequestDispatcher("/" + page);
     dp.forward(request, response);
   }
 

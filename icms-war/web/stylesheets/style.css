@@ -1,10 +1,3 @@
-
-/*
-Design by Free CSS Templates
-http://www.freecsstemplates.org
-Released for free under a Creative Commons Attribution 2.5 License
-*/
-
 body {
 	margin: 0;
 	padding: 0;
@@ -250,7 +243,8 @@ hr { display: none; }
 
 .post .title a {
 	text-decoration: none;
-	text-transform: capitalize;
+	/*text-transform: capitalize;*/
+    text-transform: none;
 	font-size: 30px;
 	color: #543A2C;
 }
@@ -480,4 +474,10 @@ hr { display: none; }
 
 #footer a {
 	color: #961A06;
+}
+
+div#log_top_right {
+  position:absolute;
+  top:0;
+  right:0;
 }

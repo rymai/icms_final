@@ -9,30 +9,41 @@ import javax.persistence.Query;
 @Stateful
 public class GestionnaireUsersBean implements GestionnaireUsersLocal {
 
-    @PersistenceContext
-    private EntityManager em;
+  @PersistenceContext
+  private EntityManager em;
 
-    public void creerAdmin() {
-        em.persist(new User("admin", "admin", "admin"));
-    }
+  public void creerAdmin() {
+    em.persist(new User("admin", "admin", "admin"));
+  }
 
-    public List<User> all() {
-        return em.createNamedQuery("Users.findAll").getResultList();
-    }
+  public List<User> all() {
+    return em.createNamedQuery("Users.findAll").getResultList();
+  }
 
-    public List<User> findAdmins() {
-        return em.createNamedQuery("Users.findAdmins").getResultList();
-    }
+  public List<User> findAdmins() {
+    return em.createNamedQuery("Users.findAdmins").getResultList();
+  }
 
-    public User findUserByLoginAndPassword(String login, String password) {
-        Query queryUserByLoginAndPassword = em.createNamedQuery("Users.findByLoginAndPassword");
-        queryUserByLoginAndPassword.setParameter("login", login);
-        queryUserByLoginAndPassword.setParameter("password", password);
-        List<User> users = queryUserByLoginAndPassword.getResultList();
-        if (users.size() == 1) {
-            return users.get(0);
-        } else {
-            return null;
-        }
+  public User findUserByLoginAndPassword(String login, String password) {
+    Query queryUserByLoginAndPassword = em.createNamedQuery("Users.findByLoginAndPassword");
+    queryUserByLoginAndPassword.setParameter("login", login);
+    queryUserByLoginAndPassword.setParameter("password", password);
+
+    try {
+      return (User) queryUserByLoginAndPassword.getSingleResult();
+    } catch (Exception e) {
+     return null;
     }
+  }
+
+  public User find(int id) {
+    Query queryUserById = em.createNamedQuery("Users.findById");
+    queryUserById.setParameter("id", id);
+    List<User> users = queryUserById.getResultList();
+    if (users.size() == 1) {
+      return users.get(0);
+    } else {
+      return null;
+    }
+  }
 }

@@ -10,7 +10,7 @@ public interface GestionnaireArticlesLocal {
 
     public void update(int id, String title, String permalink, String intro, String content);
 
-    public void remove(int id);
+    public void destroy(int id);
 
     public Article find(int id);
 

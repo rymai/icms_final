@@ -15,20 +15,19 @@ public class SessionsServlet extends HttpServlet {
   private icms_ejb.GestionnaireUsersLocal gestionnaireUsers;
   @EJB
   private icms_ejb.GestionnaireSessionsLocal gestionnaireSessions;
-  
   // Not EJB
   private static HttpSession session;
-  private String page = "index.jsp";
+  private String page;
 
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     response.setContentType("text/html;charset=UTF-8");
 
-    SessionsServlet.getSession(request);
-    User u = SessionsServlet.getUserFromSession(gestionnaireUsers);
-    request.setAttribute("current_user", u);
+//    SessionsServlet.getSession(request);
+//    User u = SessionsServlet.getUserFromSession(gestionnaireUsers);
+//    request.setAttribute("current_user", u);
 
-    // Priority for the action parameter passed by the page, not by the servlet config
+    // Priority for the action parameter given by the page, not by the servlet config
     int action = request.getParameter("action") != null ? Integer.parseInt(request.getParameter(
             "action")) : getServletConfig().getInitParameter("action") != null ? Integer.parseInt(getServletConfig().
             getInitParameter("action")) : -1;
@@ -39,18 +38,21 @@ public class SessionsServlet extends HttpServlet {
                                                                  request.getParameter("password"));
         if (user != null) {
           setUserToSession(user);
-          List<User> listeUsers = gestionnaireUsers.all();
-          request.setAttribute("listeUsers", listeUsers);
-          page = "index.jsp";
+          request.setAttribute("flash",
+                               "Vous êtes maintenant logué en tant que " + user.getLogin() + "!");
+          response.sendRedirect("/icms-war/admin/articles");
+          return;
         } else {
-          page = "login";
+          page = "";
         }
         break;
 
       case Config.DESTROY:
         session.removeAttribute("user_id");
         if (gestionnaireSessions.destroy()) {
-          page = "";
+          response.sendRedirect("/icms-war/articles");
+          request.setAttribute("flash", "Vous êtes maintenant délogué!");
+          return;
         }
         break;
 
@@ -69,7 +71,7 @@ public class SessionsServlet extends HttpServlet {
   }
 
   public void setUserToSession(User user) {
-    System.out.println("user "+user.getLogin() + " mis en session!");
+    System.out.println("user " + user.getLogin() + " mis en session!");
     session.setAttribute("user_id", user.getId());
     System.out.println("setUserToSession, user_id : " + session.getAttribute("user_id"));
   }
@@ -77,8 +79,9 @@ public class SessionsServlet extends HttpServlet {
   public static User getUserFromSession(GestionnaireUsersLocal gestionnaire) {
     Integer id = null;
     id = (Integer) session.getAttribute("user_id");
-    if (id != null)
+    if (id != null) {
       return gestionnaire.find(id);
+    }
     return null;
   }
 

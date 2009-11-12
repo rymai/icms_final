@@ -10,5 +10,4 @@ public class Config {
   public final static int EDIT = 5;
   public final static int UPDATE = 6;
   public final static int DESTROY = 7;
-  
 }

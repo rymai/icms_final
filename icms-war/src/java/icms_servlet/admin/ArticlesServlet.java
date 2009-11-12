@@ -1,6 +1,7 @@
-Fpackage icms_servlet;
+package icms_servlet.admin;
 
 import icms_ejb.*;
+import icms_servlet.*;
 import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJB;
@@ -20,9 +21,9 @@ public class ArticlesServlet extends HttpServlet {
           throws ServletException, IOException {
     response.setContentType("text/html;charset=UTF-8");
 
-    SessionsServlet.getSession(request);
-    User u = SessionsServlet.getUserFromSession(gestionnaireUsers);
-    request.setAttribute("current_user", u);
+    if (!Security.checkUserIsAuthenticated(request, response, gestionnaireUsers)) {
+      return;
+    }
 
     // Priority for the action parameter passed by the page, not by the servlet config
     int action = request.getParameter("action") != null ? Integer.parseInt(request.getParameter(
@@ -30,23 +31,19 @@ public class ArticlesServlet extends HttpServlet {
             getInitParameter("action")) : -1;
 
     switch (action) {
-      case Config.SHOW:
-        String perme = request.getPathInfo().substring(request.getPathInfo().
-                lastIndexOf("/") + 1);
-        System.out.println("perme: " + perme);
-        Article article = gestionnaireArticles.findByPermalink(perme);
-        if (article != null) {
-          request.setAttribute("article", article);
-          page = "article.jsp";
-        } else {
-          page = "articles"; // redirect
-        }
+      case Config.INDEX:
+        page = "admin/articles.jsp"; // render
         break;
 
+      case Config.CREATE:
+        gestionnaireArticles.create((String) request.getParameter("title"), (String) request.
+                getParameter("permalink"), (String) request.getParameter("intro"),
+                                    (String) request.getParameter("content"));
+        response.sendRedirect("/icms-war/articles");
+        return;
+
       default:
-        List<Article> listeArticles = gestionnaireArticles.all();
-        request.setAttribute("listeArticles", listeArticles);
-        page = "index.jsp"; // render
+        page = "admin/articles.jsp"; // render
         break;
     }
 

@@ -1,5 +1,4 @@
-<%@page import="icms_ejb.GestionnaireSessionsBean;" %>
-<%@page import="icms_servlet.ArticlesServlet;" %>
+<%@page import="icms_servlet.*;" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -30,18 +29,16 @@
     </script>
   </head>
   <body>
-    <jsp:include page="header.jsp" />
+    <jsp:include page="../header.jsp" />
 
-    <jsp:include page="admin/admin_menu.jsp" />
+    <jsp:include page="admin_menu.jsp" />
 
     <h2>Articles</h2>
 
-    <ul>
-      <li><a href="/icms-war/admin/articles/new">Nouvel article</a></li>
-    </ul>
-
     <div id="tinyMCE">
-      <form method="post" action="/icms-war/admin/articles/create">
+      <h3>Nouvel article</h3>
+      <form method="post" action="/icms-war/admin/articles">
+        <input type="hidden" id="action" name="action" value="<%= Config.CREATE%>" />
         <label for="title">Titre de l'article :</label>
         <input type="text" id="title" name="title">
         <br />
@@ -57,6 +54,6 @@
       </form>
     </div>
 
-    <jsp:include page="footer.jsp" />
+    <jsp:include page="../footer.jsp" />
   </body>
 </html>

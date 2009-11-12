@@ -11,8 +11,6 @@
   <body>
     <jsp:include page="header.jsp" />
 
-    <a href="/icms-war/admin/articles/new">Nouvel article</a>
-
     <c:forEach var="u" items="${requestScope['listeArticles']}">
       <div class="post">
         <h2 class="title"><a href="/icms-war/article/${u.permalink}">${u.title}</a></h2>

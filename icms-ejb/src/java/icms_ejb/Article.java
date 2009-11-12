@@ -44,8 +44,11 @@ public class Article implements Serializable {
     setIntro(intro);
   }
 
-  public void update(String title, String permalink, String intro, String text) {
-    throw new UnsupportedOperationException("Not yet implemented");
+  public void update(String title, String permalink, String intro, String content) {
+    setTitle(title);
+    setPermalink(permalink);
+    setContent(content);
+    setIntro(intro);
   }
 
   public Long getId() {

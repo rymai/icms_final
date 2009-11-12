@@ -34,6 +34,12 @@ public class User implements Serializable {
     this.lvl = lvl;
   }
 
+  public void update(String login, String password, String lvl) {
+    this.login = login;
+    this.password = password;
+    this.lvl = lvl;
+  }
+  
   public Integer getId() {
     return id;
   }

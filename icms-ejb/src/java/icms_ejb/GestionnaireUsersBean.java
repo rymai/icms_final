@@ -46,4 +46,20 @@ public class GestionnaireUsersBean implements GestionnaireUsersLocal {
       return null;
     }
   }
+
+  public void create(String login, String password, String level) {
+    User u = new User(login, password, level);
+    em.persist(u);
+  }
+
+  public void update(int id, String login, String password, String level) {
+    User u = find(id);
+    u.update(login, password, level);
+    em.merge(u);
+  }
+
+  public void destroy(int id) {
+    User u = find(id);
+    em.remove(em.merge(u));
+  }
 }

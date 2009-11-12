@@ -2,7 +2,6 @@ package icms_servlet;
 
 import icms_ejb.*;
 import java.io.IOException;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -22,10 +21,6 @@ public class SessionsServlet extends HttpServlet {
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     response.setContentType("text/html;charset=UTF-8");
-
-//    SessionsServlet.getSession(request);
-//    User u = SessionsServlet.getUserFromSession(gestionnaireUsers);
-//    request.setAttribute("current_user", u);
 
     // Priority for the action parameter given by the page, not by the servlet config
     int action = request.getParameter("action") != null ? Integer.parseInt(request.getParameter(
@@ -71,9 +66,7 @@ public class SessionsServlet extends HttpServlet {
   }
 
   public void setUserToSession(User user) {
-    System.out.println("user " + user.getLogin() + " mis en session!");
     session.setAttribute("user_id", user.getId());
-    System.out.println("setUserToSession, user_id : " + session.getAttribute("user_id"));
   }
 
   public static User getUserFromSession(GestionnaireUsersLocal gestionnaire) {

@@ -1,4 +1,4 @@
-Fpackage icms_servlet;
+package icms_servlet;
 
 import icms_ejb.*;
 import java.io.IOException;

@@ -1,30 +1,16 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package icms_ejb;
 
 import java.util.Collection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-/**
- *
- * @author Chouchou
- */
 @Entity
-@Table(name = "Categories")
+@Table(name = "CATEGORIES")
 public class CategoryPage extends Page {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     @OneToMany(mappedBy = "myCategory")
     private Collection<SectionPage> mySections;
 
@@ -32,9 +18,8 @@ public class CategoryPage extends Page {
     }
 
     CategoryPage(String title, String permalink, String intro, String content) {
-      super(title, permalink, intro, content);
+        super(title, permalink, intro, content);
     }
-
 
     @Override
     public Long getId() {
@@ -87,10 +72,9 @@ public class CategoryPage extends Page {
 
     @Override
     public void update(String title, String permalink, String intro, String content) {
-         setTitle(title);
+        setTitle(title);
         setPermalink(permalink);
         setIntro(intro);
         setContent(content);
     }
-
 }

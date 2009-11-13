@@ -1,20 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package icms_ejb;
 
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
-/**
- *
- * @author Chouchou
- */
 @MappedSuperclass
 public abstract class Page implements Serializable {
 
@@ -29,8 +17,8 @@ public abstract class Page implements Serializable {
     @Column(nullable = false)
     protected String content;
 
-
-    public Page(){}
+    public Page() {
+    }
 
     public Page(String title, String permalink, String intro, String content) {
         setTitle(title);

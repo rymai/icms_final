@@ -1,52 +1,35 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package icms_ejb;
 
 import java.util.Collection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-/**
- *
- * @author Chouchou
- */
 @Entity
 @Table(name = "SECTIONS")
 @NamedQueries({
- @NamedQuery(name = "Section.findByTitle",
-    query = "SELECT s FROM Sections s WHERE s.title = :title"),
-     @NamedQuery(name = "Section.findAll",
-      query = "SELECT s FROM Sections s")
+    @NamedQuery(name = "Section.findByTitle",
+                query = "SELECT s FROM Sections s WHERE s.title = :title"),
+    @NamedQuery(name = "Section.findAll",
+                query = "SELECT s FROM Sections s")
 })
 public class SectionPage extends Page {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-      @ManyToOne
+    @ManyToOne
     private CategoryPage myCategory;
-
     @OneToMany(mappedBy = "mySection")
-      private Collection<ArticlePage> myArticles;
+    private Collection<ArticlePage> myArticles;
 
     public SectionPage() {
     }
 
-    public SectionPage(String title, String permalink, String intro, String content, CategoryPage myCategory) {
-       super(title, permalink, intro, content);
-       this.myCategory = myCategory;
+    public SectionPage(String title, String permalink, String intro, String content,
+                       CategoryPage myCategory) {
+        super(title, permalink, intro, content);
+        this.myCategory = myCategory;
     }
-
 
     @Override
     public Long getId() {
@@ -113,10 +96,9 @@ public class SectionPage extends Page {
 
     @Override
     public void update(String title, String permalink, String intro, String content) {
-    setTitle(title);
+        setTitle(title);
         setPermalink(permalink);
         setIntro(intro);
         setContent(content);
     }
-
 }

@@ -11,7 +11,7 @@ import javax.servlet.http.*;
 public class ArticlesServlet extends HttpServlet {
 
   @EJB
-  private GestionnaireArticlesLocal gestionnaireArticles;
+  private GestionnairePagesLocal gestionnaireArticles;
   @EJB
   private GestionnaireUsersLocal gestionnaireUsers;
   // Not EJB
@@ -36,9 +36,9 @@ public class ArticlesServlet extends HttpServlet {
         break;
 
       case Config.CREATE:
-        gestionnaireArticles.create((String) request.getParameter("title"), (String) request.
+        gestionnaireArticles.createArticle((String) request.getParameter("title"), (String) request.
                 getParameter("permalink"), (String) request.getParameter("intro"),
-                                    (String) request.getParameter("content"));
+                                    (String) request.getParameter("content"), gestionnaireArticles.findByTitle(request.getParameter("section")));
         response.sendRedirect("/icms-war/articles");
         return;
 

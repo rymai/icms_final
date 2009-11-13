@@ -1,5 +1,5 @@
 <%@page import="icms_ejb.GestionnaireSessionsBean;" %>
-<%@page import="icms_servlet.ArticlesServlet;" %>
+<%@page import="icms_servlet.PagesServlet;" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -42,6 +42,16 @@
 
     <div id="tinyMCE">
       <form method="post" action="/icms-war/admin/articles/create">
+           <label for="section">Section :</label>
+       <select name="section">
+           <c:forEach var="u" items="${requestScope['listeSections']}">
+           <option value="${u.title}">${u.title}</option>
+           </c:forEach>
+       </select>
+        <br />
+        <label for="title">Titre de l'article :</label>
+        <input type="text" id="title" name="title">
+        <br />
         <label for="title">Titre de l'article :</label>
         <input type="text" id="title" name="title">
         <br />

@@ -10,7 +10,7 @@
         </servlet>
     <servlet>
         <servlet-name>/articles</servlet-name>
-        <servlet-class>icms_servlet.ArticlesServlet</servlet-class>
+        <servlet-class>icms_servlet.PagesServlet</servlet-class>
         <init-param>
             <param-name>action</param-name>
             <param-value>1</param-value>
@@ -22,7 +22,7 @@
         </servlet>
     <servlet>
         <servlet-name>/article/permalink</servlet-name>
-        <servlet-class>icms_servlet.ArticlesServlet</servlet-class>
+        <servlet-class>icms_servlet.PagesServlet</servlet-class>
         <init-param>
             <param-name>action</param-name>
             <param-value>4</param-value>
@@ -38,7 +38,7 @@
         </servlet>
     <servlet>
         <servlet-name>admin</servlet-name>
-        <servlet-class>icms_servlet.ArticlesServlet</servlet-class>
+        <servlet-class>icms_servlet.PagesServlet</servlet-class>
         <init-param>
             <param-name>action</param-name>
             <param-value>2</param-value>

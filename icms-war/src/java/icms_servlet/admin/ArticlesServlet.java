@@ -31,10 +31,6 @@ public class ArticlesServlet extends HttpServlet {
             getInitParameter("action")) : -1;
 
     switch (action) {
-      case Config.INDEX:
-        page = "admin/articles.jsp"; // render
-        break;
-
       case Config.CREATE:
         gestionnaireArticles.createArticle((String) request.getParameter("title"), (String) request.
                 getParameter("permalink"), (String) request.getParameter("intro"),

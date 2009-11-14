@@ -1,3 +1,4 @@
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -38,7 +39,8 @@ public class ArticlePage extends Page {
         super();
     }
 
-    public ArticlePage(String title, String permalink, String intro, String content, SectionPage mySection) {
+    public ArticlePage(String title, String permalink, String intro, String content,
+            SectionPage mySection) {
         super(title, permalink, intro, content);
         this.mySection = mySection;
         createdAt = GregorianCalendar.getInstance().getTime();

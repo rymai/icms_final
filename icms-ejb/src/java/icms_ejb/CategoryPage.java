@@ -1,12 +1,15 @@
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package icms_ejb;
 
 import icms_ejb.SectionPage;
 import java.util.ArrayList;
 import java.util.Collection;
+
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,10 +20,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-/**
- *
- * @author Chouchou
- */
+
 @Entity
 @Table(name = "Categories")
 @NamedQueries({
@@ -29,6 +29,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "CategoryPage.findAll",
     query = "SELECT c FROM CategoryPage c")
 })
+
 public class CategoryPage extends Page {
 
     private static final long serialVersionUID = 1L;

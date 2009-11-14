@@ -1,3 +1,4 @@
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -6,6 +7,7 @@ package icms_ejb;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,10 +19,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-/**
- *
- * @author Chouchou
- */
 @Entity
 @Table(name = "SECTIONS")
 @NamedQueries({

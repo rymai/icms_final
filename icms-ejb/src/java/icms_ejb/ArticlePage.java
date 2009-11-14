@@ -1,3 +1,8 @@
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package icms_ejb;
 
 import java.util.Date;
@@ -7,10 +12,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "ARTICLES")
 @NamedQueries({
-    @NamedQuery(name = "Articles.findAll",
-                query = "SELECT a FROM Articles a"),
-    @NamedQuery(name = "Articles.findByPermalink",
-                query = "SELECT a FROM Articles a WHERE a.permalink = :perme")
+    @NamedQuery(name = "ArticlePage.findAll",
+    query = "SELECT a FROM ArticlePage a"),
+    @NamedQuery(name = "ArticlePage.findByPermalink",
+    query = "SELECT a FROM ArticlePage a WHERE a.permalink = :perm")
 })
 public class ArticlePage extends Page {
 
@@ -35,7 +40,7 @@ public class ArticlePage extends Page {
     }
 
     public ArticlePage(String title, String permalink, String intro, String content,
-                       SectionPage mySection) {
+            SectionPage mySection) {
         super(title, permalink, intro, content);
         this.mySection = mySection;
         createdAt = GregorianCalendar.getInstance().getTime();
@@ -85,8 +90,7 @@ public class ArticlePage extends Page {
             return false;
         }
         ArticlePage other = (ArticlePage) object;
-        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.
-                equals(
+        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(
                 other.id))) {
             return false;
         }

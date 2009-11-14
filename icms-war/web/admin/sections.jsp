@@ -6,7 +6,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Admin > Articles</title>
+    <title>Admin > Sections</title>
     <link href="/icms-war/stylesheets/style.css" rel="stylesheet" type="text/css" media="screen" />
     <script type="text/javascript" src="/icms-war/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
     <script type="text/javascript">
@@ -33,22 +33,22 @@
 
     <jsp:include page="admin_menu.jsp" />
 
-    <h2>Articles</h2>
+    <h2>Sections</h2>
 
     <div id="tinyMCE">
-      <h3>Nouvel article</h3>
-      <form method="post" action="/icms-war/admin/articles">
+      <h3>Nouvelle section</h3>
+      <form method="post" action="/icms-war/admin/sections">
         <input type="hidden" id="action" name="action" value="<%= Config.CREATE%>" />
-       
-         <label for="section">Section :</label>
-                <select name="section" title="section" id="section">
-                    <option value="">Choisissez une section</option>
-                    <c:forEach var="u" items="${requestScope['listeSections']}">
+     
+         <label for="section">Cat&eacute;gorie :</label>
+                <select name="category" title="category" id="category">
+                    <option value="">Choisissez une cat&eacute;gorie</option>
+                    <c:forEach var="u" items="${requestScope['listeCategories']}">
                         <option value="${u.title}">${u.title}</option>
                     </c:forEach>
                 </select>
                 <br />
-       <label for="title">Titre de l'article :</label>
+       <label for="title">Titre de la section :</label>
         <input type="text" id="title" name="title">
         <br />
         <label for="permalnk">Permalink :</label>

@@ -30,18 +30,18 @@ public class GestionnairePagesBean implements GestionnairePagesLocal {
     }
 
     public void update(int id, String title, String permalink, String intro, String content) {
-        Page p = find(id);
+        ArticlePage p = find(id);
         p.update(title, permalink, intro, content);
         em.merge(p);
     }
 
     public void destroy(int id) {
-        Page p = find(id);
+        ArticlePage p = find(id);
         em.remove(em.merge(p));
     }
 
-    public Page find(int id) {
-        return em.find(Page.class, id);
+    public ArticlePage find(int id) {
+        return em.find(ArticlePage.class, id);
     }
 
     public List<ArticlePage> all() {
@@ -49,8 +49,8 @@ public class GestionnairePagesBean implements GestionnairePagesLocal {
     }
 
     public ArticlePage findByPermalink(String perme) {
-        Query queryArticlesByPermalink = em.createNamedQuery("Articles.findByPermalink");
-        queryArticlesByPermalink.setParameter("perme", perme);
+        Query queryArticlesByPermalink = em.createNamedQuery("ArticlePage.findByPermalink");
+        queryArticlesByPermalink.setParameter("perm", perme);
         List<ArticlePage> articles = queryArticlesByPermalink.getResultList();
         if (articles.size() == 1) {
             return articles.get(0);
@@ -60,14 +60,14 @@ public class GestionnairePagesBean implements GestionnairePagesLocal {
     }
 
     public List<SectionPage> allSections() {
-        Query queryAllSections = em.createNamedQuery("Section.findAll");
+        Query queryAllSections = em.createNamedQuery("SectionPage.findAll");
         List<SectionPage> sections = queryAllSections.getResultList();
         return sections;
     }
 
-    public SectionPage findByTitle(String title) {
-        Query querySectionByTitle = em.createNamedQuery("Section.findByTitle");
-        querySectionByTitle.setParameter("title", title);
+    public SectionPage findSectionByTitle(String titre) {
+        Query querySectionByTitle = em.createNamedQuery("SectionPage.findByTitle");
+        querySectionByTitle.setParameter("titre", titre);
         List<SectionPage> sections = querySectionByTitle.getResultList();
         if (sections.size() == 1) {
             return sections.get(0);
@@ -75,4 +75,21 @@ public class GestionnairePagesBean implements GestionnairePagesLocal {
             return null;
         }
     }
+     public CategoryPage findCategoryByTitle(String titre) {
+        Query queryCategoryByTitle = em.createNamedQuery("CategoryPage.findByTitle");
+        queryCategoryByTitle.setParameter("titre", titre);
+        List<CategoryPage> categories = queryCategoryByTitle.getResultList();
+        if (categories.size() >= 1) {
+            return categories.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    public List<CategoryPage> allCategories() {
+       Query queryAllCategories = em.createNamedQuery("CategoryPage.findAll");
+        List<CategoryPage> categories = queryAllCategories.getResultList();
+        return categories;
+    }
+
 }

@@ -1,10 +1,35 @@
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package icms_ejb;
 
+import icms_ejb.SectionPage;
+import java.util.ArrayList;
 import java.util.Collection;
-import javax.persistence.*;
+
+import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 
 @Entity
-@Table(name = "CATEGORIES")
+@Table(name = "Categories")
+@NamedQueries({
+    @NamedQuery(name = "CategoryPage.findByTitle",
+    query = "SELECT c FROM CategoryPage c WHERE c.title = :titre"),
+    @NamedQuery(name = "CategoryPage.findAll",
+    query = "SELECT c FROM CategoryPage c")
+})
+
 public class CategoryPage extends Page {
 
     private static final long serialVersionUID = 1L;
@@ -19,6 +44,7 @@ public class CategoryPage extends Page {
 
     CategoryPage(String title, String permalink, String intro, String content) {
         super(title, permalink, intro, content);
+        mySections = new ArrayList<SectionPage>();
     }
 
     @Override

@@ -1,15 +1,31 @@
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package icms_ejb;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import javax.persistence.*;
+
+import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "SECTIONS")
 @NamedQueries({
-    @NamedQuery(name = "Section.findByTitle",
-                query = "SELECT s FROM Sections s WHERE s.title = :title"),
-    @NamedQuery(name = "Section.findAll",
-                query = "SELECT s FROM Sections s")
+    @NamedQuery(name = "SectionPage.findByTitle",
+    query = "SELECT s FROM SectionPage s WHERE s.title = :titre"),
+    @NamedQuery(name = "SectionPage.findAll",
+    query = "SELECT s FROM SectionPage s")
 })
 public class SectionPage extends Page {
 
@@ -25,10 +41,10 @@ public class SectionPage extends Page {
     public SectionPage() {
     }
 
-    public SectionPage(String title, String permalink, String intro, String content,
-                       CategoryPage myCategory) {
+    public SectionPage(String title, String permalink, String intro, String content, CategoryPage myCategory) {
         super(title, permalink, intro, content);
         this.myCategory = myCategory;
+        myArticles = new ArrayList<ArticlePage>();
     }
 
     @Override

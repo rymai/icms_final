@@ -3,7 +3,6 @@ package icms_servlet.admin;
 import icms_ejb.*;
 import icms_servlet.*;
 import java.io.IOException;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -11,7 +10,7 @@ import javax.servlet.http.*;
 public class ArticlesServlet extends HttpServlet {
 
     @EJB
-    private GestionnairePagesLocal gestionnaireArticles;
+    private GestionnairePagesLocal gestionnairePages;
     @EJB
     private GestionnaireUsersLocal gestionnaireUsers;
     // Not EJB
@@ -27,23 +26,27 @@ public class ArticlesServlet extends HttpServlet {
 
         // Priority for the action parameter passed by the page, not by the servlet config
         int action = request.getParameter("action") != null ? Integer.parseInt(request.getParameter(
-                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.parseInt(getServletConfig().
+                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.
+                parseInt(getServletConfig().
                 getInitParameter("action")) : -1;
 
-    switch (action) {
-      case Config.CREATE:
-        gestionnaireArticles.createArticle((String) request.getParameter("title"), (String) request.
-                getParameter("permalink"), (String) request.getParameter("intro"),
-                                    (String) request.getParameter("content"), gestionnaireArticles.findByTitle(request.getParameter("section")));
-        response.sendRedirect("/icms-war/articles");
-        return;
-        
-      default:
-          // gestionnaireArticles.createCategory("essai 1", "essai1", "blabla", "essai1");
-          // gestionnaireArticles.createSection("essai 1", "essai1", "blabla", "essai1", gestionnaireArticles.findCategoryByTitle("essai 1"));
-          request.setAttribute("listeSections", gestionnaireArticles.allSections());
-          page = "admin/articles.jsp"; // render
-          break;
+        switch (action) {
+            case Config.CREATE:
+                gestionnairePages.createArticle((String) request.getParameter("title"),
+                                                   (String) request.getParameter("permalink"),
+                                                   (String) request.getParameter("intro"),
+                                                   (String) request.getParameter("content"),
+                                                   gestionnairePages.findSectionByTitle(request.
+                        getParameter("section")));
+                response.sendRedirect("/icms-war/articles");
+                return;
+
+            default:
+//                 gestionnairePages.createCategory("essai 1", "essai1", "blabla", "essai1");
+//                 gestionnairePages.createSection("essai 1", "essai1", "blabla", "essai1", gestionnairePages.findCategoryByTitle("essai 1"));
+                request.setAttribute("listeSections", gestionnairePages.allSections());
+                page = "admin/articles.jsp"; // render
+                break;
         }
 
         RequestDispatcher dp = request.getRequestDispatcher("/" + page);

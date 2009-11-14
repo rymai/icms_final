@@ -12,13 +12,15 @@ public class GestionnairePagesBean implements GestionnairePagesLocal {
     @PersistenceContext
     private EntityManager em;
 
-    public void createArticle(String title, String permalink, String intro, String content, SectionPage mySection) {
+    public void createArticle(String title, String permalink, String intro, String content,
+                              SectionPage mySection) {
         ArticlePage a = new ArticlePage(title, permalink, intro, content, mySection);
         em.persist(a);
         mySection.getMyArticles().add(a);
     }
 
-    public void createSection(String title, String permalink, String intro, String content, CategoryPage myCategory) {
+    public void createSection(String title, String permalink, String intro, String content,
+                              CategoryPage myCategory) {
         SectionPage s = new SectionPage(title, permalink, intro, content, myCategory);
         em.persist(s);
         myCategory.getMySections().add(s);
@@ -75,7 +77,8 @@ public class GestionnairePagesBean implements GestionnairePagesLocal {
             return null;
         }
     }
-     public CategoryPage findCategoryByTitle(String titre) {
+
+    public CategoryPage findCategoryByTitle(String titre) {
         Query queryCategoryByTitle = em.createNamedQuery("CategoryPage.findByTitle");
         queryCategoryByTitle.setParameter("titre", titre);
         List<CategoryPage> categories = queryCategoryByTitle.getResultList();
@@ -87,9 +90,8 @@ public class GestionnairePagesBean implements GestionnairePagesLocal {
     }
 
     public List<CategoryPage> allCategories() {
-       Query queryAllCategories = em.createNamedQuery("CategoryPage.findAll");
+        Query queryAllCategories = em.createNamedQuery("CategoryPage.findAll");
         List<CategoryPage> categories = queryAllCategories.getResultList();
         return categories;
     }
-
 }

@@ -14,7 +14,7 @@
     <div class="post">
       <h2 class="title"><a href="/icms-war/article/<c:out value="${requestScope['article'].permalink}" escapeXml="true"/>"><c:out value="${requestScope['article'].title}" escapeXml="true"/></a></h2>
       <p class="meta">
-        ${u.publishedAt}
+        <c:out value="${requestScope['article'].publishedAt}" escapeXml="false"/>
         <%--Posted by <a href="#">${u.author.name}</a>--%>
       </p>
       <div class="entry">

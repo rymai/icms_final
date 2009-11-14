@@ -23,8 +23,6 @@ public class UsersServlet extends HttpServlet {
       return;
     }
 
-    // gestionnaireUsers.creerAdmin();
-
     // Priority for the action parameter passed by the page, not by the servlet config
     int action = request.getParameter("action") != null ? Integer.parseInt(request.getParameter(
             "action")) : getServletConfig().getInitParameter("action") != null ? Integer.parseInt(getServletConfig().

@@ -6,9 +6,11 @@ import javax.ejb.Local;
 @Local
 public interface GestionnairePagesLocal {
 
-    public void createArticle(String title, String permalink, String intro, String content, SectionPage mySection);
+    public void createArticle(String title, String permalink, String intro, String content,
+                              SectionPage mySection);
 
-    public void createSection(String title, String permalink, String intro, String content, CategoryPage myCategory);
+    public void createSection(String title, String permalink, String intro, String content,
+                              CategoryPage myCategory);
 
     public void createCategory(String title, String permalink, String intro, String content);
 

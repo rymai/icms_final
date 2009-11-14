@@ -32,9 +32,11 @@ public class SessionsServlet extends HttpServlet {
                 User user = gestionnaireUsers.findUserByLoginAndPassword(request.getParameter("login"),
                         request.getParameter("password"));
                 if (user != null) {
+//                    gestionnaireUsers.creerAdmin();
                     setUserToSession(user);
-                    request.setAttribute("flash",
-                            "Vous êtes maintenant logué en tant que " + user.getLogin() + "!");
+                    System.out.println("Vous êtes maintenant logué en tant que " + user.getLogin() + "!");
+//                    request.setAttribute("flash",
+//                            "Vous êtes maintenant logué en tant que " + user.getLogin() + "!");
                    
                     response.sendRedirect("/icms-war/admin/articles");
                     return;

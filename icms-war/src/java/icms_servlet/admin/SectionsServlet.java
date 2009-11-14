@@ -3,7 +3,6 @@ package icms_servlet.admin;
 import icms_ejb.*;
 import icms_servlet.*;
 import java.io.IOException;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -11,7 +10,7 @@ import javax.servlet.http.*;
 public class SectionsServlet extends HttpServlet {
 
     @EJB
-    private GestionnairePagesLocal gestionnaireArticles;
+    private GestionnairePagesLocal gestionnairePages;
     @EJB
     private GestionnaireUsersLocal gestionnaireUsers;
     // Not EJB
@@ -27,29 +26,25 @@ public class SectionsServlet extends HttpServlet {
 
         // Priority for the action parameter passed by the page, not by the servlet config
         int action = request.getParameter("action") != null ? Integer.parseInt(request.getParameter(
-                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.parseInt(getServletConfig().
+                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.
+                parseInt(getServletConfig().
                 getInitParameter("action")) : -1;
 
         switch (action) {
-            case Config.INDEX:
-                request.setAttribute("listeCategories", gestionnaireArticles.allCategories());
-              
-                page = "admin/sections.jsp"; // render
-                break;
-
             case Config.CREATE:
+                gestionnairePages.createSection((String) request.getParameter("title"),
+                                                (String) request.getParameter("permalink"),
+                                                (String) request.getParameter("intro"),
+                                                (String) request.getParameter("content"),
+                                                gestionnairePages.findCategoryByTitle(request.
+                        getParameter("category")));
 
-              
-                    gestionnaireArticles.createSection((String) request.getParameter("title"), (String) request.getParameter("permalink"), (String) request.getParameter("intro"), (String) request.getParameter("content"), gestionnaireArticles.findCategoryByTitle(request.getParameter("category")));
-             
                 response.sendRedirect("/icms-war/articles");
                 return;
 
             default:
-                // gestionnaireArticles.createCategory("essai 1", "essai1", "blabla", "essai1");
-                // gestionnaireArticles.createSection("essai 1", "essai1", "blabla", "essai1", gestionnaireArticles.findCategoryByTitle("essai 1"));
-                request.setAttribute("listeCategories", gestionnaireArticles.allCategories());
-            
+                request.setAttribute("listeCategories", gestionnairePages.allCategories());
+
                 page = "admin/sections.jsp"; // render
                 break;
         }
@@ -68,9 +63,9 @@ public class SectionsServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
-    } 
+    }
 
     /** 
      * Handles the HTTP <code>POST</code> method.
@@ -81,7 +76,7 @@ public class SectionsServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -93,5 +88,4 @@ public class SectionsServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

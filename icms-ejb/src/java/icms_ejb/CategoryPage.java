@@ -2,14 +2,18 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package icms_ejb;
 
+import icms_ejb.SectionPage;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -19,12 +23,18 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Categories")
+@NamedQueries({
+    @NamedQuery(name = "CategoryPage.findByTitle",
+    query = "SELECT c FROM CategoryPage c WHERE c.title = :titre"),
+    @NamedQuery(name = "CategoryPage.findAll",
+    query = "SELECT c FROM CategoryPage c")
+})
 public class CategoryPage extends Page {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     @OneToMany(mappedBy = "myCategory")
     private Collection<SectionPage> mySections;
 
@@ -32,9 +42,9 @@ public class CategoryPage extends Page {
     }
 
     CategoryPage(String title, String permalink, String intro, String content) {
-      super(title, permalink, intro, content);
+        super(title, permalink, intro, content);
+        mySections = new ArrayList<SectionPage>();
     }
-
 
     @Override
     public Long getId() {
@@ -87,10 +97,9 @@ public class CategoryPage extends Page {
 
     @Override
     public void update(String title, String permalink, String intro, String content) {
-         setTitle(title);
+        setTitle(title);
         setPermalink(permalink);
         setIntro(intro);
         setContent(content);
     }
-
 }

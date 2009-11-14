@@ -35,7 +35,7 @@ public class SessionsServlet extends HttpServlet {
                     setUserToSession(user);
                     request.setAttribute("flash",
                             "Vous êtes maintenant logué en tant que " + user.getLogin() + "!");
-                    request.setAttribute("listeSections", gestionnaireArticles.allSections());
+                   
                     response.sendRedirect("/icms-war/admin/articles");
                     return;
                 } else {

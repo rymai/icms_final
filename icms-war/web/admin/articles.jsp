@@ -39,7 +39,16 @@
       <h3>Nouvel article</h3>
       <form method="post" action="/icms-war/admin/articles">
         <input type="hidden" id="action" name="action" value="<%= Config.CREATE%>" />
-        <label for="title">Titre de l'article :</label>
+       
+         <label for="section">Section :</label>
+                <select name="section" title="section" id="section">
+                    <option value="">Choisissez une section</option>
+                    <c:forEach var="u" items="${requestScope['listeSections']}">
+                        <option value="${u.title}">${u.title}</option>
+                    </c:forEach>
+                </select>
+                <br />
+       <label for="title">Titre de l'article :</label>
         <input type="text" id="title" name="title">
         <br />
         <label for="permalnk">Permalink :</label>

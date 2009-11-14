@@ -2,8 +2,8 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package icms_ejb;
+
 import java.util.Date;
 import java.util.GregorianCalendar;
 import javax.persistence.*;
@@ -11,10 +11,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "ARTICLES")
 @NamedQueries({
-    @NamedQuery(name = "Articles.findAll",
-    query = "SELECT a FROM Articles a"),
- @NamedQuery(name = "Articles.findByPermalink",
-    query = "SELECT a FROM Articles a WHERE a.permalink = :perme")
+    @NamedQuery(name = "ArticlePage.findAll",
+    query = "SELECT a FROM ArticlePage a"),
+    @NamedQuery(name = "ArticlePage.findByPermalink",
+    query = "SELECT a FROM ArticlePage a WHERE a.permalink = :perm")
 })
 public class ArticlePage extends Page {
 

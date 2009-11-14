@@ -50,8 +50,8 @@ public class PagesServlet extends HttpServlet {
                 break;
 
             default:
-                List<ArticlePage> listePages = gestionnairePages.all();
-                request.setAttribute("listeArticles", listePages);
+                List<ArticlePage> listeArticles = gestionnairePages.all();
+                request.setAttribute("listeArticles", listeArticles);
                 page = "index.jsp"; // render
                 break;
         }

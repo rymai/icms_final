@@ -26,29 +26,45 @@ public class ArticlesServlet extends HttpServlet {
 
         // Priority for the action parameter passed by the page, not by the servlet config
         int action = request.getParameter("action") != null ? Integer.parseInt(request.getParameter(
-                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.
-                parseInt(getServletConfig().
+                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.parseInt(getServletConfig().
                 getInitParameter("action")) : -1;
 
         switch (action) {
             case Config.CREATE:
                 gestionnairePages.createArticle((String) request.getParameter("title"),
-                                                   (String) request.getParameter("permalink"),
-                                                   (String) request.getParameter("intro"),
-                                                   (String) request.getParameter("content"),
-                                                   gestionnairePages.findSectionByTitle(request.
-                        getParameter("section")));
+                        (String) request.getParameter("permalink"),
+                        (String) request.getParameter("intro"),
+                        (String) request.getParameter("content"),
+                        gestionnairePages.findSectionByTitle(request.getParameter("section")));
                 response.sendRedirect("/icms-war/articles");
                 return;
+
+
+            case Config.EDIT:
+                ArticlePage articleEdit = gestionnairePages.findArticleByPermalink(request.getParameter("permalink"));
+                request.setAttribute("article", articleEdit);
+                request.setAttribute("listeSections", gestionnairePages.allSections());
+                page = "admin/article_edit.jsp";
+                break;
+
+            case Config.UPDATE:
+                gestionnairePages.UpdateArticle(request.getParameter("idArticle"), request.getParameter("title"), request.getParameter("intro"), request.getParameter("content"), gestionnairePages.findSectionByPermalink(request.getParameter("section")));
+                page = "admin/articles.jsp";
+               break;
+
+            case Config.DESTROY:
+                gestionnairePages.DeleteArticle(request.getParameter("id"));
+                break;
 
             default:
 //                 gestionnairePages.createCategory("essai 1", "essai1", "blabla", "essai1");
 //                 gestionnairePages.createSection("essai 1", "essai1", "blabla", "essai1", gestionnairePages.findCategoryByTitle("essai 1"));
                 request.setAttribute("listeSections", gestionnairePages.allSections());
+
                 page = "admin/articles.jsp"; // render
                 break;
         }
-
+        request.setAttribute("listeArticles", gestionnairePages.all());
         RequestDispatcher dp = request.getRequestDispatcher("/" + page);
         dp.forward(request, response);
     }

@@ -15,7 +15,11 @@ import javax.persistence.*;
     @NamedQuery(name = "ArticlePage.findAll",
     query = "SELECT a FROM ArticlePage a"),
     @NamedQuery(name = "ArticlePage.findByPermalink",
-    query = "SELECT a FROM ArticlePage a WHERE a.permalink = :perm")
+    query = "SELECT a FROM ArticlePage a WHERE a.permalink = :perm"),
+    @NamedQuery(name = "ArticlePage.delete",
+    query = "DELETE FROM ArticlePage a WHERE a.id = :id"),
+    @NamedQuery(name = "ArticlePage.update",
+    query = "UPDATE ArticlePage a SET a.title = :title, a.mySection = :mySection, a.intro = :intro, a.content = :content WHERE a.id = :id")
 })
 public class ArticlePage extends Page {
 

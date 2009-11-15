@@ -34,7 +34,26 @@
     <jsp:include page="admin_menu.jsp" />
 
     <h2>Sections</h2>
+  <br />
+    <div id="listeSections">
+        <table border="1">
+            <tr>
+                <td>Titre</td>
+                <td>Supprimer</td>
 
+            </tr>
+                <c:forEach var="u" items="${requestScope['listeSections']}">
+                    <tr>
+                        <td><a href="/icms-war/admin/sections?action=5&permalink=${u.permalink}">${u.title}</a></td>
+                        <td> X </td>
+                    </tr>
+            </c:forEach>
+        </table>
+
+
+
+    </div>
+    <br />
     <div id="tinyMCE">
       <h3>Nouvelle section</h3>
       <form method="post" action="/icms-war/admin/sections">

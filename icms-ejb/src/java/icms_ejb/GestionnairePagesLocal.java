@@ -35,4 +35,16 @@ public interface GestionnairePagesLocal {
     public icms_ejb.CategoryPage findCategoryByPermalink(java.lang.String perme);
 
     public icms_ejb.SectionPage findSectionByPermalink(java.lang.String perme);
+
+    public int DeleteArticle(String id);
+
+    public int DeleteCategory(java.lang.String id);
+
+    public int DeleteSection(java.lang.String id);
+
+    public int UpdateArticle(java.lang.String id, java.lang.String title, java.lang.String intro, java.lang.String content, icms_ejb.SectionPage mySection);
+
+    public int UpdateCategory(java.lang.String id, java.lang.String title, java.lang.String intro, java.lang.String content);
+
+    public int UpdateSection(java.lang.String id, java.lang.String title, java.lang.String intro, java.lang.String content, icms_ejb.CategoryPage myCategory);
 }

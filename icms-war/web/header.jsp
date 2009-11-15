@@ -31,7 +31,6 @@
                 <li class="<%= !admin ? "current_page_item" : ""%>"><a href="/icms-war/article/cat:${u.permalink}">${u.title}</a></li>
             </c:forEach>
             <li class="<%= admin ? "current_page_item" : ""%>"><a href="/icms-war/admin/articles">Admin</a></li>
-
         </ul>
     </div>
     <!-- end #menu -->

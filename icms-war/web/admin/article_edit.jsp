@@ -6,7 +6,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Admin > Categories</title>
+    <title>Admin > Article > Edit</title>
     <link href="/icms-war/stylesheets/style.css" rel="stylesheet" type="text/css" media="screen" />
     <script type="text/javascript" src="/icms-war/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
     <script type="text/javascript">
@@ -33,40 +33,29 @@
 
     <jsp:include page="admin_menu.jsp" />
 
-    <h2>Categories</h2>
-  <br />
-    <div id="listeCategories">
-        <table border="1">
-            <tr>
-                <td>Titre</td>
-                <td>Supprimer</td>
-            </tr>
-                <c:forEach var="u" items="${requestScope['listeCategories']}">
-                    <tr>
-                        <td><a href="/icms-war/admin/categories?action=5&permalink=${u.permalink}">${u.title}</a></td>
-                        <td> X </td>
-                    </tr>
-            </c:forEach>
-        </table>
-
-    </div>
-    <br />
-    <div id="tinyMCE">
-      <h3>Nouvelle cat&eacute;gorie</h3>
-      <form method="post" action="/icms-war/admin/categories">
-        <input type="hidden" id="action" name="action" value="<%= Config.CREATE%>" />
-     
-       <label for="title">Titre de la cat&eacute;gorie :</label>
-        <input type="text" id="title" name="title">
+       <div id="tinyMCE">
+      <form method="post" action="/icms-war/admin/articles">
+        <input type="hidden" id="action" name="action" value="<%= Config.UPDATE%>" />
+         <input type="hidden" id="idArticle" name="idArticle" value="<c:out value="${requestScope['article'].id}" />" />
+          <label for="section">Section :</label>
+                <select name="section" title="section" id="section">
+                    <option value="<c:out value="${requestScope['article'].mySection.permalink}" escapeXml="false"/>"><c:out value="${requestScope['article'].mySection.title}" escapeXml="false"/></option>
+                    <c:forEach var="u" items="${requestScope['listeSections']}">
+                        <option value="${u.permalink}">${u.title}</option>
+                    </c:forEach>
+                </select>
+                <br />
+       <label for="title">Titre de l'article :</label>
+        <input type="text" id="title" name="title" value="<c:out value="${requestScope['article'].title}" escapeXml="false"/>">
         <br />
         <label for="permalnk">Permalink :</label>
-        <input type="text" id="permalink" name="permalink"> (auto-g&eacute;n&eacute;r&eacute; par d&eacute;faut)
+        <input type="text" id="permalink" name="permalink" value="<c:out value="${requestScope['article'].permalink}" escapeXml="false"/>"> (auto-g&eacute;n&eacute;r&eacute; par d&eacute;faut)
         <br />
         <label for="intro">Intro :</label>
-        <textarea id="intro" name="intro" rows="5" cols="80"></textarea>
+        <textarea id="intro" name="intro" rows="5" cols="80" ><c:out value="${requestScope['article'].intro}" escapeXml="false"/></textarea>
         <br />
         <label for="content">Text :</label>
-        <textarea id="content" name="content" rows="20" cols="80"></textarea>
+        <textarea id="content" name="content" rows="20" cols="80"><c:out value="${requestScope['article'].content}" escapeXml="false"/></textarea>
         <input type="submit" name="save" value="Valider" />
       </form>
     </div>

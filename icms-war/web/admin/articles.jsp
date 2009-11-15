@@ -34,6 +34,27 @@
     <jsp:include page="admin_menu.jsp" />
 
     <h2>Articles</h2>
+    <br />
+    <div id="listeArticles">
+        <table border="1">
+            <tr>
+                <td>Titre</td>
+              
+                <td>Publié le</td>
+                <td>Modifié le</td>
+                <td>Supprimer</td>
+            </tr>
+                <c:forEach var="u" items="${requestScope['listeArticles']}">
+                    <tr>
+                        <td><a href="/icms-war/admin/articles?action=5&permalink=${u.permalink}">${u.title}</a></td>
+                        <td>${u.publishedAt}</td>
+                        <td>${u.updatedAt}</td>
+                        <td><a href="/icms-war/admin/articles?action=7&id=${u.id}"> X </a></td>
+                    </tr>
+            </c:forEach>
+        </table>
+    </div>
+    <br />
 
     <div id="tinyMCE">
       <h3>Nouvel article</h3>

@@ -18,6 +18,7 @@
                 <c:out value="${requestScope['section'].content}" escapeXml="false"/>
             </div>
             <div class="articles">
+                <br />
                  Les articles :
                 <br />
                 <c:forEach var="u" items="${requestScope['listeArticles']}">

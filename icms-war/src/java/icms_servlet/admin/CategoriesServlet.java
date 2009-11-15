@@ -11,7 +11,7 @@ import javax.servlet.http.*;
 public class CategoriesServlet extends HttpServlet {
 
     @EJB
-    private GestionnairePagesLocal gestionnaireArticles;
+    private GestionnairePagesLocal gestionnairePages;
     @EJB
     private GestionnaireUsersLocal gestionnaireUsers;
     // Not EJB
@@ -32,31 +32,44 @@ public class CategoriesServlet extends HttpServlet {
 
         switch (action) {
             case Config.INDEX:
-              
+
                 page = "admin/categories.jsp"; // render
                 break;
 
             case Config.CREATE:
-
-            
-              
-                    gestionnaireArticles.createCategory((String) request.getParameter("title"), (String) request.getParameter("permalink"), (String) request.getParameter("intro"), (String) request.getParameter("content"));
-             
+                gestionnairePages.createCategory((String) request.getParameter("title"), (String) request.getParameter("permalink"), (String) request.getParameter("intro"), (String) request.getParameter("content"));
                 response.sendRedirect("/icms-war/articles");
                 return;
 
+            case Config.EDIT:
+                CategoryPage categoryEdit = gestionnairePages.findCategoryByPermalink(request.getParameter("permalink"));
+                request.setAttribute("category", categoryEdit);
+                page = "admin/category_edit.jsp";
+                break;
+
+            case Config.UPDATE:
+                gestionnairePages.UpdateCategory(request.getParameter("idCategory"), request.getParameter("title"),request.getParameter("intro"), request.getParameter("content"));
+                 page = "admin/categories.jsp";
+                break;
+
+            case Config.DESTROY:
+                gestionnairePages.DeleteCategory(request.getParameter("id"));
+                break;
+
+
             default:
-                // gestionnaireArticles.createCategory("essai 1", "essai1", "blabla", "essai1");
-                // gestionnaireArticles.createSection("essai 1", "essai1", "blabla", "essai1", gestionnaireArticles.findCategoryByTitle("essai 1"));
-                  page = "admin/categories.jsp"; // render
+                // gestionnairePages.createCategory("essai 1", "essai1", "blabla", "essai1");
+                // gestionnairePages.createSection("essai 1", "essai1", "blabla", "essai1", gestionnairePages.findCategoryByTitle("essai 1"));
+                page = "admin/categories.jsp"; // render
                 break;
         }
-
+        request.setAttribute("listeCategories", gestionnairePages.allCategories());
         RequestDispatcher dp = request.getRequestDispatcher("/" + page);
         dp.forward(request, response);
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+
+    /**
      * Handles the HTTP <code>GET</code> method.
      * @param request servlet request
      * @param response servlet response
@@ -65,9 +78,9 @@ public class CategoriesServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
-    } 
+    }
 
     /** 
      * Handles the HTTP <code>POST</code> method.
@@ -78,7 +91,7 @@ public class CategoriesServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -90,5 +103,4 @@ public class CategoriesServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

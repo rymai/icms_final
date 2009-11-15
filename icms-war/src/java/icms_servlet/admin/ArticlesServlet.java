@@ -6,6 +6,7 @@ import java.io.IOException;
 import javax.ejb.EJB;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import org.omg.CORBA.INV_POLICY;
 
 public class ArticlesServlet extends HttpServlet {
 
@@ -32,23 +33,45 @@ public class ArticlesServlet extends HttpServlet {
 
         switch (action) {
             case Config.CREATE:
-                gestionnairePages.createArticle((String) request.getParameter("title"),
-                                                   (String) request.getParameter("permalink"),
-                                                   (String) request.getParameter("intro"),
-                                                   (String) request.getParameter("content"),
-                                                   gestionnairePages.findSectionByTitle(request.
-                        getParameter("section")));
+                gestionnairePages.createArticle(request.getParameter("title"),
+                                                request.getParameter("permalink"),
+                                                request.getParameter("intro"),
+                                                request.getParameter("content"),
+                                                Integer.parseInt(
+                        request.getParameter("section_id")));
                 response.sendRedirect("/icms-war/articles");
                 return;
+
+
+            case Config.EDIT:
+                ArticlePage articleEdit = gestionnairePages.findArticle(Integer.parseInt(request.
+                        getParameter("id")));
+                request.setAttribute("article", articleEdit);
+                request.setAttribute("listeSections", gestionnairePages.allSections());
+                page = "admin/article_edit.jsp";
+                break;
+
+            case Config.UPDATE:
+                gestionnairePages.updateArticle(Integer.parseInt(request.getParameter("id")),
+                                                request.getParameter("title"), request.getParameter(
+                        "permalink"), request.getParameter("intro"), request.getParameter("content"),
+                                                Integer.parseInt(request.getParameter("section_id")));
+                page = "admin/articles.jsp";
+                break;
+
+            case Config.DESTROY:
+                gestionnairePages.deleteArticle(Integer.parseInt(request.getParameter("id")));
+                break;
 
             default:
 //                 gestionnairePages.createCategory("essai 1", "essai1", "blabla", "essai1");
 //                 gestionnairePages.createSection("essai 1", "essai1", "blabla", "essai1", gestionnairePages.findCategoryByTitle("essai 1"));
                 request.setAttribute("listeSections", gestionnairePages.allSections());
+
                 page = "admin/articles.jsp"; // render
                 break;
         }
-
+        request.setAttribute("listeArticles", gestionnairePages.allArticles());
         RequestDispatcher dp = request.getRequestDispatcher("/" + page);
         dp.forward(request, response);
     }

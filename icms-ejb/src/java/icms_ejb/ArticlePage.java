@@ -1,8 +1,3 @@
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package icms_ejb;
 
 import java.util.Date;
@@ -13,9 +8,13 @@ import javax.persistence.*;
 @Table(name = "ARTICLES")
 @NamedQueries({
     @NamedQuery(name = "ArticlePage.findAll",
-    query = "SELECT a FROM ArticlePage a"),
+                query = "SELECT a FROM ArticlePage a ORDER BY a.publishedAt DESC"),
     @NamedQuery(name = "ArticlePage.findByPermalink",
-    query = "SELECT a FROM ArticlePage a WHERE a.permalink = :perm")
+                query = "SELECT a FROM ArticlePage a WHERE a.permalink = :perme"),
+    @NamedQuery(name = "ArticlePage.delete",
+                query = "DELETE FROM ArticlePage a WHERE a.id = :id"),
+    @NamedQuery(name = "ArticlePage.update",
+                query = "UPDATE ArticlePage a SET a.title = :title, a.mySection = :mySection, a.intro = :intro, a.content = :content WHERE a.id = :id")
 })
 public class ArticlePage extends Page {
 
@@ -40,30 +39,20 @@ public class ArticlePage extends Page {
     }
 
     public ArticlePage(String title, String permalink, String intro, String content,
-            SectionPage mySection) {
+                       SectionPage mySection) {
         super(title, permalink, intro, content);
-        this.mySection = mySection;
+        setMySection(mySection);
         createdAt = GregorianCalendar.getInstance().getTime();
         publishedAt = GregorianCalendar.getInstance().getTime();
     }
 
-    @Override
-    public void update(String title, String permalink, String intro, String content) {
-        setTitle(title);
-        setPermalink(permalink);
-        setIntro(intro);
-        setContent(content);
+    public void update(String title, String permalink, String intro, String content,
+                       SectionPage mySection) {
+        super.update(title, permalink, intro, content);
+        setMySection(mySection);
         updatedAt = GregorianCalendar.getInstance().getTime();
     }
 
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * @return the title
-     */
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -90,7 +79,8 @@ public class ArticlePage extends Page {
             return false;
         }
         ArticlePage other = (ArticlePage) object;
-        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(
+        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.
+                equals(
                 other.id))) {
             return false;
         }
@@ -102,16 +92,10 @@ public class ArticlePage extends Page {
         return "ArticlePage[id=" + getId() + "]";
     }
 
-    /**
-     * @return the mySection
-     */
     public SectionPage getMySection() {
         return mySection;
     }
 
-    /**
-     * @param mySection the mySection to set
-     */
     public void setMySection(SectionPage mySection) {
         this.mySection = mySection;
     }

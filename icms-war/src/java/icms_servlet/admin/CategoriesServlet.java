@@ -3,7 +3,6 @@ package icms_servlet.admin;
 import icms_ejb.*;
 import icms_servlet.*;
 import java.io.IOException;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -11,7 +10,7 @@ import javax.servlet.http.*;
 public class CategoriesServlet extends HttpServlet {
 
     @EJB
-    private GestionnairePagesLocal gestionnaireArticles;
+    private GestionnairePagesLocal gestionnairePages;
     @EJB
     private GestionnaireUsersLocal gestionnaireUsers;
     // Not EJB
@@ -27,36 +26,49 @@ public class CategoriesServlet extends HttpServlet {
 
         // Priority for the action parameter passed by the page, not by the servlet config
         int action = request.getParameter("action") != null ? Integer.parseInt(request.getParameter(
-                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.parseInt(getServletConfig().
+                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.
+                parseInt(getServletConfig().
                 getInitParameter("action")) : -1;
 
         switch (action) {
-            case Config.INDEX:
-              
-                page = "admin/categories.jsp"; // render
-                break;
-
             case Config.CREATE:
-
-            
-              
-                    gestionnaireArticles.createCategory((String) request.getParameter("title"), (String) request.getParameter("permalink"), (String) request.getParameter("intro"), (String) request.getParameter("content"));
-             
+                gestionnairePages.createCategory(request.getParameter("title"),
+                                                 request.getParameter("permalink"), request.
+                        getParameter("intro"), request.getParameter("content"));
                 response.sendRedirect("/icms-war/articles");
                 return;
 
+            case Config.EDIT:
+                CategoryPage categoryEdit = gestionnairePages.findCategory(Integer.parseInt(request.
+                        getParameter("id")));
+                request.setAttribute("category", categoryEdit);
+                page = "admin/category_edit.jsp";
+                break;
+
+            case Config.UPDATE:
+                gestionnairePages.updateCategory(Integer.parseInt(request.getParameter("id")),
+                                                 request.getParameter("title"),
+                                                 request.getParameter("permalink"), request.
+                        getParameter("intro"), request.getParameter(
+                        "content"));
+                page = "admin/categories.jsp";
+                break;
+
+            case Config.DESTROY:
+                gestionnairePages.deleteCategory(Integer.parseInt(request.getParameter("id")));
+                break;
+
             default:
-                // gestionnaireArticles.createCategory("essai 1", "essai1", "blabla", "essai1");
-                // gestionnaireArticles.createSection("essai 1", "essai1", "blabla", "essai1", gestionnaireArticles.findCategoryByTitle("essai 1"));
-                  page = "admin/categories.jsp"; // render
+                page = "admin/categories.jsp"; // render
                 break;
         }
-
+        request.setAttribute("listeCategories", gestionnairePages.allCategories());
         RequestDispatcher dp = request.getRequestDispatcher("/" + page);
         dp.forward(request, response);
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+
+    /**
      * Handles the HTTP <code>GET</code> method.
      * @param request servlet request
      * @param response servlet response
@@ -65,9 +77,9 @@ public class CategoriesServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
-    } 
+    }
 
     /** 
      * Handles the HTTP <code>POST</code> method.
@@ -78,7 +90,7 @@ public class CategoriesServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -90,5 +102,4 @@ public class CategoriesServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

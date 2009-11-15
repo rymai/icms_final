@@ -12,58 +12,57 @@ public class GestionnairePagesBean implements GestionnairePagesLocal {
     @PersistenceContext
     private EntityManager em;
 
-    public void createArticle(String title, String permalink, String intro, String content,
-                              SectionPage mySection) {
-        ArticlePage a = new ArticlePage(title, permalink, intro, content, mySection);
-        em.persist(a);
-        mySection.getMyArticles().add(a);
-    }
-
-    public void createSection(String title, String permalink, String intro, String content,
-                              CategoryPage myCategory) {
-        SectionPage s = new SectionPage(title, permalink, intro, content, myCategory);
-        em.persist(s);
-        myCategory.getMySections().add(s);
-    }
-
     public void createCategory(String title, String permalink, String intro, String content) {
         CategoryPage c = new CategoryPage(title, permalink, intro, content);
         em.persist(c);
+        em.flush();
     }
 
-    public void update(int id, String title, String permalink, String intro, String content) {
-        ArticlePage p = find(id);
-        p.update(title, permalink, intro, content);
-        em.merge(p);
+    public void createSection(String title, String permalink, String intro, String content,
+                              int myCategory_id) {
+        CategoryPage myCategory = findCategory(myCategory_id);
+        SectionPage s = new SectionPage(title, permalink, intro, content, myCategory);
+        em.persist(s);
+        myCategory.getMySections().add(s);
+        em.flush();
     }
 
-    public void destroy(int id) {
-        ArticlePage p = find(id);
-        em.remove(em.merge(p));
+    public void createArticle(String title, String permalink, String intro, String content,
+                              int mySection_id) {
+        SectionPage mySection = findSection(mySection_id);
+        ArticlePage a = new ArticlePage(title, permalink, intro, content, mySection);
+        em.persist(a);
+        mySection.getMyArticles().add(a);
+        em.flush();
     }
 
-    public ArticlePage find(int id) {
-        return em.find(ArticlePage.class, id);
+    public List<CategoryPage> allCategories() {
+        return em.createNamedQuery("CategoryPage.findAll").getResultList();
     }
 
-    public List<ArticlePage> all() {
+    public List<SectionPage> allSections() {
+        return em.createNamedQuery("SectionPage.findAll").getResultList();
+    }
+
+    public List<ArticlePage> allArticles() {
         return em.createNamedQuery("ArticlePage.findAll").getResultList();
     }
 
-    public ArticlePage findArticleByPermalink(String perme) {
-        Query queryArticlesByPermalink = em.createNamedQuery("ArticlePage.findByPermalink");
-        queryArticlesByPermalink.setParameter("perm", perme);
-        List<ArticlePage> articles = queryArticlesByPermalink.getResultList();
-        if (articles.size() == 1) {
-            return articles.get(0);
-        } else {
-            return null;
-        }
+    public CategoryPage findCategory(int id) {
+        return em.find(CategoryPage.class, id);
     }
 
-     public CategoryPage findCategoryByPermalink(String perme) {
+    public SectionPage findSection(int id) {
+        return em.find(SectionPage.class, id);
+    }
+
+    public ArticlePage findArticle(int id) {
+        return em.find(ArticlePage.class, id);
+    }
+
+    public CategoryPage findCategoryByPermalink(String perme) {
         Query queryCategoryByPermalink = em.createNamedQuery("CategoryPage.findByPermalink");
-        queryCategoryByPermalink.setParameter("perm", perme);
+        queryCategoryByPermalink.setParameter("perme", perme);
         List<CategoryPage> category = queryCategoryByPermalink.getResultList();
         if (category.size() == 1) {
             return category.get(0);
@@ -72,9 +71,9 @@ public class GestionnairePagesBean implements GestionnairePagesLocal {
         }
     }
 
-      public SectionPage findSectionByPermalink(String perme) {
+    public SectionPage findSectionByPermalink(String perme) {
         Query querySectionByPermalink = em.createNamedQuery("SectionPage.findByPermalink");
-        querySectionByPermalink.setParameter("perm", perme);
+        querySectionByPermalink.setParameter("perme", perme);
         List<SectionPage> section = querySectionByPermalink.getResultList();
         if (section.size() == 1) {
             return section.get(0);
@@ -82,37 +81,121 @@ public class GestionnairePagesBean implements GestionnairePagesLocal {
             return null;
         }
     }
-    public List<SectionPage> allSections() {
-        Query queryAllSections = em.createNamedQuery("SectionPage.findAll");
-        List<SectionPage> sections = queryAllSections.getResultList();
-        return sections;
-    }
 
-    public SectionPage findSectionByTitle(String titre) {
-        Query querySectionByTitle = em.createNamedQuery("SectionPage.findByTitle");
-        querySectionByTitle.setParameter("titre", titre);
-        List<SectionPage> sections = querySectionByTitle.getResultList();
-        if (sections.size() == 1) {
-            return sections.get(0);
+    public ArticlePage findArticleByPermalink(String perme) {
+        Query queryArticlesByPermalink = em.createNamedQuery("ArticlePage.findByPermalink");
+        queryArticlesByPermalink.setParameter("perme", perme);
+        List<ArticlePage> articles = queryArticlesByPermalink.getResultList();
+        if (articles.size() == 1) {
+            return articles.get(0);
         } else {
             return null;
         }
     }
 
-    public CategoryPage findCategoryByTitle(String titre) {
-        Query queryCategoryByTitle = em.createNamedQuery("CategoryPage.findByTitle");
-        queryCategoryByTitle.setParameter("titre", titre);
-        List<CategoryPage> categories = queryCategoryByTitle.getResultList();
-        if (categories.size() >= 1) {
-            return categories.get(0);
-        } else {
-            return null;
+//    public CategoryPage findCategoryByTitle(String titre) {
+//        Query queryCategoryByTitle = em.createNamedQuery("CategoryPage.findByTitle");
+//        queryCategoryByTitle.setParameter("titre", titre);
+//        List<CategoryPage> categories = queryCategoryByTitle.getResultList();
+//        if (categories.size() >= 1) {
+//            return categories.get(0);
+//        } else {
+//            return null;
+//        }
+//    }
+//
+//    public SectionPage findSectionByTitle(String titre) {
+//        Query querySectionByTitle = em.createNamedQuery("SectionPage.findByTitle");
+//        querySectionByTitle.setParameter("titre", titre);
+//        List<SectionPage> sections = querySectionByTitle.getResultList();
+//        if (sections.size() == 1) {
+//            return sections.get(0);
+//        } else {
+//            return null;
+//        }
+//    }
+
+    public void deleteArticle(int id) {
+        ArticlePage a = findArticle(id);
+        em.remove(em.merge(a));
+    }
+
+    public void deleteCategory(int id) {
+        CategoryPage c = findCategory(id);
+        em.remove(em.merge(c));
+//        Query queryDeleteCategory = em.createNamedQuery("CategoryPage.delete");
+//
+//        queryDeleteCategory.setParameter("id", id);
+//        return queryDeleteCategory.executeUpdate();
+    }
+
+    public void deleteSection(int id) {
+        SectionPage s = findSection(id);
+        em.remove(em.merge(s));
+//        Query queryDeleteSection = em.createNamedQuery("SectionPage.delete");
+//
+//        queryDeleteSection.setParameter("id", id);
+//        return queryDeleteSection.executeUpdate();
+    }
+
+    public boolean updateArticle(int id, String title, String permalink, String intro,
+                                 String content,
+                                 int mySection_id) {
+        ArticlePage a = findArticle(id);
+        SectionPage mySection = findSection(mySection_id);
+        a.update(title, permalink, intro, content, mySection);
+        try {
+            em.merge(a);
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 
-    public List<CategoryPage> allCategories() {
-        Query queryAllCategories = em.createNamedQuery("CategoryPage.findAll");
-        List<CategoryPage> categories = queryAllCategories.getResultList();
-        return categories;
+//    public int updateArticle(String id, String title, String intro, String content,
+//                             SectionPage mySection) {
+//        Query queryUpdateArticle = em.createNamedQuery("ArticlePage.update");
+//        queryUpdateArticle.setParameter("title", title);
+//        queryUpdateArticle.setParameter("intro", intro);
+//        queryUpdateArticle.setParameter("content", content);
+//        queryUpdateArticle.setParameter("mySection", mySection);
+//        queryUpdateArticle.setParameter("id", Integer.parseInt(id));
+//        return queryUpdateArticle.executeUpdate();
+//    }
+    public boolean updateCategory(int id, String title, String permalink, String intro, String content) {
+        CategoryPage c = findCategory(id);
+        c.update(title, permalink, intro, content);
+        try {
+            em.merge(c);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+//        Query queryUpdateCategory = em.createNamedQuery("CategoryPage.update");
+//        queryUpdateCategory.setParameter("title", title);
+//        queryUpdateCategory.setParameter("intro", intro);
+//        queryUpdateCategory.setParameter("content", content);
+//        queryUpdateCategory.setParameter("id", id);
+//        return queryUpdateCategory.executeUpdate() == 1;
+    }
+
+    public boolean updateSection(int id, String title, String permalink, String intro, String content,
+                                 int myCategory_id) {
+        SectionPage s = findSection(id);
+        CategoryPage myCategory = findCategory(myCategory_id);
+        s.update(title, permalink, intro, content, myCategory);
+        try {
+            em.merge(s);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+//        Query queryUpdateSection = em.createNamedQuery("SectionPage.update");
+//        queryUpdateSection.setParameter("title", title);
+//        queryUpdateSection.setParameter("intro", intro);
+//        queryUpdateSection.setParameter("content", content);
+//        queryUpdateSection.setParameter("myCategory", myCategory);
+//        queryUpdateSection.setParameter("id", id);
+//        return queryUpdateSection.executeUpdate() == 1;
     }
 }

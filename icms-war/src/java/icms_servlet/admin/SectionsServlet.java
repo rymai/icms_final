@@ -32,23 +32,42 @@ public class SectionsServlet extends HttpServlet {
 
         switch (action) {
             case Config.CREATE:
-                gestionnairePages.createSection((String) request.getParameter("title"),
-                                                (String) request.getParameter("permalink"),
-                                                (String) request.getParameter("intro"),
-                                                (String) request.getParameter("content"),
-                                                gestionnairePages.findCategoryByTitle(request.
-                        getParameter("category")));
+                gestionnairePages.createSection(request.getParameter("title"),
+                                                request.getParameter("permalink"),
+                                                request.getParameter("intro"),
+                                                request.getParameter("content"),
+                                                Integer.parseInt(request.getParameter("category_id")));
 
                 response.sendRedirect("/icms-war/articles");
                 return;
 
+            case Config.EDIT:
+                SectionPage sectionEdit = gestionnairePages.findSection(Integer.parseInt(request.
+                        getParameter("id")));
+                request.setAttribute("section", sectionEdit);
+                request.setAttribute("listeCategories", gestionnairePages.allCategories());
+                page = "admin/section_edit.jsp";
+                break;
+
+            case Config.UPDATE:
+                gestionnairePages.updateSection(Integer.parseInt(request.getParameter("id")),
+                                                request.getParameter("title"), request.getParameter(
+                        "permalink"), request.getParameter(
+                        "intro"), request.getParameter("content"), Integer.parseInt(
+                        request.getParameter("category_id")));
+                page = "admin/sections.jsp";
+                break;
+
+            case Config.DESTROY:
+                gestionnairePages.deleteSection(Integer.parseInt(request.getParameter("id")));
+                break;
+
             default:
                 request.setAttribute("listeCategories", gestionnairePages.allCategories());
-
                 page = "admin/sections.jsp"; // render
                 break;
         }
-
+        request.setAttribute("listeSections", gestionnairePages.allSections());
         RequestDispatcher dp = request.getRequestDispatcher("/" + page);
         dp.forward(request, response);
     }

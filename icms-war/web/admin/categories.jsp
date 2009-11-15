@@ -34,7 +34,23 @@
     <jsp:include page="admin_menu.jsp" />
 
     <h2>Categories</h2>
+  <br />
+    <div id="listeCategories">
+        <table border="1">
+            <tr>
+                <td>Titre</td>
+                <td>Supprimer</td>
+            </tr>
+                <c:forEach var="u" items="${requestScope['listeCategories']}">
+                    <tr>
+                        <td><a href="/icms-war/admin/categories?action=<%=Config.EDIT%>&id=${u.id}">${u.title}</a></td>
+                        <td> X </td>
+                    </tr>
+            </c:forEach>
+        </table>
 
+    </div>
+    <br />
     <div id="tinyMCE">
       <h3>Nouvelle cat&eacute;gorie</h3>
       <form method="post" action="/icms-war/admin/categories">

@@ -34,8 +34,8 @@ public class PagesServlet extends HttpServlet {
             case Config.SHOW:
                 String perme = request.getPathInfo().substring(request.getPathInfo().
                         lastIndexOf("/") + 1);
-                System.out.println("perme: " + perme);
-                System.out.println("perme: " + perme.substring(0, 4));
+//                System.out.println("perme: " + perme);
+//                System.out.println("perme: " + perme.substring(0, 4));
                 Page pageLoad = null;
                 if (perme.substring(0, 4).equals("cat:")) {
                     pageLoad = gestionnairePages.findCategoryByPermalink(perme.substring(4));
@@ -67,7 +67,7 @@ public class PagesServlet extends HttpServlet {
                 break;
 
             default:
-                List<ArticlePage> listeArticles = gestionnairePages.all();
+                List<ArticlePage> listeArticles = gestionnairePages.allArticles();
                 request.setAttribute("listeArticles", listeArticles);
                 page = "index.jsp"; // render
                 break;

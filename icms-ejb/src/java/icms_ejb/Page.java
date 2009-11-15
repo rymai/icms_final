@@ -9,7 +9,7 @@ public abstract class Page implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    protected Integer id;
     @Column(nullable = false)
     protected String title;
     protected String permalink;
@@ -17,24 +17,30 @@ public abstract class Page implements Serializable {
     @Column(nullable = false)
     protected String content;
 
+    private static EntityManager em;
+    
     public Page() {
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("icms-ejbPU");
+//        Page.em = emf.createEntityManager(); // Retrieve an application managed entity manager
     }
 
     public Page(String title, String permalink, String intro, String content) {
+        super();
         setTitle(title);
         setPermalink(permalink);
         setContent(content);
         setIntro(intro);
     }
 
-    public abstract void update(String title, String permalink, String intro, String content);
-
-    public Long getId() {
-        return id;
+    public void update(String title, String permalink, String intro, String content) {
+        setTitle(title);
+        setPermalink(permalink);
+        setContent(content);
+        setIntro(intro);
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Integer getId() {
+        return id;
     }
 
     @Override
@@ -66,9 +72,6 @@ public abstract class Page implements Serializable {
         return title;
     }
 
-    /**
-     * @param title the title to set
-     */
     public void setTitle(String title) {
         this.title = title;
     }
@@ -77,9 +80,6 @@ public abstract class Page implements Serializable {
         return intro;
     }
 
-    /**
-     * @param intro the intro to set
-     */
     public void setIntro(String intro) {
         this.intro = intro.equals("") ? makeIntro(content) : makeIntro(intro);
     }
@@ -88,9 +88,6 @@ public abstract class Page implements Serializable {
         return content;
     }
 
-    /**
-     * @param content the content to set
-     */
     public void setContent(String content) {
         this.content = content.trim();
     }
@@ -112,10 +109,28 @@ public abstract class Page implements Serializable {
      * @return generated and safe permalink from text parameter
      */
     private String makePermalink(String text) {
-        String perm = text.trim().toLowerCase().replaceAll("\\s+", "_").replaceAll("\\W+", "").
+        String perme = text.trim().toLowerCase().replaceAll("\\s+", "_").replaceAll("\\W+", "").
                 replaceAll("_+", "-");
         //check si le permalink est deja utilise, dans ce cas, on ajoute un int random au permalink tant qu'il existe
-        return perm;
+//        System.out.println("this.getClass() : " + this.getClass());
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("icms-ejbPU");
+//        EntityManager em = emf.createEntityManager(); // Retrieve an application managed entity manager
+//
+//        Query queryByPermalink = em.createNamedQuery(
+//                this.getClass().toString() + ".findByPermalink");
+        int r = 0;
+//        List<Page> pages;
+//
+//        queryByPermalink.setParameter("perme", perme);
+//        pages = queryByPermalink.getResultList();
+//
+//        while (pages.size() > 0) {
+//            r = (int) (Math.random() * 1000);
+//            queryByPermalink.setParameter("perme", perme + r);
+//            pages = queryByPermalink.getResultList();
+//        }
+
+        return perme + (r == 0 ? "" : r);
     }
 
     /**

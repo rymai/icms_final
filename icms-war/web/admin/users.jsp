@@ -6,15 +6,13 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Admin > Users</title>
+    <title>Admin > Utilisateurs</title>
     <link href="/icms-war/stylesheets/style.css" rel="stylesheet" type="text/css" media="screen" />
   </head>
   <body>
     <jsp:include page="../header.jsp" />
 
-    <jsp:include page="admin_menu.jsp" />
-
-    <h2>Utilisateurs</h2>
+    <h2><a href="" class="category">Utilisateurs</a></h2>
 
     <table border="1">
       <tr>
@@ -32,6 +30,7 @@
       </c:forEach>
     </table>
 
+    <br />
     <h3>Nouvel utilisateur</h3>
     <form method="post" action="/icms-war/admin/users">
       <input type="hidden" id="action" name="action" value="<%= Config.CREATE%>" />
@@ -46,6 +45,6 @@
       <input type="submit" name="save" value="Valider" />
     </form>
 
-    <jsp:include page="../footer.jsp" />
+    <jsp:include page="footer_admin.jsp" />
   </body>
 </html>

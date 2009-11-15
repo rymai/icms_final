@@ -8,32 +8,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Admin > Articles</title>
     <link href="/icms-war/stylesheets/style.css" rel="stylesheet" type="text/css" media="screen" />
-    <script type="text/javascript" src="/icms-war/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
-    <script type="text/javascript">
-      tinyMCE.init({
-        // General options
-        mode : "textareas",
-        theme : "advanced",
-        languages : 'fr',
-        plugins : "safari,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,wordcount",
-
-        // Theme options
-        theme_advanced_buttons1 : "save,newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect",
-        theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor",
-        theme_advanced_toolbar_location : "top",
-        theme_advanced_toolbar_align : "left",
-        theme_advanced_statusbar_location : "bottom",
-        theme_advanced_resizing : true
-
-      });
-    </script>
+    <jsp:include page="tinyMCE.html" />
   </head>
   <body>
     <jsp:include page="../header.jsp" />
 
-    <jsp:include page="admin_menu.jsp" />
-
-    <h2>Articles</h2>
+    <h2><a href="" class="category">Articles</a></h2>
     <br />
     <div id="listeArticles">
         <table border="1">
@@ -83,6 +63,6 @@
       </form>
     </div>
 
-    <jsp:include page="../footer.jsp" />
+    <jsp:include page="footer_admin.jsp" />
   </body>
 </html>

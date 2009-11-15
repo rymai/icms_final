@@ -93,28 +93,6 @@ public class GestionnairePagesBean implements GestionnairePagesLocal {
         }
     }
 
-//    public CategoryPage findCategoryByTitle(String titre) {
-//        Query queryCategoryByTitle = em.createNamedQuery("CategoryPage.findByTitle");
-//        queryCategoryByTitle.setParameter("titre", titre);
-//        List<CategoryPage> categories = queryCategoryByTitle.getResultList();
-//        if (categories.size() >= 1) {
-//            return categories.get(0);
-//        } else {
-//            return null;
-//        }
-//    }
-//
-//    public SectionPage findSectionByTitle(String titre) {
-//        Query querySectionByTitle = em.createNamedQuery("SectionPage.findByTitle");
-//        querySectionByTitle.setParameter("titre", titre);
-//        List<SectionPage> sections = querySectionByTitle.getResultList();
-//        if (sections.size() == 1) {
-//            return sections.get(0);
-//        } else {
-//            return null;
-//        }
-//    }
-
     public void deleteArticle(int id) {
         ArticlePage a = findArticle(id);
         em.remove(em.merge(a));
@@ -123,19 +101,11 @@ public class GestionnairePagesBean implements GestionnairePagesLocal {
     public void deleteCategory(int id) {
         CategoryPage c = findCategory(id);
         em.remove(em.merge(c));
-//        Query queryDeleteCategory = em.createNamedQuery("CategoryPage.delete");
-//
-//        queryDeleteCategory.setParameter("id", id);
-//        return queryDeleteCategory.executeUpdate();
     }
 
     public void deleteSection(int id) {
         SectionPage s = findSection(id);
         em.remove(em.merge(s));
-//        Query queryDeleteSection = em.createNamedQuery("SectionPage.delete");
-//
-//        queryDeleteSection.setParameter("id", id);
-//        return queryDeleteSection.executeUpdate();
     }
 
     public boolean updateArticle(int id, String title, String permalink, String intro,
@@ -152,16 +122,6 @@ public class GestionnairePagesBean implements GestionnairePagesLocal {
         }
     }
 
-//    public int updateArticle(String id, String title, String intro, String content,
-//                             SectionPage mySection) {
-//        Query queryUpdateArticle = em.createNamedQuery("ArticlePage.update");
-//        queryUpdateArticle.setParameter("title", title);
-//        queryUpdateArticle.setParameter("intro", intro);
-//        queryUpdateArticle.setParameter("content", content);
-//        queryUpdateArticle.setParameter("mySection", mySection);
-//        queryUpdateArticle.setParameter("id", Integer.parseInt(id));
-//        return queryUpdateArticle.executeUpdate();
-//    }
     public boolean updateCategory(int id, String title, String permalink, String intro, String content) {
         CategoryPage c = findCategory(id);
         c.update(title, permalink, intro, content);
@@ -171,12 +131,6 @@ public class GestionnairePagesBean implements GestionnairePagesLocal {
         } catch (Exception e) {
             return false;
         }
-//        Query queryUpdateCategory = em.createNamedQuery("CategoryPage.update");
-//        queryUpdateCategory.setParameter("title", title);
-//        queryUpdateCategory.setParameter("intro", intro);
-//        queryUpdateCategory.setParameter("content", content);
-//        queryUpdateCategory.setParameter("id", id);
-//        return queryUpdateCategory.executeUpdate() == 1;
     }
 
     public boolean updateSection(int id, String title, String permalink, String intro, String content,
@@ -190,12 +144,5 @@ public class GestionnairePagesBean implements GestionnairePagesLocal {
         } catch (Exception e) {
             return false;
         }
-//        Query queryUpdateSection = em.createNamedQuery("SectionPage.update");
-//        queryUpdateSection.setParameter("title", title);
-//        queryUpdateSection.setParameter("intro", intro);
-//        queryUpdateSection.setParameter("content", content);
-//        queryUpdateSection.setParameter("myCategory", myCategory);
-//        queryUpdateSection.setParameter("id", id);
-//        return queryUpdateSection.executeUpdate() == 1;
     }
 }

@@ -12,11 +12,11 @@ import javax.persistence.*;
     @NamedQuery(name = "CategoryPage.findAll",
                 query = "SELECT c FROM CategoryPage c"),
     @NamedQuery(name = "CategoryPage.findByPermalink",
-                query = "SELECT c FROM CategoryPage c WHERE c.permalink = :perme"),
-    @NamedQuery(name = "CategoryPage.delete",
-                query = "DELETE FROM CategoryPage c WHERE c.id = :id"),
-    @NamedQuery(name = "CategoryPage.update",
-                query = "UPDATE CategoryPage c SET c.title = :title,c.intro = :intro, c.content = :content WHERE c.id = :id")
+                query = "SELECT c FROM CategoryPage c WHERE c.permalink = :perme")
+//    @NamedQuery(name = "CategoryPage.delete",
+//                query = "DELETE FROM CategoryPage c WHERE c.id = :id"),
+//    @NamedQuery(name = "CategoryPage.update",
+//                query = "UPDATE CategoryPage c SET c.title = :title,c.intro = :intro, c.content = :content WHERE c.id = :id")
 })
 public class CategoryPage extends Page {
 

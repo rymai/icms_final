@@ -12,6 +12,8 @@ public class UsersServlet extends HttpServlet {
 
     @EJB
     private GestionnaireUsersLocal gestionnaireUsers;
+    @EJB
+    private GestionnairePagesLocal gestionnairePages;
     // Not EJB
     private String page;
 
@@ -47,6 +49,7 @@ public class UsersServlet extends HttpServlet {
                 break;
         }
 
+        request.setAttribute("listeCategories", gestionnairePages.allCategories());
         RequestDispatcher dp = request.getRequestDispatcher("/" + page);
         dp.forward(request, response);
     }

@@ -71,6 +71,8 @@ public class ArticlesServlet extends HttpServlet {
                 page = "admin/articles.jsp"; // render
                 break;
         }
+
+        request.setAttribute("listeCategories", gestionnairePages.allCategories());
         request.setAttribute("listeArticles", gestionnairePages.allArticles());
         RequestDispatcher dp = request.getRequestDispatcher("/" + page);
         dp.forward(request, response);

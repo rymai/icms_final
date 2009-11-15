@@ -3,8 +3,7 @@
 <%@page import="java.util.List;" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
-        User u = (User) request.getAttribute("current_user");
-        
+User u = (User) request.getAttribute("current_user");
 %>
 <div id="log_top_right">
     <% if (u != null) {%>
@@ -27,9 +26,9 @@
         <ul>
             <% boolean admin = request.getRequestURI().indexOf("admin") != -1;%>
             <li class="<%= !admin ? "current_page_item" : ""%>"><a href="/icms-war/articles" class="first">Home</a></li>
-            <c:forEach var="u" items="${requestScope['listeCategories']}">
+<%--            <c:forEach var="u" items="${requestScope['listeCategories']}">
                 <li class="<%= !admin ? "current_page_item" : ""%>"><a href="/icms-war/article/cat:${u.permalink}">${u.title}</a></li>
-            </c:forEach>
+            </c:forEach>--%>
             <li class="<%= admin ? "current_page_item" : ""%>"><a href="/icms-war/admin/articles">Admin</a></li>
         </ul>
     </div>
@@ -47,8 +46,8 @@
 <!-- end #header -->
 <!-- end #header-wrapper -->
 <div id="page">
-<div id="content2">
-<%
+    <div id="content2">
+        <%
         if (request.getAttribute("flash") != null) {%>
-<%= request.getAttribute("flash")%>
-<% }%>
+        <%= request.getAttribute("flash")%>
+        <% }%>

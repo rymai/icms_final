@@ -38,14 +38,13 @@ public class SectionsServlet extends HttpServlet {
                                                 request.getParameter("content"),
                                                 Integer.parseInt(request.getParameter("category_id")));
 
-                response.sendRedirect("/icms-war/articles");
+                response.sendRedirect("/icms-war/admin/sections");
                 return;
 
             case Config.EDIT:
                 SectionPage sectionEdit = gestionnairePages.findSection(Integer.parseInt(request.
                         getParameter("id")));
                 request.setAttribute("section", sectionEdit);
-                request.setAttribute("listeCategories", gestionnairePages.allCategories());
                 page = "admin/section_edit.jsp";
                 break;
 
@@ -63,10 +62,11 @@ public class SectionsServlet extends HttpServlet {
                 break;
 
             default:
-                request.setAttribute("listeCategories", gestionnairePages.allCategories());
                 page = "admin/sections.jsp"; // render
                 break;
         }
+
+        request.setAttribute("listeCategories", gestionnairePages.allCategories());
         request.setAttribute("listeSections", gestionnairePages.allSections());
         RequestDispatcher dp = request.getRequestDispatcher("/" + page);
         dp.forward(request, response);

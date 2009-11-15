@@ -1,6 +1,7 @@
 package icms_servlet;
 
 import icms_ejb.*;
+import icms_ejb.SectionPage;
 import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJB;
@@ -34,13 +35,29 @@ public class PagesServlet extends HttpServlet {
                 String perme = request.getPathInfo().substring(request.getPathInfo().
                         lastIndexOf("/") + 1);
                 System.out.println("perme: " + perme);
-                Page pageLoad = gestionnairePages.findByPermalink(perme);
+                System.out.println("perme: " + perme.substring(0, 4));
+                Page pageLoad = null;
+                if (perme.substring(0, 4).equals("cat:")) {
+                    pageLoad = gestionnairePages.findCategoryByPermalink(perme.substring(4));
+                } else if (perme.substring(0, 4).equals("art:")) {
+                    pageLoad = gestionnairePages.findArticleByPermalink(perme.substring(4));
+                } else if (perme.substring(0, 4).equals("sec:")) {
+                    pageLoad = gestionnairePages.findSectionByPermalink(perme.substring(4));
+                }
                 if (pageLoad != null) {
                     if (pageLoad instanceof ArticlePage) {
                         request.setAttribute("article", pageLoad);
-                         page = "article.jsp";
+                        page = "article.jsp";
                     } else if (pageLoad instanceof SectionPage) {
+                        request.setAttribute("section", pageLoad);
+                        List<ArticlePage> listeArticles = (List) ((SectionPage) pageLoad).getMyArticles();
+                        request.setAttribute("listeArticles", listeArticles);
+                        page = "section.jsp";
                     } else if (pageLoad instanceof CategoryPage) {
+                        request.setAttribute("category", pageLoad);
+                        List<SectionPage> listeSections = (List) ((CategoryPage) pageLoad).getMySections();
+                        request.setAttribute("listeSections", listeSections);
+                        page = "category.jsp";
                     }
 
                 } else {
@@ -55,6 +72,8 @@ public class PagesServlet extends HttpServlet {
                 page = "index.jsp"; // render
                 break;
         }
+        List<CategoryPage> listeCategories = gestionnairePages.allCategories();
+        request.setAttribute("listeCategories", listeCategories);
 
         RequestDispatcher dp = request.getRequestDispatcher("/" + page);
         dp.forward(request, response);

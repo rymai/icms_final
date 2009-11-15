@@ -26,9 +26,13 @@ public interface GestionnairePagesLocal {
 
     public List<SectionPage> allSections();
 
-    public ArticlePage findByPermalink(String perme);
+    public ArticlePage findArticleByPermalink(String perme);
 
     public SectionPage findSectionByTitle(String title);
 
     public icms_ejb.CategoryPage findCategoryByTitle(java.lang.String titre);
+
+    public icms_ejb.CategoryPage findCategoryByPermalink(java.lang.String perme);
+
+    public icms_ejb.SectionPage findSectionByPermalink(java.lang.String perme);
 }

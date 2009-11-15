@@ -25,7 +25,9 @@ import javax.persistence.Table;
     @NamedQuery(name = "SectionPage.findByTitle",
     query = "SELECT s FROM SectionPage s WHERE s.title = :titre"),
     @NamedQuery(name = "SectionPage.findAll",
-    query = "SELECT s FROM SectionPage s")
+    query = "SELECT s FROM SectionPage s"),
+    @NamedQuery(name = "SectionPage.findByPermalink",
+    query = "SELECT s FROM SectionPage s WHERE s.permalink = :perm")
 })
 public class SectionPage extends Page {
 

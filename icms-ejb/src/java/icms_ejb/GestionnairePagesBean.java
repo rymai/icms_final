@@ -50,7 +50,7 @@ public class GestionnairePagesBean implements GestionnairePagesLocal {
         return em.createNamedQuery("ArticlePage.findAll").getResultList();
     }
 
-    public ArticlePage findByPermalink(String perme) {
+    public ArticlePage findArticleByPermalink(String perme) {
         Query queryArticlesByPermalink = em.createNamedQuery("ArticlePage.findByPermalink");
         queryArticlesByPermalink.setParameter("perm", perme);
         List<ArticlePage> articles = queryArticlesByPermalink.getResultList();
@@ -61,6 +61,27 @@ public class GestionnairePagesBean implements GestionnairePagesLocal {
         }
     }
 
+     public CategoryPage findCategoryByPermalink(String perme) {
+        Query queryCategoryByPermalink = em.createNamedQuery("CategoryPage.findByPermalink");
+        queryCategoryByPermalink.setParameter("perm", perme);
+        List<CategoryPage> category = queryCategoryByPermalink.getResultList();
+        if (category.size() == 1) {
+            return category.get(0);
+        } else {
+            return null;
+        }
+    }
+
+      public SectionPage findSectionByPermalink(String perme) {
+        Query querySectionByPermalink = em.createNamedQuery("SectionPage.findByPermalink");
+        querySectionByPermalink.setParameter("perm", perme);
+        List<SectionPage> section = querySectionByPermalink.getResultList();
+        if (section.size() == 1) {
+            return section.get(0);
+        } else {
+            return null;
+        }
+    }
     public List<SectionPage> allSections() {
         Query queryAllSections = em.createNamedQuery("SectionPage.findAll");
         List<SectionPage> sections = queryAllSections.getResultList();

@@ -8,9 +8,11 @@ import javax.persistence.*;
 @Table(name = "CATEGORIES")
 @NamedQueries({
     @NamedQuery(name = "CategoryPage.findByTitle",
-                query = "SELECT c FROM CategoryPage c WHERE c.title = :titre"),
+    query = "SELECT c FROM CategoryPage c WHERE c.title = :titre"),
     @NamedQuery(name = "CategoryPage.findAll",
-                query = "SELECT c FROM CategoryPage c")
+    query = "SELECT c FROM CategoryPage c"),
+    @NamedQuery(name = "CategoryPage.findByPermalink",
+    query = "SELECT c FROM CategoryPage c WHERE c.permalink = :perm")
 })
 public class CategoryPage extends Page {
 

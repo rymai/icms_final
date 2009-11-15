@@ -30,9 +30,9 @@ public interface GestionnairePagesLocal {
 
     public SectionPage findSectionByTitle(String title);
 
-    public icms_ejb.CategoryPage findCategoryByTitle(java.lang.String titre);
+    public CategoryPage findCategoryByTitle(String titre);
 
-    public icms_ejb.CategoryPage findCategoryByPermalink(java.lang.String perme);
+    public CategoryPage findCategoryByPermalink(String perme);
 
-    public icms_ejb.SectionPage findSectionByPermalink(java.lang.String perme);
+    public SectionPage findSectionByPermalink(String perme);
 }

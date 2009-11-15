@@ -62,7 +62,7 @@ public class CategoriesServlet extends HttpServlet {
                 page = "admin/categories.jsp"; // render
                 break;
         }
-        
+
         request.setAttribute("listeCategories", gestionnairePages.allCategories());
         RequestDispatcher dp = request.getRequestDispatcher("/" + page);
         dp.forward(request, response);

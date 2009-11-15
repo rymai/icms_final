@@ -5,6 +5,7 @@ import java.util.List;
 
 @Local
 public interface GestionnaireUsersLocal {
+
     public void creerAdmin();
 
     public void create(String login, String password, String level);
@@ -20,5 +21,4 @@ public interface GestionnaireUsersLocal {
     public List<User> findAdmins();
 
     public User findUserByLoginAndPassword(String login, String password);
-
 }

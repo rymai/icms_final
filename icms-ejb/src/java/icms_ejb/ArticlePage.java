@@ -11,17 +11,10 @@ import javax.persistence.*;
                 query = "SELECT a FROM ArticlePage a ORDER BY a.publishedAt DESC"),
     @NamedQuery(name = "ArticlePage.findByPermalink",
                 query = "SELECT a FROM ArticlePage a WHERE a.permalink = :perme")
-//    @NamedQuery(name = "ArticlePage.delete",
-//                query = "DELETE FROM ArticlePage a WHERE a.id = :id"),
-//    @NamedQuery(name = "ArticlePage.update",
-//                query = "UPDATE ArticlePage a SET a.title = :title, a.mySection = :mySection, a.intro = :intro, a.content = :content WHERE a.id = :id")
 })
 public class ArticlePage extends Page {
 
     private static final long serialVersionUID = 1L;
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    private Long id;
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;

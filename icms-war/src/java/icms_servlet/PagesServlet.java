@@ -27,15 +27,14 @@ public class PagesServlet extends HttpServlet {
 
         // Priority for the action parameter passed by the page, not by the servlet config
         int action = request.getParameter("action") != null ? Integer.parseInt(request.getParameter(
-                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.parseInt(getServletConfig().
+                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.
+                parseInt(getServletConfig().
                 getInitParameter("action")) : -1;
 
         switch (action) {
             case Config.SHOW:
                 String perme = request.getPathInfo().substring(request.getPathInfo().
                         lastIndexOf("/") + 1);
-//                System.out.println("perme: " + perme);
-//                System.out.println("perme: " + perme.substring(0, 4));
                 Page pageLoad = null;
                 if (perme.substring(0, 4).equals("cat:")) {
                     pageLoad = gestionnairePages.findCategoryByPermalink(perme.substring(4));
@@ -50,12 +49,14 @@ public class PagesServlet extends HttpServlet {
                         page = "article.jsp";
                     } else if (pageLoad instanceof SectionPage) {
                         request.setAttribute("section", pageLoad);
-                        List<ArticlePage> listeArticles = (List) ((SectionPage) pageLoad).getMyArticles();
+                        List<ArticlePage> listeArticles = (List) ((SectionPage) pageLoad).
+                                getMyArticles();
                         request.setAttribute("listeArticles", listeArticles);
                         page = "section.jsp";
                     } else if (pageLoad instanceof CategoryPage) {
                         request.setAttribute("category", pageLoad);
-                        List<SectionPage> listeSections = (List) ((CategoryPage) pageLoad).getMySections();
+                        List<SectionPage> listeSections = (List) ((CategoryPage) pageLoad).
+                                getMySections();
                         request.setAttribute("listeSections", listeSections);
                         page = "category.jsp";
                     }

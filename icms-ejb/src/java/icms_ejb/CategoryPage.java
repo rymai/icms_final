@@ -13,17 +13,10 @@ import javax.persistence.*;
                 query = "SELECT c FROM CategoryPage c"),
     @NamedQuery(name = "CategoryPage.findByPermalink",
                 query = "SELECT c FROM CategoryPage c WHERE c.permalink = :perme")
-//    @NamedQuery(name = "CategoryPage.delete",
-//                query = "DELETE FROM CategoryPage c WHERE c.id = :id"),
-//    @NamedQuery(name = "CategoryPage.update",
-//                query = "UPDATE CategoryPage c SET c.title = :title,c.intro = :intro, c.content = :content WHERE c.id = :id")
 })
 public class CategoryPage extends Page {
 
     private static final long serialVersionUID = 1L;
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    private Long id;
     @OneToMany(mappedBy = "myCategory")
     private Collection<SectionPage> mySections;
 
@@ -68,12 +61,4 @@ public class CategoryPage extends Page {
     public void setMySections(Collection<SectionPage> mySections) {
         this.mySections = mySections;
     }
-
-//    @Override
-//    public void update(String title, String permalink, String intro, String content) {
-//        setTitle(title);
-//        setPermalink(permalink);
-//        setIntro(intro);
-//        setContent(content);
-//    }
 }

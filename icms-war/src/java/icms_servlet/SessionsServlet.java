@@ -24,20 +24,19 @@ public class SessionsServlet extends HttpServlet {
 
         // Priority for the action parameter given by the page, not by the servlet config
         int action = request.getParameter("action") != null ? Integer.parseInt(request.getParameter(
-                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.parseInt(getServletConfig().
+                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.
+                parseInt(getServletConfig().
                 getInitParameter("action")) : -1;
 
         switch (action) {
             case Config.CREATE:
-                User user = gestionnaireUsers.findUserByLoginAndPassword(request.getParameter("login"),
-                        request.getParameter("password"));
+                User user = gestionnaireUsers.findUserByLoginAndPassword(request.getParameter(
+                        "login"),
+                                                                         request.getParameter(
+                        "password"));
                 if (user != null) {
 //                    gestionnaireUsers.creerAdmin();
                     setUserToSession(user);
-                    System.out.println("Vous êtes maintenant logué en tant que " + user.getLogin() + "!");
-//                    request.setAttribute("flash",
-//                            "Vous êtes maintenant logué en tant que " + user.getLogin() + "!");
-                   
                     response.sendRedirect("/icms-war/admin/articles");
                     return;
                 } else {

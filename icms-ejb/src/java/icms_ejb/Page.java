@@ -16,10 +16,10 @@ public abstract class Page implements Serializable {
     protected String intro;
     @Column(nullable = false)
     protected String content;
-
     private static EntityManager em;
-    
+
     public Page() {
+//        Marche pas!!!!!!! :|
 //        EntityManagerFactory emf = Persistence.createEntityManagerFactory("icms-ejbPU");
 //        Page.em = emf.createEntityManager(); // Retrieve an application managed entity manager
     }

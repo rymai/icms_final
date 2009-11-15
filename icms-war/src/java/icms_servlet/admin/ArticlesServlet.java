@@ -6,7 +6,6 @@ import java.io.IOException;
 import javax.ejb.EJB;
 import javax.servlet.*;
 import javax.servlet.http.*;
-import org.omg.CORBA.INV_POLICY;
 
 public class ArticlesServlet extends HttpServlet {
 

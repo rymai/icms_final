@@ -14,8 +14,8 @@ public abstract class Page implements Serializable {
     protected String title;
     protected String permalink;
     protected String intro;
-    @Column(nullable = false)
-    protected String content;
+    @Column(length=1000)
+     protected String content;
     private static EntityManager em;
 
     public Page() {

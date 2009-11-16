@@ -19,14 +19,17 @@
         <table border="1">
             <tr>
                 <td>Titre</td>
-              
-                <td>Publié le</td>
-                <td>Modifié le</td>
+               <td>Section</td>
+                <td>Cat&eacute;gorie</td>
+                <td>Publi&eacute; le</td>
+                <td>Modifi&eacute; le</td>
                 <td>Supprimer</td>
             </tr>
                 <c:forEach var="u" items="${requestScope['listeArticles']}">
                     <tr>
                         <td><a href="/icms-war/admin/articles?action=<%=Config.EDIT%>&id=${u.id}">${u.title}</a></td>
+                        <td>${u.mySection.title}</td>
+                        <td>${u.mySection.myCategory.title}</td>
                         <td>${u.publishedAt}</td>
                         <td>${u.updatedAt}</td>
                         <td><a href="/icms-war/admin/articles?action=<%=Config.DESTROY%>&id=${u.id}"> X </a></td>
@@ -44,7 +47,7 @@
          <label for="section_id">Section :</label>
                 <select name="section_id" title="section_id" id="section_id">
                     <c:forEach var="u" items="${requestScope['listeSections']}">
-                        <option value="${u.id}">${u.title}</option>
+                        <option value="${u.id}">${u.title} (${u.myCategory.title})</option>
                     </c:forEach>
                 </select>
                 <br />

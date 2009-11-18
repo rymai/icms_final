@@ -11,7 +11,7 @@ public class GestionnaireUsersBean implements GestionnaireUsersLocal {
     private EntityManager em;
 
     public void creerAdmin() {
-        em.persist(new User("admin", "admin", "admin"));
+        em.persist(new User("admin", "admin", "99"));
     }
 
     public List<User> all() {
@@ -59,5 +59,18 @@ public class GestionnaireUsersBean implements GestionnaireUsersLocal {
     public void destroy(int id) {
         User u = find(id);
         em.remove(em.merge(u));
+    }
+
+    public User findAdminByLoginAndPassword(String login, String password) {
+        Query queryUserByLoginAndPassword = em.createNamedQuery("Users.findByLoginAndPasswordAndLvl");
+        queryUserByLoginAndPassword.setParameter("login", login);
+        queryUserByLoginAndPassword.setParameter("password", password);
+        queryUserByLoginAndPassword.setParameter("lvl", "99");
+
+        try {
+            return (User) queryUserByLoginAndPassword.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

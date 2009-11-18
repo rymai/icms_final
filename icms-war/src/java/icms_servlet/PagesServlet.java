@@ -25,6 +25,10 @@ public class PagesServlet extends HttpServlet {
         User u = SessionsServlet.getUserFromSession(gestionnaireUsers);
         request.setAttribute("current_user", u);
 
+        if (gestionnaireUsers.findAdmins().size() == 0) {
+            gestionnaireUsers.creerAdmin();
+        }
+
         // Priority for the action parameter passed by the page, not by the servlet config
         int action = request.getParameter("action") != null ? Integer.parseInt(request.getParameter(
                 "action")) : getServletConfig().getInitParameter("action") != null ? Integer.

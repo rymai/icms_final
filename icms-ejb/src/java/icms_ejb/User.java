@@ -10,6 +10,8 @@ import javax.persistence.*;
                 query = "SELECT u FROM User u"),
     @NamedQuery(name = "Users.findByLoginAndPassword",
                 query = "SELECT u FROM User u WHERE u.login = :login AND u.password = :password"),
+    @NamedQuery(name = "Users.findByLoginAndPasswordAndLvl",
+                query = "SELECT u FROM User u WHERE u.login = :login AND u.password = :password AND u.lvl = :lvl"),
     @NamedQuery(name = "Users.findById",
                 query = "SELECT u FROM User u WHERE u.id = :id"),
     @NamedQuery(name = "Users.findAdmins",

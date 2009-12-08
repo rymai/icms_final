@@ -39,26 +39,24 @@ public class PagesServlet extends HttpServlet {
             case Config.SHOW:
                 String perme = request.getPathInfo().substring(request.getPathInfo().
                         lastIndexOf("/") + 1);
-                Page pageLoad = null;
-                if (perme.substring(0, 4).equals("cat:")) {
-                    pageLoad = gestionnairePages.findCategoryByPermalink(perme.substring(4));
-                } else if (perme.substring(0, 4).equals("sec:")) {
-                    pageLoad = gestionnairePages.findSectionByPermalink(perme.substring(4));
-                } else if (perme.substring(0, 4).equals("art:")) {
-                    pageLoad = gestionnairePages.findArticleByPermalink(perme.substring(4));
-                }
+                ArticlePage pageLoad = null;
+              pageLoad = gestionnairePages.findArticleByPermalink(perme);
 
                 if (pageLoad != null) {
                     if (pageLoad instanceof ArticlePage) {
+                        if (pageLoad.getMyChildren().size() == 0){
                         request.setAttribute("article", pageLoad);
+                        }else {
+                         request.setAttribute("section", pageLoad);
+                        }
+
 //                      request.setAttribute("translate_to", request.getParameter("translate_to"));
 //                        System.out.println("request.getHeader(\"x-requested-with\") : " + request.getHeader("x-requested-with"));
                         
                         page = (request.getHeader("x-requested-with") != null && request.getHeader("x-requested-with").equals("XMLHttpRequest")) ? "partials/_article.jsp" : "article.jsp";
                     } else if (pageLoad instanceof SectionPage) {
                         request.setAttribute("section", pageLoad);
-                        List<ArticlePage> listeArticles = (List) ((SectionPage) pageLoad).
-                                getMyArticles();
+                        List<ArticlePage> listeArticles = (List) ((SectionPage) pageLoad).getMyArticles();
                         request.setAttribute("listeArticles", listeArticles);
                         page = "section.jsp";
                     } else if (pageLoad instanceof CategoryPage) {

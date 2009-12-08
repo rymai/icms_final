@@ -93,4 +93,8 @@ public class ArticlePage extends Page {
     public void setMySection(SectionPage mySection) {
         this.mySection = mySection;
     }
+
+    public String getTermsForSearch() {
+        return getTitle()+","+getMySection().getTitle()+","+getMySection().getMyCategory().getTitle();
+    }
 }

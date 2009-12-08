@@ -3,7 +3,6 @@ package icms_servlet;
 import icms_ejb.*;
 import icms_ejb.SectionPage;
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.*;

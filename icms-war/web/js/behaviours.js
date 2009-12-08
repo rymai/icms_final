@@ -1,6 +1,6 @@
 dojo.require("dijit._base.scroll");
-//dojo.require("dijit.Dialog");
-//dojo.require("dijit.Tooltip");
+dojo.require("dijit.Dialog");
+dojo.require("dijit.Tooltip");
 
 dojo.addOnLoad(function(){
     if(dojo.byId("translate")){
@@ -8,6 +8,10 @@ dojo.addOnLoad(function(){
             e.preventDefault();
             ajaxTranslate();
         });
+    }
+
+    if(dojo.byId("flickr")){
+        connectItems("flickr");
     }
 });
 
@@ -42,5 +46,30 @@ function ajaxTranslate(){
                 }
             }).play();
         }
+    });
+}
+
+function connectItems(service){
+    // connect actions with every links
+    dojo.query("td."+service+"_item").forEach(function(node){
+        new dijit.Tooltip({
+            connectId: [dojo.byId("thumb_"+node.id)],
+            label: dojo.byId("description_"+node.id).innerHTML
+        });
+
+//        dojo.connect(dojo.byId("thumb_"+node.id), "onclick", function(e){
+//            e.preventDefault();
+//            dojo.query(".masterpiece").map(function(node){
+//                if(!dojo.hasClass(node, "hidden")) dojo.addClass(node, "hidden");
+//            });
+//
+//            dojo.query("."+service+"_thumb").map(function(node){
+//                if(dojo.hasClass(node, "hidden")) dojo.removeClass(node, "hidden");
+//            });
+//
+//            dojo.removeClass("masterpiece_"+node.id, "hidden");
+//            dojo.addClass("thumb_"+node.id, "hidden");
+//            console.info(dojo.hasClass("masterpiece_"+node.id, "hidden"));
+//        });
     });
 }

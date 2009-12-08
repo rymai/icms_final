@@ -37,6 +37,7 @@ public class ArticlePage extends Page {
         setMySection(mySection);
         createdAt = GregorianCalendar.getInstance().getTime();
         publishedAt = GregorianCalendar.getInstance().getTime();
+        updatedAt = GregorianCalendar.getInstance().getTime();
     }
 
     public void update(String title, String permalink, String intro, String content,

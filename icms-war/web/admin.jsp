@@ -9,6 +9,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Admin > Articles</title>
         <link href="/icms-war/stylesheets/style.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="http://ajax.googleapis.com/ajax/libs/dojo/1.3/dijit/themes/tundra/tundra.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="/icms-war/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
         <script type="text/javascript">
             tinyMCE.init({

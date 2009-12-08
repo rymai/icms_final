@@ -496,3 +496,10 @@ div#log_top_right {
     top:0;
     right:0;
 }
+
+.spinner {
+    display:none;
+    width:48px;
+    height:48px;
+    background: url(images/spinner.gif) repeat-y;
+}

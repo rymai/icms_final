@@ -21,4 +21,6 @@ public interface GestionnaireUsersLocal {
     public List<User> findAdmins();
 
     public User findUserByLoginAndPassword(String login, String password);
+
+    public User findAdminByLoginAndPassword(String login, String password);
 }

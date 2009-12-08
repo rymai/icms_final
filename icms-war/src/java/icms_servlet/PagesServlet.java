@@ -3,6 +3,7 @@ package icms_servlet;
 import icms_ejb.*;
 import icms_ejb.SectionPage;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.*;
@@ -25,6 +26,10 @@ public class PagesServlet extends HttpServlet {
         User u = SessionsServlet.getUserFromSession(gestionnaireUsers);
         request.setAttribute("current_user", u);
 
+        if (gestionnaireUsers.findAdmins().size() == 0) {
+            gestionnaireUsers.creerAdmin();
+        }
+
         // Priority for the action parameter passed by the page, not by the servlet config
         int action = request.getParameter("action") != null ? Integer.parseInt(request.getParameter(
                 "action")) : getServletConfig().getInitParameter("action") != null ? Integer.
@@ -38,15 +43,19 @@ public class PagesServlet extends HttpServlet {
                 Page pageLoad = null;
                 if (perme.substring(0, 4).equals("cat:")) {
                     pageLoad = gestionnairePages.findCategoryByPermalink(perme.substring(4));
-                } else if (perme.substring(0, 4).equals("art:")) {
-                    pageLoad = gestionnairePages.findArticleByPermalink(perme.substring(4));
                 } else if (perme.substring(0, 4).equals("sec:")) {
                     pageLoad = gestionnairePages.findSectionByPermalink(perme.substring(4));
+                } else if (perme.substring(0, 4).equals("art:")) {
+                    pageLoad = gestionnairePages.findArticleByPermalink(perme.substring(4));
                 }
+
                 if (pageLoad != null) {
                     if (pageLoad instanceof ArticlePage) {
                         request.setAttribute("article", pageLoad);
-                        page = "article.jsp";
+//                      request.setAttribute("translate_to", request.getParameter("translate_to"));
+//                        System.out.println("request.getHeader(\"x-requested-with\") : " + request.getHeader("x-requested-with"));
+                        
+                        page = (request.getHeader("x-requested-with") != null && request.getHeader("x-requested-with").equals("XMLHttpRequest")) ? "partials/_article.jsp" : "article.jsp";
                     } else if (pageLoad instanceof SectionPage) {
                         request.setAttribute("section", pageLoad);
                         List<ArticlePage> listeArticles = (List) ((SectionPage) pageLoad).

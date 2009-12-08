@@ -30,12 +30,11 @@ public class SessionsServlet extends HttpServlet {
 
         switch (action) {
             case Config.CREATE:
-                User user = gestionnaireUsers.findUserByLoginAndPassword(request.getParameter(
+                User user = gestionnaireUsers.findAdminByLoginAndPassword(request.getParameter(
                         "login"),
                                                                          request.getParameter(
                         "password"));
                 if (user != null) {
-//                    gestionnaireUsers.creerAdmin();
                     setUserToSession(user);
                     response.sendRedirect("/icms-war/admin/articles");
                     return;

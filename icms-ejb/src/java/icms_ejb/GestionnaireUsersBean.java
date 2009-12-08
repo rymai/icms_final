@@ -60,4 +60,17 @@ public class GestionnaireUsersBean implements GestionnaireUsersLocal {
         User u = find(id);
         em.remove(em.merge(u));
     }
+
+    public User findAdminByLoginAndPassword(String login, String password) {
+        Query queryUserByLoginAndPassword = em.createNamedQuery("Users.findByLoginAndPasswordAndLvl");
+        queryUserByLoginAndPassword.setParameter("login", login);
+        queryUserByLoginAndPassword.setParameter("password", password);
+        queryUserByLoginAndPassword.setParameter("lvl", "99");
+
+        try {
+            return (User) queryUserByLoginAndPassword.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

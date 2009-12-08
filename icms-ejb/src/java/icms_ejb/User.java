@@ -15,7 +15,7 @@ import javax.persistence.*;
     @NamedQuery(name = "Users.findById",
                 query = "SELECT u FROM User u WHERE u.id = :id"),
     @NamedQuery(name = "Users.findAdmins",
-                query = "SELECT u FROM User u WHERE u.lvl = 'admin'")
+                query = "SELECT u FROM User u WHERE u.lvl = 99")
 })
 public class User implements Serializable {
 

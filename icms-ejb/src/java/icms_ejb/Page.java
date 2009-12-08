@@ -140,6 +140,6 @@ public abstract class Page implements Serializable {
      */
     private String makeIntro(String text) {
         text = text.trim().replaceAll("<\\/?p>", "");
-        return "<p>" + text.substring(0, Math.min(text.length() - 1, 29)) + "</p>";
+        return "<p>" + text.substring(0, Math.min(text.length(), 59)) + "</p>";
     }
 }

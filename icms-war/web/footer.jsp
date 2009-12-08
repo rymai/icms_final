@@ -20,3 +20,6 @@
     <p>Copyright (c) 2009 ICMS.com. All rights reserved.</p>
 </div>
 <!-- end #footer -->
+
+<script type="text/javascript" src="/icms-war/js/dojo/dojo.js" djConfig="parseOnLoad:true"></script>
+<script type="text/javascript" src="/icms-war/js/behaviours.js"></script>

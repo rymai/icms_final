@@ -1,13 +1,13 @@
-<%@ page language="java" import="icms_ejb.*" %>
-<%@page import="icms_servlet.PagesServlet;" %>
-<%@page import="java.util.List;" %>
+<%@page language="java" import="icms_ejb.*" %>
+<%@page language="java" import="icms_servlet.PagesServlet" %>
+<%@page language="java" import="java.util.List" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 User u = (User) request.getAttribute("current_user");
 %>
 <div id="log_top_right">
     <% if (u != null) {%>
-    <form method="post" action="/icms-war/logout">
+    <form name="logout_form" id="logout_form" method="post" action="/icms-war/logout">
         <input type="submit" name="logout" value="Log out <%= u.getLogin()%>" />
     </form>
     <% } else {%>

@@ -11,7 +11,7 @@ public class GestionnaireUsersBean implements GestionnaireUsersLocal {
     private EntityManager em;
 
     public void creerAdmin() {
-        em.persist(new User("admin", "admin", "admin"));
+        em.persist(new User("admin", "admin", "99"));
     }
 
     public List<User> all() {

@@ -503,3 +503,7 @@ div#log_top_right {
     height:48px;
     background: url(images/spinner.gif) repeat-y;
 }
+
+.hidden {
+    display:none;
+}

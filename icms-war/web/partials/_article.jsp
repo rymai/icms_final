@@ -2,17 +2,17 @@
 <%@page language="java" import="icms_helper.*" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
-        ArticlePage a = null;
+        ArticlePage a = (ArticlePage) request.getAttribute("article");
         TranslateHelper translator = null;
+        FlickrHelper flickr = new FlickrHelper(a.getTermsForSearch());
         if (request.getParameter("translate_to") != null) {
-            a = (ArticlePage) request.getAttribute("article");
             translator = new TranslateHelper((String) request.getParameter("translate_to"));
         }
 %>
 <h2 class="title"><a href="/icms-war/article/art:<c:out value="${requestScope['article'].permalink}" escapeXml="true"/>">
-        <% if (translator != null && a != null) {
-                out.write(translator.translateAndGet(a.getTitle()));
-            } else {%>
+        <% if (translator != null) {
+            out.write(translator.translateAndGet(a.getTitle()));
+        } else {%>
         <c:out value="${requestScope['article'].title}" escapeXml="false"/>
         <%}%>
     </a></h2>
@@ -20,15 +20,21 @@
     <c:out value="${requestScope['article'].publishedAt}" escapeXml="false"/>
 </p>
 <div class="entry">
-    <% if (translator != null && a != null) {
+    <% if (translator != null) {
             out.write(translator.translateAndGet(a.getIntro()));
         } else {%>
     <c:out value="${requestScope['article'].intro}" escapeXml="false"/>
     <%}%>
     <hr class="visible" />
-    <% if (translator != null && a != null) {
+    <% if (translator != null) {
             out.write(translator.translateAndGet(a.getContent()));
         } else {%>
     <c:out value="${requestScope['article'].content}" escapeXml="false"/>
     <%}%>
+
+    <% if (translator == null) {%>
+    <div id="flickr">
+        <%= flickr.getFlickrResults()%>
+    </div>
+    <% }%>
 </div>

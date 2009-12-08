@@ -21,16 +21,6 @@
         
         <div class="post">
             <jsp:include page="partials/_article.jsp" />
-<%--            <h2 class="title"><a href="/icms-war/article/art:<c:out value="${requestScope['article'].permalink}" escapeXml="true"/>"><c:out value="${requestScope['article'].title}" escapeXml="true"/></a></h2>
-            <p class="meta">
-                <c:out value="${requestScope['article'].publishedAt}" escapeXml="false"/>
-                Posted by <a href="#">${u.author.name}</a>
-            </p>
-            <div class="entry">
-                <c:out value="${requestScope['article'].intro}" escapeXml="false"/>
-                <hr class="visible" />
-                <c:out value="${requestScope['article'].content}" escapeXml="false"/>
-            </div>--%>
         </div>
 
         <form id="translate" action="/icms-war/article/art:<c:out value="${requestScope['article'].permalink}" escapeXml="true"/>">

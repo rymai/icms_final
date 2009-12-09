@@ -38,57 +38,50 @@ public class PagesServlet extends HttpServlet {
             case Config.SHOW:
                 String perme = request.getPathInfo().substring(request.getPathInfo().
                         lastIndexOf("/") + 1);
-                ArticlePage pageLoad = null;
-                pageLoad = gestionnairePages.findArticleByPermalink(perme);
+                // Page (root, section ou article)
+                Page pageLoad = gestionnairePages.findByPermalink(perme);
 
                 if (pageLoad != null) {
-                    List<ArticlePage> myChildren = gestionnairePages.findAllChildren((int) pageLoad.getId());
-                    ArticlePage myParent = ((ArticlePage) pageLoad).getMyParent();
+                    List<Page> myChildren = gestionnairePages.children((int) pageLoad.getId());
+                    Page myParent = ((Page) pageLoad).getMyParent();
                     if (myChildren == null || myChildren.size() == 0) {
                         request.setAttribute("article", pageLoad);
                         page = (request.getHeader("x-requested-with") != null && request.getHeader("x-requested-with").equals("XMLHttpRequest")) ? "partials/_article.jsp" : "article.jsp";
                     } else if (myParent != null) {
                         request.setAttribute("article", pageLoad);
-                        List<ArticlePage> sections = new ArrayList<ArticlePage>();
-                        List<ArticlePage> articles = new ArrayList<ArticlePage>();
-                        for (ArticlePage a : myChildren) {
-                            if (gestionnairePages.findAllChildren(a.getId()) != null && gestionnairePages.findAllChildren(a.getId()).size() > 0) {
+                        List<Page> sections = new ArrayList<Page>();
+                        List<Page> articles = new ArrayList<Page>();
+                        for (Page a : myChildren) {
+                            if (gestionnairePages.children(a.getId()) != null && gestionnairePages.children(a.getId()).size() > 0) {
                                 sections.add(a);
                             } else {
                                 articles.add(a);
                             }
                         }
                         request.setAttribute("listeSections", sections);
-                        request.setAttribute("listeArticles", articles);
+                        request.setAttribute("listePages", articles);
                         page = "section.jsp";
                     } else if (myParent == null) {
                         request.setAttribute("article", pageLoad);
-                        request.setAttribute("listeSections", gestionnairePages.findAllChildren(pageLoad.getId()));
+                        request.setAttribute("listeSections", gestionnairePages.children(pageLoad.getId()));
                         page = "category.jsp";
 
 //                      request.setAttribute("translate_to", request.getParameter("translate_to"));
 //                        System.out.println("request.getHeader(\"x-requested-with\") : " + request.getHeader("x-requested-with"));
 
-
                     } else {
-
                         page = "articles"; // redirect
                     }
                 }
+                else page = "error_404";
                 break;
 
-
-
-
-
-
-
             default:
-                request.setAttribute("listeArticles", gestionnairePages.allArticles());
+                request.setAttribute("listePages", gestionnairePages.allArticles());
                 page = "index.jsp"; // render
                 break;
         }
-        request.setAttribute("listeCategories", gestionnairePages.findRoot());
+        request.setAttribute("listeCategories", gestionnairePages.allRoots());
 
         RequestDispatcher dp = request.getRequestDispatcher("/" + page);
         dp.forward(request, response);

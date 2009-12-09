@@ -3,8 +3,8 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
         Page a = (Page) request.getAttribute("article");
-        FlickrHelper flickr = new FlickrHelper(a.getTermsForSearch());
         TranslateHelper translator = null;
+        FlickrHelper flickr = new FlickrHelper(a.getTermsForSearch());
         if (request.getParameter("translate_to") != null) {
             translator = new TranslateHelper((String) request.getParameter("translate_to"));
         }

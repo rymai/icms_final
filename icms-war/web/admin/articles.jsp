@@ -15,7 +15,7 @@
 
     <h2><a href="" class="category">Articles</a></h2>
     <br />
-    <div id="listeArticles">
+    <div id="listePages">
         <table border="1">
             <tr>
                 <td>Titre</td>
@@ -24,7 +24,7 @@
                 <td>Modifi&eacute; le</td>
                 <td>Supprimer</td>
             </tr>
-                <c:forEach var="u" items="${requestScope['listeArticles']}">
+                <c:forEach var="u" items="${requestScope['listePages']}">
                     <tr>
                         <td><a href="/icms-war/admin/articles?action=<%=Config.EDIT%>&id=${u.id}">${u.title}</a></td>
                         <td>${u.myParent.title}</td>
@@ -44,7 +44,7 @@
          <label for="section_id">Article parent :</label>
                 <select name="section_id" title="section_id" id="section_id">
                     <option value="0">Pas de parent</option>
-                    <c:forEach var="u" items="${requestScope['listeArticles']}">
+                    <c:forEach var="u" items="${requestScope['listePages']}">
                         <option value="${u.id}">${u.title} (${u.myParent.title})</option>
                     </c:forEach>
                 </select>

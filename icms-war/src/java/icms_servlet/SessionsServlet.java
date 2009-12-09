@@ -9,9 +9,9 @@ import javax.servlet.http.*;
 public class SessionsServlet extends HttpServlet {
 
     @EJB
-    private icms_ejb.GestionnaireUsersLocal gestionnaireUsers;
+    private GestionnaireUsersLocal gestionnaireUsers;
     @EJB
-    private icms_ejb.GestionnaireSessionsLocal gestionnaireSessions;
+    private GestionnaireSessionsLocal gestionnaireSessions;
     // Not EJB
     private static HttpSession session;
     private String page;

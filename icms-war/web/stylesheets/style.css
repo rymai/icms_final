@@ -251,8 +251,8 @@ h2 a.section {
 }
 
 .post .title {
-    height: 44px;
-    padding-left: 15px;
+    /*height: 44px;*/
+    padding-left: 5px;
     color: #FFFFFF;
 }
 
@@ -268,7 +268,7 @@ h2 a.section {
 }
 
 .post .meta {
-    height: 32px;
+    /*height: 32px;*/
     margin-left: 2px;
     padding: 4px 30px 2px 15px;
     background: url(images/img05.gif) repeat-x left top;

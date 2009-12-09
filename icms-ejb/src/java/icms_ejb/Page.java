@@ -1,10 +1,32 @@
 package icms_ejb;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.persistence.*;
 
-@MappedSuperclass
-public abstract class Page implements Serializable {
+@Entity
+@Table(name = "PAGES")
+@NamedQueries({
+    @NamedQuery(name = "Page.findAll",
+                query = "SELECT a FROM Page a ORDER BY a.publishedAt DESC"),
+    @NamedQuery(name = "Page.findAllRoots",
+                query = "SELECT a FROM Page a WHERE a.myParent IS NULL ORDER BY a.publishedAt DESC"),
+    @NamedQuery(name = "Page.findAllSections",
+                query = "SELECT a FROM Page a WHERE a.myParent IS NOT NULL AND (SELECT COUNT(a2) FROM Page a2 WHERE a2.myParent = a.id) > 0 ORDER BY a.publishedAt DESC"),
+    @NamedQuery(name = "Page.findAllArticles",
+                query = "SELECT a FROM Page a WHERE a.myParent IS NOT NULL AND (SELECT COUNT(a2) FROM Page a2 WHERE a2.myParent = a.id) = 0 ORDER BY a.publishedAt DESC"),
+    @NamedQuery(name = "Page.findByPermalink",
+                query = "SELECT a FROM Page a WHERE a.permalink = :perme"),
+    @NamedQuery(name = "Page.findByPermalinkAndIdIsNot",
+                query = "SELECT a FROM Page a WHERE a.permalink = :perme AND a.id <> :id"),
+    @NamedQuery(name = "Page.findAllChildren",
+                query = "SELECT a FROM Page a WHERE a.myParent = :parent_id"),
+    @NamedQuery(name = "Page.findParent",
+                query = "SELECT a FROM Page a WHERE a.id = (SELECT a2.myParent FROM Page a2 WHERE a2.id = :id)")
+})
+public class Page implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -12,41 +34,67 @@ public abstract class Page implements Serializable {
     protected Integer id;
     @Column(nullable = false)
     protected String title;
+    @Column(unique = true)
     protected String permalink;
     protected String intro;
-    @Column(length=1000)
-     protected String content;
-    private static EntityManager em;
+    @Column(length = 1000)
+    protected String content;
+    @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+    @Column(name = "published_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date publishedAt;
+    @Column(name = "updated_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedAt;
+    @JoinColumn(name = "my_parent")
+    @ManyToOne
+    private Page myParent;
 
+    // Ne pas supprimer ^^
     public Page() {
-//        Marche pas!!!!!!! :|
-//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("icms-ejbPU");
-//        Page.em = emf.createEntityManager(); // Retrieve an application managed entity manager
     }
 
-    public Page(String title, String permalink, String intro, String content) {
-        super();
+    public Page(String title, String permalink, String intro, String content,
+                Page parent) {
         setTitle(title);
         setPermalink(permalink);
         setContent(content);
         setIntro(intro);
+        createdAt = GregorianCalendar.getInstance().getTime();
+        publishedAt = GregorianCalendar.getInstance().getTime();
+        updatedAt = GregorianCalendar.getInstance().getTime();
+        myParent = parent;
     }
 
-    public void update(String title, String permalink, String intro, String content) {
+    public void update(String title, String permalink, String intro, String content,
+                       Page parent) {
         setTitle(title);
         setPermalink(permalink);
         setContent(content);
         setIntro(intro);
+        updatedAt = GregorianCalendar.getInstance().getTime();
+        myParent = parent;
+
     }
 
-    public Integer getId() {
-        return id;
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public Date getPublishedAt() {
+        return publishedAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
@@ -57,7 +105,9 @@ public abstract class Page implements Serializable {
             return false;
         }
         Page other = (Page) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.
+                equals(
+                other.id))) {
             return false;
         }
         return true;
@@ -65,7 +115,35 @@ public abstract class Page implements Serializable {
 
     @Override
     public String toString() {
-        return "icms_ejb.Page[id=" + id + "]";
+        return "Page[id=" + getId() + "]";
+    }
+
+    public ArrayList<String> getTermsForSearch() {
+        ArrayList<String> terms = new ArrayList<String>();
+        terms.add(title);
+        if (myParent != null) {
+            terms.addAll(myParent.getTermsForSearch());
+        }
+
+        return terms;
+    }
+
+    /**
+     * @return the myParent
+     */
+    public Page getMyParent() {
+        return myParent;
+    }
+
+    /**
+     * @param myParent the myParent to set
+     */
+    public void setMyParent(Page myParent) {
+        this.myParent = myParent;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -81,7 +159,7 @@ public abstract class Page implements Serializable {
     }
 
     public void setIntro(String intro) {
-        this.intro = intro.equals("") ? makeIntro(content) : makeIntro(intro);
+        this.intro = intro;//.equals("") ? makeIntro(content) : makeIntro(intro);
     }
 
     public String getContent() {
@@ -96,41 +174,8 @@ public abstract class Page implements Serializable {
         return permalink;
     }
 
-    /**
-     * @param perm the text from which we will guess the permalink
-     *        permalink is guessed from the title if perm is blank)
-     */
     public void setPermalink(String perm) {
-        this.permalink = perm.equals("") ? makePermalink(title) : makePermalink(perm);
-    }
-
-    /**
-     * @param text
-     * @return generated and safe permalink from text parameter
-     */
-    private String makePermalink(String text) {
-        String perme = text.trim().toLowerCase().replaceAll("\\s+", "_").replaceAll("\\W+", "").
-                replaceAll("_+", "-");
-        //check si le permalink est deja utilise, dans ce cas, on ajoute un int random au permalink tant qu'il existe
-//        System.out.println("this.getClass() : " + this.getClass());
-//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("icms-ejbPU");
-//        EntityManager em = emf.createEntityManager(); // Retrieve an application managed entity manager
-//
-//        Query queryByPermalink = em.createNamedQuery(
-//                this.getClass().toString() + ".findByPermalink");
-        int r = 0;
-//        List<Page> pages;
-//
-//        queryByPermalink.setParameter("perme", perme);
-//        pages = queryByPermalink.getResultList();
-//
-//        while (pages.size() > 0) {
-//            r = (int) (Math.random() * 1000);
-//            queryByPermalink.setParameter("perme", perme + r);
-//            pages = queryByPermalink.getResultList();
-//        }
-
-        return perme + (r == 0 ? "" : r);
+        this.permalink = perm;
     }
 
     /**
@@ -141,5 +186,14 @@ public abstract class Page implements Serializable {
     private String makeIntro(String text) {
         text = text.trim().replaceAll("<\\/?p>", "");
         return "<p>" + text.substring(0, Math.min(text.length(), 59)) + "</p>";
+    }
+
+    public boolean hasParent() {
+        return myParent != null;
+    }
+
+    public boolean hasChildren() {
+//        return !new GestionnairePagesBean().children(id).isEmpty();
+        return true;
     }
 }

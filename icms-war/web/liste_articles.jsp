@@ -1,15 +1,15 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <div class="posts">
-    <c:forEach var="u" items="${requestScope['listeArticles']}">
+    <c:forEach var="a" items="${requestScope['listePages']}">
         <div class="post">
-            <h2 class="title"><a href="/icms-war/article/${u.permalink}">${u.title}</a></h2>
+            <h2 class="title"><a href="/icms-war/article/${a.permalink}">${a.title}</a></h2>
             <p class="meta">
-                ${u.publishedAt}
+                Dans <strong>${a.myParent.title}</strong>&nbsp;&agrave;&nbsp;${a.publishedAt}
                 <%--Posted by <a href="#">${u.author.name}</a>--%>
             </p>
             <div class="entry">
-                ${u.intro}
-                <div><a href="/icms-war/article/${u.permalink}" class="links">View Full Story</a></div>
+                ${a.intro}
+                <div><a href="/icms-war/article/${a.permalink}" class="links">View Full Story</a></div>
             </div>
         </div>
     </c:forEach>

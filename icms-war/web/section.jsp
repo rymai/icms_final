@@ -13,8 +13,8 @@
         <jsp:include page="header.jsp" />
 
         <h2>
-            <a href="/icms-war/article/<c:out value="${requestScope['article'].myParent.permalink}" escapeXml="true"/>" class="category"><c:out value="${requestScope['article'].myParent.title}" escapeXml="true"/></a>
-            &rsaquo;
+<%--            <a href="/icms-war/article/<c:out value="${requestScope['article'].myParent.permalink}" escapeXml="true"/>" class="category"><c:out value="${requestScope['article'].myParent.title}" escapeXml="true"/></a>
+            &rsaquo;--%>
             <a href="/icms-war/article/<c:out value="${requestScope['article'].myParent.permalink}" escapeXml="true"/>" class="category"><c:out value="${requestScope['article'].myParent.title}" escapeXml="true"/></a>
             &rsaquo;
             <a href="/icms-war/article/<c:out value="${requestScope['article'].permalink}" escapeXml="true"/>" class="section"><c:out value="${requestScope['article'].title}" escapeXml="true"/></a>
@@ -22,8 +22,11 @@
         <div id="description">
               <jsp:include page="article_template.jsp" />
         </div>
-        <jsp:include page="liste_articles.jsp" />
+
         <jsp:include page="liste_sections.jsp" />
+
+        <jsp:include page="liste_articles.jsp" />
+        
         <jsp:include page="footer.jsp" />
     </body>
 </html>

@@ -6,24 +6,30 @@ import javax.ejb.Local;
 @Local
 public interface GestionnairePagesLocal {
 
- 
-    // Article
-    public List<ArticlePage> allArticles();
+    // CRUD
+    public void create(String title, String permalink, String intro, String content,
+                              int parent_id);
 
-    public ArticlePage findArticle(int id);
+    public boolean update(int id, String title, String permalink, String intro,
+                                 String content, int parent_id);
 
-    public ArticlePage findArticleByPermalink(String perme);
+    public void delete(int id);
 
-    public void createArticle(String title, String permalink, String intro, String content, int parent_id);
+    // Find one
+    public Page find(int id);
 
-    public boolean updateArticle(int id, String title, String permalink, String intro, String content,int parent_id);
+    public Page findByPermalink(String perme);
 
-    public void deleteArticle(int id);
+    public Page parent(int son);
 
-    public List<ArticlePage> findAllChildren(int parent);
+    // Find many
+    public List<Page> children(int parent);
 
-    public ArticlePage findParent(int son);
+    public List<Page> allPages();
 
-    public List<ArticlePage> findRoot();
+    public List<Page> allRoots();
 
+    public List<Page> allSections();
+
+    public List<Page> allArticles();
 }

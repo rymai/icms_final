@@ -49,7 +49,7 @@ public class UsersServlet extends HttpServlet {
                 break;
         }
 
-        request.setAttribute("listeCategories", gestionnairePages.findRoot());
+        request.setAttribute("listeCategories", gestionnairePages.allRoots());
         RequestDispatcher dp = request.getRequestDispatcher("/" + page);
         dp.forward(request, response);
     }

@@ -24,15 +24,11 @@ public class FlickrHelper {
     String flickrResults;
     Flickr flickr;
 
-    public FlickrHelper(String search_terms) {
+    public FlickrHelper(ArrayList<String> search_terms) {
         try {
-            String[] tmp = search_terms.split(",");
-            this.searchTerms = new ArrayList<String>(tmp.length);
-            this.searchTerms.add(0, "");
+            this.searchTerms = search_terms;
+//            this.searchTerms.add(0, "");
             this.flickr = new Flickr(FLICKR_KEY, FLICKR_SECRET, new REST());
-            for (String s : tmp) {
-                this.searchTerms.add(s);
-            }
             searchFlickr();
         } catch (ParserConfigurationException ex) {
             Logger.getLogger(FlickrHelper.class.getName()).log(Level.SEVERE, null, ex);
@@ -40,9 +36,9 @@ public class FlickrHelper {
     }
 
     public void searchFlickr() {
-        PhotoList photoList = getPhotoList();
+        PhotoList photoList = getPhotoList(2);
         while (photoList.isEmpty() && !searchTerms.isEmpty()) {
-            photoList = getPhotoList();
+            photoList = getPhotoList(3);
         }
 
         int i = 0;
@@ -83,24 +79,23 @@ public class FlickrHelper {
         return flickrResults;
     }
 
-    @SuppressWarnings("empty-statement")
-    private PhotoList getPhotoList() {
+    private PhotoList getPhotoList(int terms_count) {
+        PhotosInterface pi = flickr.getPhotosInterface();
+        SearchParameters sp = new SearchParameters();
+        PhotoList photoList = new PhotoList();
+
         try {
-            searchTerms.remove(0);
-            
-            PhotosInterface pi = flickr.getPhotosInterface();
-            SearchParameters sp = new SearchParameters();
             String tmp = "";
             String[] tmp_arr = new String[searchTerms.size()];
-            int i = 0;
-            for (int j = 0; j < 2 && j < searchTerms.size(); j++) {
+            for (int j = 0; j < terms_count && j < searchTerms.size(); j++) {
                 tmp += searchTerms.get(j) + ",";
-                tmp_arr[i++] = searchTerms.get(j);
+                tmp_arr[j] = searchTerms.get(j);
+                searchTerms.remove(j);
             }
             sp.setTags(tmp_arr);
             sp.setText(tmp);
             System.out.println("Searching on : " + tmp);
-            return pi.search(sp, NB_RESULTS_FLICKR, 1);
+            photoList = pi.search(sp, NB_RESULTS_FLICKR, 1);
         } catch (IOException ex) {
             Logger.getLogger(FlickrHelper.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SAXException ex) {
@@ -108,6 +103,6 @@ public class FlickrHelper {
         } catch (FlickrException ex) {
             Logger.getLogger(FlickrHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return new PhotoList();
+        return photoList;
     }
 }

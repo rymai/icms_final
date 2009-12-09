@@ -5,7 +5,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title><c:out value="${requestScope['category'].title}"/></title>
+        <title><c:out value="${requestScope['article'].title}"/></title>
         <link href="/icms-war/stylesheets/style.css" rel="stylesheet" type="text/css" media="screen" />
         <link href="http://ajax.googleapis.com/ajax/libs/dojo/1.3/dijit/themes/tundra/tundra.css" rel="stylesheet" type="text/css" />
     </head>
@@ -13,10 +13,10 @@
         <jsp:include page="header.jsp" />
 
         <h2>
-            <a href="/icms-war/article/cat:<c:out value="${requestScope['category'].permalink}" escapeXml="true"/>" class="category"><c:out value="${requestScope['category'].title}" escapeXml="true"/></a>
+            <a href="/icms-war/article/<c:out value="${requestScope['article'].permalink}" escapeXml="true"/>" class="category"><c:out value="${requestScope['article'].title}" escapeXml="true"/></a>
         </h2>
         <div id="description">
-            <c:out value="${requestScope['category'].content}" escapeXml="false"/>
+              <jsp:include page="article_template.jsp" />
         </div>
 
         <div class="sections">
@@ -24,7 +24,7 @@
             <h3>Les sections :</h3>
             <ul>
                 <c:forEach var="u" items="${requestScope['listeSections']}">
-                    <li><a href="/icms-war/article/sec:${u.permalink}">${u.title}</a></li>
+                    <li><a href="/icms-war/article/${u.permalink}">${u.title}</a></li>
                 </c:forEach>
             </ul>
         </div>

@@ -1,8 +1,8 @@
 package icms_servlet;
 
 import icms_ejb.*;
-import icms_ejb.SectionPage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.*;
@@ -31,8 +31,7 @@ public class PagesServlet extends HttpServlet {
 
         // Priority for the action parameter passed by the page, not by the servlet config
         int action = request.getParameter("action") != null ? Integer.parseInt(request.getParameter(
-                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.
-                parseInt(getServletConfig().
+                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.parseInt(getServletConfig().
                 getInitParameter("action")) : -1;
 
         switch (action) {
@@ -40,47 +39,56 @@ public class PagesServlet extends HttpServlet {
                 String perme = request.getPathInfo().substring(request.getPathInfo().
                         lastIndexOf("/") + 1);
                 ArticlePage pageLoad = null;
-              pageLoad = gestionnairePages.findArticleByPermalink(perme);
+                pageLoad = gestionnairePages.findArticleByPermalink(perme);
 
                 if (pageLoad != null) {
-                    if (pageLoad instanceof ArticlePage) {
-                        if (pageLoad.getMyChildren().size() == 0){
+                    List<ArticlePage> myChildren = gestionnairePages.findAllChildren((int) pageLoad.getId());
+                    ArticlePage myParent = ((ArticlePage) pageLoad).getMyParent();
+                    if (myChildren == null || myChildren.size() == 0) {
                         request.setAttribute("article", pageLoad);
-                        }else {
-                         request.setAttribute("section", pageLoad);
+                        page = (request.getHeader("x-requested-with") != null && request.getHeader("x-requested-with").equals("XMLHttpRequest")) ? "partials/_article.jsp" : "article.jsp";
+                    } else if (myParent != null) {
+                        request.setAttribute("article", pageLoad);
+                        List<ArticlePage> sections = new ArrayList<ArticlePage>();
+                        List<ArticlePage> articles = new ArrayList<ArticlePage>();
+                        for (ArticlePage a : myChildren) {
+                            if (gestionnairePages.findAllChildren(a.getId()) != null && gestionnairePages.findAllChildren(a.getId()).size() > 0) {
+                                sections.add(a);
+                            } else {
+                                articles.add(a);
+                            }
                         }
+                        request.setAttribute("listeSections", sections);
+                        request.setAttribute("listeArticles", articles);
+                        page = "section.jsp";
+                    } else if (myParent == null) {
+                        request.setAttribute("article", pageLoad);
+                        request.setAttribute("listeSections", gestionnairePages.findAllChildren(pageLoad.getId()));
+                        page = "category.jsp";
 
 //                      request.setAttribute("translate_to", request.getParameter("translate_to"));
 //                        System.out.println("request.getHeader(\"x-requested-with\") : " + request.getHeader("x-requested-with"));
-                        
-                        page = (request.getHeader("x-requested-with") != null && request.getHeader("x-requested-with").equals("XMLHttpRequest")) ? "partials/_article.jsp" : "article.jsp";
-                    } else if (pageLoad instanceof SectionPage) {
-                        request.setAttribute("section", pageLoad);
-                        List<ArticlePage> listeArticles = (List) ((SectionPage) pageLoad).getMyArticles();
-                        request.setAttribute("listeArticles", listeArticles);
-                        page = "section.jsp";
-                    } else if (pageLoad instanceof CategoryPage) {
-                        request.setAttribute("category", pageLoad);
-                        List<SectionPage> listeSections = (List) ((CategoryPage) pageLoad).
-                                getMySections();
-                        request.setAttribute("listeSections", listeSections);
-                        page = "category.jsp";
+
+
+                    } else {
+
+                        page = "articles"; // redirect
                     }
-
-                } else {
-
-                    page = "articles"; // redirect
                 }
                 break;
 
+
+
+
+
+
+
             default:
-                List<ArticlePage> listeArticles = gestionnairePages.allArticles();
-                request.setAttribute("listeArticles", listeArticles);
+                request.setAttribute("listeArticles", gestionnairePages.allArticles());
                 page = "index.jsp"; // render
                 break;
         }
-        List<CategoryPage> listeCategories = gestionnairePages.allCategories();
-        request.setAttribute("listeCategories", listeCategories);
+        request.setAttribute("listeCategories", gestionnairePages.findRoot());
 
         RequestDispatcher dp = request.getRequestDispatcher("/" + page);
         dp.forward(request, response);
@@ -96,7 +104,8 @@ public class PagesServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException,
+            IOException {
         processRequest(request, response);
     }
 
@@ -109,7 +118,8 @@ public class PagesServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException,
+            IOException {
         processRequest(request, response);
     }
 
@@ -121,4 +131,4 @@ public class PagesServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-}
+    }

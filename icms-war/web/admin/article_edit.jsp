@@ -21,8 +21,9 @@
                 <input type="hidden" id="id" name="id" value="<c:out value="${requestScope['article'].id}" />" />
                 <label for="section_id">Section :</label>
                 <select name="section_id" title="section_id" id="section_id">
-                    <option value="<c:out value="${requestScope['article'].mySection.id}" escapeXml="false"/>"><c:out value="${requestScope['article'].mySection.title}" escapeXml="false"/></option>
-                    <c:forEach var="u" items="${requestScope['listeSections']}">
+                       <option value="0">Pas de parent</option>
+                    <option value="<c:out value="${requestScope['article'].myParent.id}" escapeXml="false"/>"><c:out value="${requestScope['article'].myParent.title}" escapeXml="false"/></option>
+                    <c:forEach var="u" items="${requestScope['listeArticles']}">
                         <option value="${u.id}">${u.title}</option>
                     </c:forEach>
                 </select>

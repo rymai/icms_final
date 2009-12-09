@@ -19,8 +19,7 @@
         <table border="1">
             <tr>
                 <td>Titre</td>
-               <td>Section</td>
-                <td>Cat&eacute;gorie</td>
+               <td>Parent</td>
                 <td>Publi&eacute; le</td>
                 <td>Modifi&eacute; le</td>
                 <td>Supprimer</td>
@@ -28,8 +27,7 @@
                 <c:forEach var="u" items="${requestScope['listeArticles']}">
                     <tr>
                         <td><a href="/icms-war/admin/articles?action=<%=Config.EDIT%>&id=${u.id}">${u.title}</a></td>
-                        <td>${u.mySection.title}</td>
-                        <td>${u.mySection.myCategory.title}</td>
+                        <td>${u.myParent.title}</td>
                         <td>${u.publishedAt}</td>
                         <td>${u.updatedAt}</td>
                         <td><a href="/icms-war/admin/articles?action=<%=Config.DESTROY%>&id=${u.id}"> X </a></td>
@@ -43,11 +41,11 @@
       <h3>Nouvel article</h3>
       <form method="post" action="/icms-war/admin/articles">
         <input type="hidden" id="action" name="action" value="<%= Config.CREATE%>" />
-       
-         <label for="section_id">Section :</label>
+         <label for="section_id">Article parent :</label>
                 <select name="section_id" title="section_id" id="section_id">
-                    <c:forEach var="u" items="${requestScope['listeSections']}">
-                        <option value="${u.id}">${u.title} (${u.myCategory.title})</option>
+                    <option value="0">Pas de parent</option>
+                    <c:forEach var="u" items="${requestScope['listeArticles']}">
+                        <option value="${u.id}">${u.title} (${u.myParent.title})</option>
                     </c:forEach>
                 </select>
                 <br />

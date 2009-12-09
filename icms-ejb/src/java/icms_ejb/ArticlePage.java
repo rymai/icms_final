@@ -1,7 +1,6 @@
 package icms_ejb;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import javax.persistence.*;
@@ -12,15 +11,26 @@ import javax.persistence.*;
     @NamedQuery(name = "ArticlePage.findAll",
     query = "SELECT a FROM ArticlePage a ORDER BY a.publishedAt DESC"),
     @NamedQuery(name = "ArticlePage.findByPermalink",
-    query = "SELECT a FROM ArticlePage a WHERE a.permalink = :perme")
+    query = "SELECT a FROM ArticlePage a WHERE a.permalink = :perme"),
+    @NamedQuery(name = "ArticlePage.findAllChildren",
+    query = "SELECT a FROM ArticlePage a WHERE a.myParent = :parent"),
+    @NamedQuery(name = "ArticlePage.findParent",
+    query = "SELECT a2 FROM ArticlePage a, ArticlePage a2 WHERE a.myParent = a2 AND a= :son")
 })
 public class ArticlePage implements Serializable {
 
-    @Id
-    @GeneratedValue
-    @Column(name = "id")
-    private Integer id;
     private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected Integer id;
+    @Column(nullable = false)
+    protected String title;
+    @Column(unique = true)
+    protected String permalink;
+    protected String intro;
+    @Column(length = 1000)
+    protected String content;
+    private static EntityManager em;
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
@@ -30,25 +40,14 @@ public class ArticlePage implements Serializable {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
-    @ManyToMany
-    @Column(name = "myChildren")
-    private ArrayList<ArticlePage> myChildren;
-    @ManyToMany(mappedBy = "myChilds")
-    @Column(name = "myParents")
-    private ArrayList<ArticlePage> myParents;
-    @Column(name = "title")
-    private String title;
-    @Column(name = "intro")
-    private String intro;
-    @Column(name = "content")
-    private String content;
-    @Column(name = "permalink")
-    private String permalink;
+    @JoinColumn(name = "myParent")
+    @ManyToOne
+    private ArticlePage myParent;
 
     public ArticlePage() {
     }
 
-    public ArticlePage(String title, String permalink, String intro, String content, ArrayList<ArticlePage> children, ArrayList<ArticlePage> parents) {
+    public ArticlePage(String title, String permalink, String intro, String content, ArticlePage parent) {
         this.title = title;
         this.permalink = permalink;
         this.content = content;
@@ -56,18 +55,17 @@ public class ArticlePage implements Serializable {
         createdAt = GregorianCalendar.getInstance().getTime();
         publishedAt = GregorianCalendar.getInstance().getTime();
         updatedAt = GregorianCalendar.getInstance().getTime();
-        myChildren = children;
-        myParents = parents;
+        myParent = parent;
     }
 
-    public void update(String title, String permalink, String intro, String content,  ArrayList<ArticlePage> children, ArrayList<ArticlePage> parents) {
-         this.title = title;
+    public void update(String title, String permalink, String intro, String content, ArticlePage parent) {
+        this.title = title;
         this.permalink = permalink;
         this.content = content;
         this.intro = intro;
         updatedAt = GregorianCalendar.getInstance().getTime();
-         setMyChildren(children);
-        setMyParents(parents);
+        myParent = parent;
+
     }
 
     public Date getCreatedAt() {
@@ -107,14 +105,43 @@ public class ArticlePage implements Serializable {
     public String toString() {
         return "ArticlePage[id=" + getId() + "]";
     }
-    //  public String getTermsForSearch() {
-    //      return getTitle()+","+getMySection().getTitle()+","+getMySection().getMyCategory().getTitle();
-    //  }
+
+    public String getTermsForSearch() {
+        String search = getTitle();
+        boolean moreParents = false;
+        ArticlePage articleParent = null;
+        if (myParent != null) {
+            articleParent = myParent;
+            moreParents = true;
+        }
+        while (moreParents == true) {
+            search += "," + articleParent.getTitle();
+            if (articleParent.getMyParent() != null) {
+                articleParent = articleParent.getMyParent();
+            } else {
+                moreParents = false;
+            }
+        }
+        return search;
+    }
+
+    /**
+     * @return the myParent
+     */
+    public ArticlePage getMyParent() {
+        return myParent;
+    }
+
+    /**
+     * @param myParent the myParent to set
+     */
+    public void setMyParent(ArticlePage myParent) {
+        this.myParent = myParent;
+    }
 
     public Integer getId() {
         return id;
     }
-
 
     public String getTitle() {
         return title;
@@ -145,43 +172,6 @@ public class ArticlePage implements Serializable {
     }
 
     /**
-     * @param perm the text from which we will guess the permalink
-     *        permalink is guessed from the title if perm is blank)
-     */
-    public void setPermalink(String perm) {
-        this.permalink = perm.equals("") ? makePermalink(title) : makePermalink(perm);
-    }
-
-    /**
-     * @param text
-     * @return generated and safe permalink from text parameter
-     */
-    private String makePermalink(String text) {
-        String perme = text.trim().toLowerCase().replaceAll("\\s+", "_").replaceAll("\\W+", "").
-                replaceAll("_+", "-");
-        //check si le permalink est deja utilise, dans ce cas, on ajoute un int random au permalink tant qu'il existe
-//        System.out.println("this.getClass() : " + this.getClass());
-//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("icms-ejbPU");
-//        EntityManager em = emf.createEntityManager(); // Retrieve an application managed entity manager
-//
-//        Query queryByPermalink = em.createNamedQuery(
-//                this.getClass().toString() + ".findByPermalink");
-        int r = 0;
-//        List<Page> pages;
-//
-//        queryByPermalink.setParameter("perme", perme);
-//        pages = queryByPermalink.getResultList();
-//
-//        while (pages.size() > 0) {
-//            r = (int) (Math.random() * 1000);
-//            queryByPermalink.setParameter("perme", perme + r);
-//            pages = queryByPermalink.getResultList();
-//        }
-
-        return perme + (r == 0 ? "" : r);
-    }
-
-    /**
      * Generate intro from text parameter
      * @param text
      * @return a substring of text parameter
@@ -189,33 +179,5 @@ public class ArticlePage implements Serializable {
     private String makeIntro(String text) {
         text = text.trim().replaceAll("<\\/?p>", "");
         return "<p>" + text.substring(0, Math.min(text.length(), 59)) + "</p>";
-    }
-
-    /**
-     * @return the myChildren
-     */
-    public ArrayList<ArticlePage> getMyChildren() {
-        return myChildren;
-    }
-
-    /**
-     * @param myChildren the myChildren to set
-     */
-    public void setMyChildren(ArrayList<ArticlePage> myChildren) {
-        this.myChildren = myChildren;
-    }
-
-    /**
-     * @return the myParents
-     */
-    public ArrayList<ArticlePage> getMyParents() {
-        return myParents;
-    }
-
-    /**
-     * @param myParents the myParents to set
-     */
-    public void setMyParents(ArrayList<ArticlePage> myParents) {
-        this.myParents = myParents;
     }
 }

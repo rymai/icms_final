@@ -5,8 +5,6 @@
         <li>
             <h2>Menu</h2>
             <ul>
-                <li><a href="/icms-war/admin/categories">Cat&eacute;gories</a></li>
-                <li><a href="/icms-war/admin/sections">Sections</a></li>
                 <li><a href="/icms-war/admin/articles">Articles</a></li>
                 <li><a href="/icms-war/admin/users">Utilisateurs</a></li>
             </ul>

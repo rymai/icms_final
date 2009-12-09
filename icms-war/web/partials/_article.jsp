@@ -9,7 +9,7 @@
             translator = new TranslateHelper((String) request.getParameter("translate_to"));
         }
 %>
-<h2 class="title"><a href="/icms-war/article/art:<c:out value="${requestScope['article'].permalink}" escapeXml="true"/>">
+<h2 class="title"><a href="/icms-war/article/<c:out value="${requestScope['article'].permalink}" escapeXml="true"/>">
         <% if (translator != null) {
             out.write(translator.translateAndGet(a.getTitle()));
         } else {%>

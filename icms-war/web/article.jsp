@@ -1,7 +1,7 @@
 <%@page language="java" import="icms_ejb.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-    "http://www.w3.org/TR/html4/loose.dtd">
+"http://www.w3.org/TR/html4/loose.dtd">
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
     <head>
@@ -12,29 +12,14 @@
     </head>
     <body>
         <jsp:include page="header.jsp" />
-
         <h2>
-            <a href="/icms-war/article/cat:<c:out value="${requestScope['article'].mySection.myCategory.permalink}" escapeXml="true"/>" class="category"><c:out value="${requestScope['article'].mySection.myCategory.title}" escapeXml="true"/></a>
+            <a href="/icms-war/article/<c:out value="${requestScope['article'].myParent.permalink}" escapeXml="true"/>" class="category"><c:out value="${requestScope['article'].myParent.title}" escapeXml="true"/></a>
             &rsaquo;
-            <a href="/icms-war/article/sec:<c:out value="${requestScope['article'].mySection.permalink}" escapeXml="true"/>" class="section"><c:out value="${requestScope['article'].mySection.title}" escapeXml="true"/></a>
+            <a href="/icms-war/article/<c:out value="${requestScope['article'].myParent.permalink}" escapeXml="true"/>" class="section"><c:out value="${requestScope['article'].myParent.title}" escapeXml="true"/></a>
         </h2>
         
-        <div class="post">
-            <jsp:include page="partials/_article.jsp" />
-        </div>
+        <jsp:include page="article_template.jsp" />
 
-        <form id="translate" action="/icms-war/article/art:<c:out value="${requestScope['article'].permalink}" escapeXml="true"/>">
-            <select id="translate_to" name="translate_to">
-                <option value="en">English</option>
-                <option value="es">Spanish</option>
-                <option value="it">Italian</option>
-            </select>
-            <input type="submit" value="Translate now!" />
-        </form>
-
-        <div class="spinner" id="translate_spinner"></div>
-        <div id="translation" class="post translation">
-        </div>
 
         <jsp:include page="footer.jsp" />
     </body>

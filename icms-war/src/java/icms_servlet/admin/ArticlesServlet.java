@@ -3,6 +3,8 @@ package icms_servlet.admin;
 import icms_ejb.*;
 import icms_servlet.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -26,35 +28,47 @@ public class ArticlesServlet extends HttpServlet {
 
         // Priority for the action parameter passed by the page, not by the servlet config
         int action = request.getParameter("action") != null ? Integer.parseInt(request.getParameter(
-                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.
-                parseInt(getServletConfig().
+                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.parseInt(getServletConfig().
                 getInitParameter("action")) : -1;
 
         switch (action) {
+
             case Config.CREATE:
+                int sec = 0;
+                if (Integer.parseInt(request.getParameter("section_id")) != 0) {
+                    sec = gestionnairePages.findArticle(Integer.parseInt(request.getParameter("section_id"))).getId();
+                }
+
                 gestionnairePages.createArticle(request.getParameter("title"),
-                                                request.getParameter("permalink"),
-                                                request.getParameter("intro"),
-                                                request.getParameter("content"),
-                                                Integer.parseInt(
-                        request.getParameter("section_id")));
+                        request.getParameter("permalink"),
+                        request.getParameter("intro"),
+                        request.getParameter("content"),
+                        sec);
                 response.sendRedirect("/icms-war/articles");
                 return;
 
 
             case Config.EDIT:
-                ArticlePage articleEdit = gestionnairePages.findArticle(Integer.parseInt(request.
-                        getParameter("id")));
+                ArticlePage articleEdit = gestionnairePages.findArticle(Integer.parseInt(request.getParameter("id")));
                 request.setAttribute("article", articleEdit);
-                request.setAttribute("listeSections", gestionnairePages.allSections());
+                List<ArticlePage> listeArticles = gestionnairePages.allArticles();
+
+                listeArticles.remove(articleEdit);
+
+                request.setAttribute("listeArticles", listeArticles);
                 page = "admin/article_edit.jsp";
                 break;
 
             case Config.UPDATE:
+                int secUp = 0;
+                if (Integer.parseInt(request.getParameter("section_id")) != 0) {
+                    secUp = gestionnairePages.findArticle(Integer.parseInt(request.getParameter("section_id"))).getId();
+                }
+
                 gestionnairePages.updateArticle(Integer.parseInt(request.getParameter("id")),
-                                                request.getParameter("title"), request.getParameter(
+                        request.getParameter("title"), request.getParameter(
                         "permalink"), request.getParameter("intro"), request.getParameter("content"),
-                                                Integer.parseInt(request.getParameter("section_id")));
+                        secUp);
                 page = "admin/articles.jsp";
                 break;
 
@@ -63,16 +77,15 @@ public class ArticlesServlet extends HttpServlet {
                 break;
 
             default:
-//                 gestionnairePages.createCategory("essai 1", "essai1", "blabla", "essai1");
-//                 gestionnairePages.createSection("essai 1", "essai1", "blabla", "essai1", gestionnairePages.findCategoryByTitle("essai 1"));
-                request.setAttribute("listeSections", gestionnairePages.allSections());
+                request.setAttribute("listeArticles", gestionnairePages.allArticles());
 
                 page = "admin/articles.jsp"; // render
                 break;
         }
 
-        request.setAttribute("listeCategories", gestionnairePages.allCategories());
+        request.setAttribute("listeCategories", gestionnairePages.findRoot());
         request.setAttribute("listeArticles", gestionnairePages.allArticles());
+
         RequestDispatcher dp = request.getRequestDispatcher("/" + page);
         dp.forward(request, response);
     }

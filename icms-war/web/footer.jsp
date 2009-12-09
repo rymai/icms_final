@@ -6,7 +6,7 @@
             <h2>Categories</h2>
             <ul>
                 <c:forEach var="c" items="${requestScope['listeCategories']}">
-                    <li><a href="/icms-war/article/cat:${c.permalink}">${c.title}</a></li>
+                    <li><a href="/icms-war/article/${c.permalink}">${c.title}</a></li>
                 </c:forEach>
             </ul>
         </li>

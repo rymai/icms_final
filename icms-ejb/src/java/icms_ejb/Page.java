@@ -52,7 +52,7 @@ public class Page implements Serializable {
     @ManyToOne
     private Page myParent;
 
-    // Ne pas supprimer ^^
+    // Ne pas supprimer, sinon erreur Toplink
     public Page() {
     }
 
@@ -192,6 +192,10 @@ public class Page implements Serializable {
         return myParent != null;
     }
 
+    /**
+     * Not fully-implemented yet
+     * @return always true for now
+     */
     public boolean hasChildren() {
 //        return !new GestionnairePagesBean().children(id).isEmpty();
         return true;

@@ -27,6 +27,7 @@ public class User implements Serializable {
     private String password;
     private String lvl;
 
+    // Ne pas supprimer, sinon erreur Toplink
     public User() {
     }
 

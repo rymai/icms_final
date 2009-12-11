@@ -14,6 +14,21 @@ public class TranslateHelper {
     SoapStub.Translate translate_config;
     String appID, langFrom, langTo, lastTranslation;
 
+    public TranslateHelper() {
+        init();
+    }
+
+    public TranslateHelper(String to) {
+        init();
+        setLangTo(to);
+    }
+
+    public TranslateHelper(String from, String to) {
+        init();
+        setLangFrom(from);
+        setLangTo(to);
+    }
+    
     private void init() {
         translate_config = new SoapStub.Translate();
         appID = "BD061A8446F9FA67F9CD39B278237C98599FAFEA";
@@ -35,21 +50,6 @@ public class TranslateHelper {
 
     public String getLastTranslation() {
         return lastTranslation;
-    }
-    
-    public TranslateHelper() {
-        init();
-    }
-
-    public TranslateHelper(String to) {
-        init();
-        setLangTo(to);
-    }
-
-    public TranslateHelper(String from, String to) {
-        init();
-        setLangFrom(from);
-        setLangTo(to);
     }
 
     public void translate(String text) {

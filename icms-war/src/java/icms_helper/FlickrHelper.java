@@ -27,7 +27,6 @@ public class FlickrHelper {
     public FlickrHelper(ArrayList<String> search_terms) {
         try {
             this.searchTerms = search_terms;
-//            this.searchTerms.add(0, "");
             this.flickr = new Flickr(FLICKR_KEY, FLICKR_SECRET, new REST());
             searchFlickr();
         } catch (ParserConfigurationException ex) {
@@ -36,9 +35,9 @@ public class FlickrHelper {
     }
 
     public void searchFlickr() {
-        PhotoList photoList = getPhotoList(2);
+        PhotoList photoList = getPhotoList(1);
         while (photoList.isEmpty() && !searchTerms.isEmpty()) {
-            photoList = getPhotoList(3);
+            photoList = getPhotoList(2);
         }
 
         int i = 0;
@@ -90,8 +89,8 @@ public class FlickrHelper {
             for (int j = 0; j < terms_count && j < searchTerms.size(); j++) {
                 tmp += searchTerms.get(j) + ",";
                 tmp_arr[j] = searchTerms.get(j);
-                searchTerms.remove(j);
             }
+            searchTerms.remove(0);
             sp.setTags(tmp_arr);
             sp.setText(tmp);
             System.out.println("Searching on : " + tmp);

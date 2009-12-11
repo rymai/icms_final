@@ -56,20 +56,5 @@ function connectItems(service){
             connectId: [dojo.byId("thumb_"+node.id)],
             label: dojo.byId("description_"+node.id).innerHTML
         });
-
-//        dojo.connect(dojo.byId("thumb_"+node.id), "onclick", function(e){
-//            e.preventDefault();
-//            dojo.query(".masterpiece").map(function(node){
-//                if(!dojo.hasClass(node, "hidden")) dojo.addClass(node, "hidden");
-//            });
-//
-//            dojo.query("."+service+"_thumb").map(function(node){
-//                if(dojo.hasClass(node, "hidden")) dojo.removeClass(node, "hidden");
-//            });
-//
-//            dojo.removeClass("masterpiece_"+node.id, "hidden");
-//            dojo.addClass("thumb_"+node.id, "hidden");
-//            console.info(dojo.hasClass("masterpiece_"+node.id, "hidden"));
-//        });
     });
 }

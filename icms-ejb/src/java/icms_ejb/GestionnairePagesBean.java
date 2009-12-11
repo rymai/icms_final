@@ -44,6 +44,11 @@ public class GestionnairePagesBean implements GestionnairePagesLocal {
         return em.createNamedQuery("Page.findAllArticles").getResultList();
     }
 
+    /**
+     * Find a page (root, section or article) by its id
+     * @param id
+     * @return
+     */
     public Page find(int id) {
         if (id != 0) {
             return em.find(Page.class, id);
@@ -52,6 +57,11 @@ public class GestionnairePagesBean implements GestionnairePagesLocal {
         }
     }
 
+    /**
+     * Find a page (root, section or article) by its permalink
+     * @param perme
+     * @return Page instance or null
+     */
     public Page findByPermalink(String perme) {
         Query queryPagesByPermalink = em.createNamedQuery("Page.findByPermalink");
         queryPagesByPermalink.setParameter("perme", perme);
@@ -63,16 +73,26 @@ public class GestionnairePagesBean implements GestionnairePagesLocal {
         }
     }
 
-    public List<Page> children(int parent) {
+    /**
+     * Find all pages that are children of the page with id parent_id
+     * @param parent id of the parent page
+     * @return List<Page>
+     */
+    public List<Page> children(int parent_id) {
         Query queryAllChildren = em.createNamedQuery("Page.findAllChildren");
-        queryAllChildren.setParameter("parent_id", find(parent));
+        queryAllChildren.setParameter("parent_id", find(parent_id));
         List<Page> articles = queryAllChildren.getResultList();
         return articles;
     }
 
-    public Page parent(int page) {
+    /**
+     * Find the parent of the page with id child_id
+     * @param page
+     * @return Page instance or null
+     */
+    public Page parent(int child_id) {
         Query queryFindParent = em.createNamedQuery("Page.findParent");
-        queryFindParent.setParameter("id", find(page));
+        queryFindParent.setParameter("id", find(child_id));
         List<Page> pageParente = queryFindParent.getResultList();
         if (pageParente.size() == 1) {
             return pageParente.get(0);

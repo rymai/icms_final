@@ -31,24 +31,26 @@ public class Page implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    protected Integer id;
+    private Integer id;
     @Column(nullable = false)
-    protected String title;
+    private String title;
     @Column(unique = true)
-    protected String permalink;
-    protected String intro;
+    private String permalink;
+    private String intro;
     @Column(length = 1000)
-    protected String content;
-    @Column(name = "created_at")
+    private String content;
+    @Column(name = "PREFERED_SEX")
+    private String preferedSex;
+    @Column(name = "CREATED_AT")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-    @Column(name = "published_at")
+    @Column(name = "PUBLISHED_AT")
     @Temporal(TemporalType.TIMESTAMP)
     private Date publishedAt;
-    @Column(name = "updated_at")
+    @Column(name = "UPDATED_AT")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
-    @JoinColumn(name = "my_parent")
+    @JoinColumn(name = "MY_PARENT")
     @ManyToOne
     private Page myParent;
 
@@ -56,29 +58,35 @@ public class Page implements Serializable {
     public Page() {
     }
 
-    public Page(String title, String permalink, String intro, String content,
+    public Page(String title, String permalink, String intro, String content, String prefered_sex,
                 Page parent) {
         setTitle(title);
         setPermalink(permalink);
-        setContent(content);
         setIntro(intro);
+        setContent(content);
+        setPreferedSex(prefered_sex);
         createdAt = GregorianCalendar.getInstance().getTime();
         publishedAt = GregorianCalendar.getInstance().getTime();
         updatedAt = GregorianCalendar.getInstance().getTime();
         myParent = parent;
     }
 
-    public void update(String title, String permalink, String intro, String content,
+    public void update(String title, String permalink, String intro, String content, String prefered_sex,
                        Page parent) {
         setTitle(title);
         setPermalink(permalink);
-        setContent(content);
         setIntro(intro);
+        setContent(content);
+        setPreferedSex(prefered_sex);
         updatedAt = GregorianCalendar.getInstance().getTime();
         myParent = parent;
 
     }
 
+    public String getPreferedSex() {
+        return preferedSex;
+    }
+    
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -89,33 +97,6 @@ public class Page implements Serializable {
 
     public Date getUpdatedAt() {
         return updatedAt;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (getId() != null ? getId().hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Page)) {
-            return false;
-        }
-        Page other = (Page) object;
-        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.
-                equals(
-                other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Page[id=" + getId() + "]";
     }
 
     public ArrayList<String> getTermsForSearch() {
@@ -138,7 +119,7 @@ public class Page implements Serializable {
     /**
      * @param myParent the myParent to set
      */
-    public void setMyParent(Page myParent) {
+    private void setMyParent(Page myParent) {
         this.myParent = myParent;
     }
 
@@ -178,6 +159,10 @@ public class Page implements Serializable {
         this.permalink = perm;
     }
 
+    public void setPreferedSex(String prefered_sex) {
+        this.preferedSex = prefered_sex;
+    }
+
     /**
      * Generate intro from text parameter
      * @param text
@@ -199,5 +184,32 @@ public class Page implements Serializable {
     public boolean hasChildren() {
 //        return !new GestionnairePagesBean().children(id).isEmpty();
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (getId() != null ? getId().hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Page)) {
+            return false;
+        }
+        Page other = (Page) object;
+        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.
+                equals(
+                other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Page[id=" + getId() + "]";
     }
 }

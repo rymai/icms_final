@@ -7,11 +7,11 @@ import javax.ejb.Local;
 public interface GestionnairePagesLocal {
 
     // CRUD
-    public void create(String title, String permalink, String intro, String content,
+    public void create(String title, String permalink, String intro, String content, String prefered_sex,
                               int parent_id);
 
     public boolean update(int id, String title, String permalink, String intro,
-                                 String content, int parent_id);
+                                 String content, String prefered_sex, int parent_id);
 
     public void delete(int id);
 

@@ -45,8 +45,9 @@ public class PagesServlet extends HttpServlet {
                                          request.getParameter("permalink"),
                                          request.getParameter("intro"),
                                          request.getParameter("content"),
+                                         request.getParameter("prefered_sex"),
                                          sec);
-                response.sendRedirect("/icms-war/articles");
+                response.sendRedirect("/icms-war/admin/articles");
                 return;
 
 
@@ -69,8 +70,11 @@ public class PagesServlet extends HttpServlet {
                 }
 
                 gestionnairePages.update(Integer.parseInt(request.getParameter("id")),
-                                         request.getParameter("title"), request.getParameter(
-                        "permalink"), request.getParameter("intro"), request.getParameter("content"),
+                                         request.getParameter("title"),
+                                         request.getParameter("permalink"),
+                                         request.getParameter("intro"),
+                                         request.getParameter("content"),
+                                         request.getParameter("prefered_sex"),
                                          secUp);
                 page = "admin/articles.jsp";
                 break;

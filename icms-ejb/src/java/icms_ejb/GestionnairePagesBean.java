@@ -102,18 +102,20 @@ public class GestionnairePagesBean implements GestionnairePagesLocal {
     }
 
     public void create(String title, String permalink, String intro, String content,
-                              int parent_id) {
-        Page a = new Page(title, setPermalink(permalink, title, -1), intro, content,
-                                        find(parent_id));
+                       String prefered_sex,
+                       int parent_id) {
+        Page a = new Page(title, setPermalink(permalink, title, -1), intro, content, prefered_sex,
+                          find(parent_id));
         em.persist(a);
         em.flush();
     }
 
     public boolean update(int id, String title, String permalink, String intro,
-                                 String content, int parent_id) {
+                          String content, String prefered_sex, int parent_id) {
         Page a = find(id);
 
-        a.update(title, setPermalink(permalink, title, id), intro, content, find(parent_id));
+        a.update(title, setPermalink(permalink, title, id), intro, content, prefered_sex, find(
+                parent_id));
         try {
             em.merge(a);
             return true;

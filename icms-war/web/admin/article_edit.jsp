@@ -21,7 +21,7 @@
                 <input type="hidden" id="id" name="id" value="<c:out value="${requestScope['article'].id}" />" />
                 <label for="section_id">Section :</label>
                 <select name="section_id" title="section_id" id="section_id">
-                       <option value="0">Pas de parent</option>
+                    <option value="0">Pas de parent</option>
                     <option value="<c:out value="${requestScope['article'].myParent.id}" escapeXml="false"/>" selected="selected"><c:out value="${requestScope['article'].myParent.title}" escapeXml="false"/></option>
                     <c:forEach var="u" items="${requestScope['listePages']}">
                         <option value="${u.id}">${u.title}</option>
@@ -31,8 +31,16 @@
                 <label for="title">Titre de l'article :</label>
                 <input type="text" id="title" name="title" value="<c:out value="${requestScope['article'].title}" escapeXml="false"/>">
                 <br />
-                <label for="permalnk">Permalink :</label>
+                <label for="permalink">Permalink :</label>
                 <input type="text" id="permalink" name="permalink" value="<c:out value="${requestScope['article'].permalink}" escapeXml="false"/>"> (auto-g&eacute;n&eacute;r&eacute; par d&eacute;faut)
+                <br />
+                <label for="prefered_sex">Sexe vis&eacute; :</label>
+                <select name="prefered_sex" title="prefered_sex" id="prefered_sex">
+                    <option value="<c:out value="${requestScope['article'].preferedSex}" escapeXml="false"/>" selected="selected"><c:out value="${requestScope['article'].preferedSex}" escapeXml="false"/></option>
+                    <option value="none">Pas de sexe vis&eacute;</option>
+                    <option value="male">Homme</option>
+                    <option value="female">Femme</option>
+                </select>
                 <br />
                 <label for="intro">Intro :</label>
                 <textarea id="intro" name="intro" rows="5" cols="80" ><c:out value="${requestScope['article'].intro}" escapeXml="false"/></textarea>

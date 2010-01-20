@@ -6,8 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Articles</title>
-    <link href="/icms-war/stylesheets/style.css" rel="stylesheet" type="text/css" media="screen" />
-    <link href="http://ajax.googleapis.com/ajax/libs/dojo/1.3/dijit/themes/tundra/tundra.css" rel="stylesheet" type="text/css" />
+    <jsp:include page="partials/_head.jsp" />
   </head>
   <body>
     <jsp:include page="header.jsp" />

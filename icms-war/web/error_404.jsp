@@ -5,7 +5,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Ressource non existante!</title>
-        <link href="/icms-war/stylesheets/style.css" rel="stylesheet" type="text/css" media="screen" />
+        <jsp:include page="partials/_head.jsp" />
     </head>
     <body>
         <jsp:include page="header.jsp" />

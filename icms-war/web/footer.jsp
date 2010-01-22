@@ -21,5 +21,9 @@
 </div>
 <!-- end #footer -->
 
-<script type="text/javascript" src="/icms-war/js/dojo/dojo.js" djConfig="parseOnLoad:true"></script>
+<%--<script type="text/javascript" src="/icms-war/js/dojo/dojo.js" djConfig="parseOnLoad:true"></script>--%>
+<script type="text/javascript" src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php/en_US"></script>
+<script type="text/javascript">FB.init("40a01944f542b07841734091b413f956");</script>
+<script type="text/javascript" src="/icms-war/js/jquery-1.4.min.js"></script>
+<script type="text/javascript" src="/icms-war/js/fb.js"></script>
 <script type="text/javascript" src="/icms-war/js/behaviours.js"></script>

@@ -31,7 +31,8 @@ public class PagesServlet extends HttpServlet {
 
         // Priority for the action parameter passed by the page, not by the servlet config
         int action = request.getParameter("action") != null ? Integer.parseInt(request.getParameter(
-                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.parseInt(getServletConfig().
+                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.
+                parseInt(getServletConfig().
                 getInitParameter("action")) : -1;
 
         switch (action) {
@@ -46,13 +47,15 @@ public class PagesServlet extends HttpServlet {
                     Page myParent = ((Page) pageLoad).getMyParent();
                     if (myChildren == null || myChildren.size() == 0) {
                         request.setAttribute("article", pageLoad);
-                        page = (request.getHeader("x-requested-with") != null && request.getHeader("x-requested-with").equals("XMLHttpRequest")) ? "partials/_article.jsp" : "article.jsp";
+                        page = (request.getHeader("x-requested-with") != null && request.getHeader(
+                                "x-requested-with").equals("XMLHttpRequest")) ? "partials/_article.jsp" : "article.jsp";
                     } else if (myParent != null) {
                         request.setAttribute("article", pageLoad);
                         List<Page> sections = new ArrayList<Page>();
                         List<Page> articles = new ArrayList<Page>();
                         for (Page a : myChildren) {
-                            if (gestionnairePages.children(a.getId()) != null && gestionnairePages.children(a.getId()).size() > 0) {
+                            if (gestionnairePages.children(a.getId()) != null && gestionnairePages.
+                                    children(a.getId()).size() > 0) {
                                 sections.add(a);
                             } else {
                                 articles.add(a);
@@ -63,7 +66,8 @@ public class PagesServlet extends HttpServlet {
                         page = "section.jsp";
                     } else if (myParent == null) {
                         request.setAttribute("article", pageLoad);
-                        request.setAttribute("listeSections", gestionnairePages.children(pageLoad.getId()));
+                        request.setAttribute("listeSections", gestionnairePages.children(pageLoad.
+                                getId()));
                         page = "category.jsp";
 
 //                      request.setAttribute("translate_to", request.getParameter("translate_to"));
@@ -72,8 +76,9 @@ public class PagesServlet extends HttpServlet {
                     } else {
                         page = "articles"; // redirect
                     }
+                } else {
+                    page = "error_404";
                 }
-                else page = "error_404";
                 break;
 
             default:
@@ -98,7 +103,7 @@ public class PagesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException,
-            IOException {
+                   IOException {
         processRequest(request, response);
     }
 
@@ -112,7 +117,7 @@ public class PagesServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException,
-            IOException {
+                   IOException {
         processRequest(request, response);
     }
 

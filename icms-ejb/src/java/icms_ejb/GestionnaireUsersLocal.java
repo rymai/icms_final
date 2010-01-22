@@ -8,19 +8,23 @@ public interface GestionnaireUsersLocal {
 
     public void creerAdmin();
 
+    // CRUD
     public void create(String login, String password, String level);
 
     public void update(int id, String login, String password, String level);
 
     public void destroy(int id);
-
-    public List<User> all();
-
+    
+    // Find one
     public User find(int id);
-
-    public List<User> findAdmins();
 
     public User findUserByLoginAndPassword(String login, String password);
 
     public User findAdminByLoginAndPassword(String login, String password);
+
+    // Find many
+    public List<User> all();
+
+    public List<User> findAdmins();
+
 }

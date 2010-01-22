@@ -57,6 +57,7 @@ function connectItems(service){
             label: dojo.byId("description_"+node.id).innerHTML
         });
 
+
 //        dojo.connect(dojo.byId("thumb_"+node.id), "onclick", function(e){
 //            e.preventDefault();
 //            dojo.query(".masterpiece").map(function(node){

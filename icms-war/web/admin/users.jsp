@@ -2,49 +2,60 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-  "http://www.w3.org/TR/html4/loose.dtd">
+    "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Admin > Utilisateurs</title>
-    <link href="/icms-war/stylesheets/style.css" rel="stylesheet" type="text/css" media="screen" />
-  </head>
-  <body>
-    <jsp:include page="../header.jsp" />
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Admin > Utilisateurs</title>
+        <jsp:include page="/partials/_head.jsp" />
+    </head>
+    <body>
+        <jsp:include page="../header.jsp" />
 
-    <h2><a href="" class="category">Utilisateurs</a></h2>
+        <h2><a href="" class="category">Utilisateurs</a></h2>
 
-    <table border="1">
-      <tr>
-        <td><b>Login</b></td>
-        <td><b>Password</b></td>
-        <td><b>Level</b></td>
-      </tr>
+        <table border="1">
+            <tr>
+                <td><strong>Login</strong></td>
+                <td><strong>Password</strong></td>
+                <td><strong>Level</strong></td>
+                <td><strong>Supprimer</strong></td>
+            </tr>
 
-      <c:forEach var="u" items="${requestScope['listeUsers']}">
-        <tr>
-          <td>${u.login}</td>
-          <td>${u.password}</td>
-          <td>${u.lvl}</td>
-        </tr>
-      </c:forEach>
-    </table>
+            <c:forEach var="u" items="${requestScope['listUsers']}">
+                <tr>
+                    <td><a href="/icms-war/admin/users?action=<%=Config.EDIT%>&id=${u.id}">${u.login}</a></td>
+                    <td>${u.password}</td>
+                    <td>${u.lvl}</td>
+                    <td><a href="/icms-war/admin/users?action=<%=Config.DESTROY%>&id=${u.id}"> X </a></td>
+                </tr>
+            </c:forEach>
+        </table>
 
-    <br />
-    <h3>Nouvel utilisateur</h3>
-    <form method="post" action="/icms-war/admin/users">
-      <input type="hidden" id="action" name="action" value="<%= Config.CREATE%>" />
-      <label for="login">Login :</label>
-      <input type="text" id="login" name="login">
-      <br />
-      <label for="password">Password :</label>
-      <input type="text" id="password" name="password">
-      <br />
-      <label for="level">Level :</label>
-      <input type="text" id="level" name="level">
-      <input type="submit" name="save" value="Valider" />
-    </form>
+        <br />
+        <h3>Nouvel utilisateur</h3>
+        <form method="post" action="/icms-war/admin/users">
+            <input type="hidden" id="action" name="action" value="<%= Config.CREATE%>" />
 
-    <jsp:include page="footer_admin.jsp" />
-  </body>
+            <table>
+                <tr>
+                    <td><label for="login">Login :</label></td>
+                    <td><input type="text" id="login" name="login"></td>
+                </tr>
+                <tr>
+                    <td><label for="password">Password :</label></td>
+                    <td><input type="text" id="password" name="password"></td>
+                </tr>
+                <tr>
+                    <td><label for="level">Level :</label></td>
+                    <td><input type="text" id="level" name="level"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" name="save" value="Valider" /></td>
+                </tr>
+            </table>
+        </form>
+
+        <jsp:include page="footer_admin.jsp" />
+    </body>
 </html>

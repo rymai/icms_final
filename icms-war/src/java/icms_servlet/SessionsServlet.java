@@ -30,7 +30,7 @@ public class SessionsServlet extends HttpServlet {
             case Config.CREATE:
                 User user = gestionnaireUsers.findAdminByLoginAndPassword(request.getParameter(
                         "login"),
-                                                                         request.getParameter(
+                                                                          request.getParameter(
                         "password"));
                 if (user != null) {
                     setUserToSession(user);
@@ -64,7 +64,7 @@ public class SessionsServlet extends HttpServlet {
         return request.getSession(true);
     }
 
-    public void setUserToSession(User user) {
+    public static void setUserToSession(User user) {
         session.setAttribute("user_id", user.getId());
     }
 

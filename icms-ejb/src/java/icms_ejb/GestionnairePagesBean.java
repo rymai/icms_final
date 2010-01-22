@@ -124,7 +124,7 @@ public class GestionnairePagesBean implements GestionnairePagesLocal {
         }
     }
 
-    public void delete(int id) {
+    public void destroy(int id) {
         Page a = find(id);
         em.remove(em.merge(a));
     }

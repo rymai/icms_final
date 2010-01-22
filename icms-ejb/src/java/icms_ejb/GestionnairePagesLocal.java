@@ -13,7 +13,7 @@ public interface GestionnairePagesLocal {
     public boolean update(int id, String title, String permalink, String intro,
                                  String content, String prefered_sex, int parent_id);
 
-    public void delete(int id);
+    public void destroy(int id);
 
     // Find one
     public Page find(int id);

@@ -10,9 +10,9 @@ var markup = "";
 var api = null;
 
 $(document).ready(function () {
-//    $("div.post").each(function(i, el){
-//        $(el).hide();
-//    });
+    //    $("div.post").each(function(i, el){
+    //        $(el).hide();
+    //    });
 
     FB.ensureInit(function () {
         FB.Facebook.get_sessionState().waitUntilReady(function() {
@@ -25,8 +25,7 @@ $(document).ready(function () {
                 '<fb:login-button v="2" size="xlarge" onlogin="window.location.reload(true);">Se connecter</fb:login-button>';
             } else {
                 user.id = session.uid;
-                markup +=
-                '<fb:profile-pic size="square" uid="'+user.id+'" facebook-logo="true"></fb:profile-pic>';
+                markup += '<fb:profile-pic size="square" uid="'+user.id+'" facebook-logo="true"></fb:profile-pic>';
                 markup += '<br />Bienvenue <fb:name uid="'+user.id+'" useyou="false" linked="true"></fb:name> !!';
             }
             var sequencer = new FB.BatchSequencer();
@@ -35,20 +34,21 @@ $(document).ready(function () {
             sequencer.execute(function() {
                 user.sex = pendingUserInfos.result[0].sex;
                 user.relationship_status = pendingUserInfos.result[0].relationship_status;
-                $("#user_infos").html(markup + "<br />["+user.id+"] You're a " + user.sex + " and you're " + user.relationship_status + " !!");
-                
-                $("span.prefered_sex").each(function(i, el){
-                    //                    console.info("e.innerText : "+el.innerText);
-                    //                    console.info("user.sex : "+user.sex);
-                    //                    console.info($(el).parent());
-                    if(el.innerText == user.sex || el.innerText == "none") {
-                        $(el).parent().show();
-                    }
-                });
+                $("#user_infos").html(markup + "<br />You're a " + user.relationship_status + " " + user.sex + ".");
+
+                sortArticlesByPreferedSex();
             });            
         });
     });
 });
+
+function sortArticlesBtPreferedSex() {
+    $("span.prefered_sex").each(function(i, el){
+        if(el.innerText == user.sex || el.innerText == "none") {
+            $(el).parent().show();
+        }
+    });
+}
 
 //dojo.require("dijit._base.scroll");
 //dojo.require("dijit.Dialog");

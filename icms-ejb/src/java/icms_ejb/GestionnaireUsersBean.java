@@ -30,7 +30,7 @@ public class GestionnaireUsersBean implements GestionnaireUsersLocal {
         em.remove(em.merge(u));
     }
 
-        /**
+    /**
      * Find all users
      * @return
      */
@@ -71,8 +71,7 @@ public class GestionnaireUsersBean implements GestionnaireUsersLocal {
     public User findUserByLoginAndPassword(String login, String password) {
         Query queryUserByLoginAndPassword = em.createNamedQuery("Users.findByLoginAndPassword");
         queryUserByLoginAndPassword.setParameter("login", login);
-        queryUserByLoginAndPassword.setParameter("password", password);
-
+        queryUserByLoginAndPassword.setParameter("password", User.encryptPassword(password));
         try {
             return (User) queryUserByLoginAndPassword.getSingleResult();
         } catch (Exception e) {
@@ -89,9 +88,8 @@ public class GestionnaireUsersBean implements GestionnaireUsersLocal {
     public User findAdminByLoginAndPassword(String login, String password) {
         Query queryUserByLoginAndPassword = em.createNamedQuery("Users.findByLoginAndPasswordAndLvl");
         queryUserByLoginAndPassword.setParameter("login", login);
-        queryUserByLoginAndPassword.setParameter("password", password);
+        queryUserByLoginAndPassword.setParameter("password", User.encryptPassword(password));
         queryUserByLoginAndPassword.setParameter("lvl", "99");
-
         try {
             return (User) queryUserByLoginAndPassword.getSingleResult();
         } catch (Exception e) {

@@ -5,7 +5,15 @@
         <li>
             <h2>Categories</h2>
             <ul>
-                <c:forEach var="c" items="${requestScope['listeCategories']}">
+                <c:forEach var="c" items="${requestScope['listCategories']}">
+                    <li><a href="/icms-war/article/${c.permalink}">${c.title}</a></li>
+                </c:forEach>
+            </ul>
+        </li>
+        <li>
+            <h2>Publicit&eacute;s</h2>
+            <ul>
+                <c:forEach var="c" items="${requestScope['listAdvertisements']}">
                     <li><a href="/icms-war/article/${c.permalink}">${c.title}</a></li>
                 </c:forEach>
             </ul>

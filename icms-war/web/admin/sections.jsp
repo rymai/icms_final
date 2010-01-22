@@ -15,14 +15,14 @@
 
         <h2><a href="" class="category">Sections</a></h2>
         <br />
-        <div id="listeSections">
+        <div id="listSections">
             <table border="1">
                 <tr>
                     <td>Titre</td>
                     <td>Cat&eacute;gorie</td>
                     <td>Supprimer</td>
                 </tr>
-                <c:forEach var="u" items="${requestScope['listeSections']}">
+                <c:forEach var="u" items="${requestScope['listSections']}">
                     <tr>
                         <td><a href="/icms-war/admin/sections?action=<%=Config.EDIT%>&id=${u.id}">${u.title}</a></td>
                         <td>${u.myCategory.title}</td>
@@ -40,7 +40,7 @@
 
                 <label for="category_id">Cat&eacute;gorie :</label>
                 <select name="category_id" id="category_id">
-                    <c:forEach var="u" items="${requestScope['listeCategories']}">
+                    <c:forEach var="u" items="${requestScope['listCategories']}">
                         <option value="${u.id}">${u.title}</option>
                     </c:forEach>
                 </select>

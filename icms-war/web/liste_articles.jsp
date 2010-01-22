@@ -1,7 +1,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <div class="posts">
     <h3>Les articles :</h3>
-    <c:forEach var="a" items="${requestScope['listePages']}">
+    <c:forEach var="a" items="${requestScope['listPages']}">
         <div class="post" style="display:none;">
             <span class="prefered_sex">${a.preferedSex}</span>
             <h2 class="title"><a href="/icms-war/article/${a.permalink}">${a.title}</a></h2>

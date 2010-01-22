@@ -7,6 +7,7 @@
             <ul>
                 <li><a href="/icms-war/admin/articles">Articles</a></li>
                 <li><a href="/icms-war/admin/users">Utilisateurs</a></li>
+                <li><a href="/icms-war/admin/advertisements">Publicit&eacute;s</a></li>
             </ul>
         </li>
     </ul>

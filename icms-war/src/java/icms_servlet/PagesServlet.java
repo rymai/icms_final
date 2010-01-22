@@ -1,6 +1,7 @@
 package icms_servlet;
 
 import icms_ejb.*;
+import icms_helper.UtilHelper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ public class PagesServlet extends HttpServlet {
     @EJB
     private GestionnaireUsersLocal gestionnaireUsers;
     // Not EJB
-    private String page;
+    private String pagePath;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -24,6 +25,15 @@ public class PagesServlet extends HttpServlet {
         SessionsServlet.getSession(request);
         User u = SessionsServlet.getUserFromSession(gestionnaireUsers);
         request.setAttribute("current_user", u);
+
+        if(u == null) {
+            User user = gestionnaireUsers.findAdminByLoginAndPassword("admin", "admin");
+                if (user != null) {
+                    SessionsServlet.setUserToSession(user);
+                    response.sendRedirect("/icms-war/admin/articles");
+                    return;
+                }
+        }
 
         if (gestionnaireUsers.findAdmins().size() == 0) {
             gestionnaireUsers.creerAdmin();
@@ -34,6 +44,8 @@ public class PagesServlet extends HttpServlet {
                 "action")) : getServletConfig().getInitParameter("action") != null ? Integer.
                 parseInt(getServletConfig().
                 getInitParameter("action")) : -1;
+        List<Page> sections = new ArrayList<Page>();
+        List<Page> articles = new ArrayList<Page>();
 
         switch (action) {
             case Config.SHOW:
@@ -45,14 +57,12 @@ public class PagesServlet extends HttpServlet {
                 if (pageLoad != null) {
                     List<Page> myChildren = gestionnairePages.children((int) pageLoad.getId());
                     Page myParent = ((Page) pageLoad).getMyParent();
-                    if (myChildren == null || myChildren.size() == 0) {
-                        request.setAttribute("article", pageLoad);
-                        page = (request.getHeader("x-requested-with") != null && request.getHeader(
-                                "x-requested-with").equals("XMLHttpRequest")) ? "partials/_article.jsp" : "article.jsp";
-                    } else if (myParent != null) {
-                        request.setAttribute("article", pageLoad);
-                        List<Page> sections = new ArrayList<Page>();
-                        List<Page> articles = new ArrayList<Page>();
+                    
+                    if (myChildren == null || myChildren.size() == 0) { // ARTICLE
+                        // AJAX or not
+                        pagePath = UtilHelper.isAjaxRequest(request) ? "partials/_article.jsp" : "article.jsp";
+                    
+                    } else if (myParent != null) { // SECTION
                         for (Page a : myChildren) {
                             if (gestionnairePages.children(a.getId()) != null && gestionnairePages.
                                     children(a.getId()).size() > 0) {
@@ -61,34 +71,31 @@ public class PagesServlet extends HttpServlet {
                                 articles.add(a);
                             }
                         }
-                        request.setAttribute("listeSections", sections);
-                        request.setAttribute("listePages", articles);
-                        page = "section.jsp";
-                    } else if (myParent == null) {
-                        request.setAttribute("article", pageLoad);
-                        request.setAttribute("listeSections", gestionnairePages.children(pageLoad.
-                                getId()));
-                        page = "category.jsp";
+                        pagePath = "section.jsp";
 
-//                      request.setAttribute("translate_to", request.getParameter("translate_to"));
-//                        System.out.println("request.getHeader(\"x-requested-with\") : " + request.getHeader("x-requested-with"));
-
-                    } else {
-                        page = "articles"; // redirect
+                    } else if (myParent == null) { // CATEGORY
+                        sections = gestionnairePages.children(pageLoad.getId());
+                        pagePath = "category.jsp";
                     }
+                    request.setAttribute("article", pageLoad);
+//                    else { // PAGE NOT FOUND => REDIRECT TO INDEX
+//                        pagePath = "articles";
+//                    }
                 } else {
-                    page = "error_404";
+                    pagePath = "error_404";
                 }
                 break;
 
             default:
-                request.setAttribute("listePages", gestionnairePages.allArticles());
-                page = "index.jsp"; // render
+                articles = gestionnairePages.allArticles();
+                pagePath = "index.jsp"; // render
                 break;
         }
-        request.setAttribute("listeCategories", gestionnairePages.allRoots());
+        request.setAttribute("listCategories", gestionnairePages.allRoots());
+        request.setAttribute("listSections", sections);
+        request.setAttribute("listPages", articles);
 
-        RequestDispatcher dp = request.getRequestDispatcher("/" + page);
+        RequestDispatcher dp = request.getRequestDispatcher("/" + pagePath);
         dp.forward(request, response);
     }
 

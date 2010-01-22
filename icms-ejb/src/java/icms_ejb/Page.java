@@ -1,9 +1,11 @@
 package icms_ejb;
 
 import java.io.Serializable;
+import java.lang.String;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -71,7 +73,8 @@ public class Page implements Serializable {
         myParent = parent;
     }
 
-    public void update(String title, String permalink, String intro, String content, String prefered_sex,
+    public void update(String title, String permalink, String intro, String content,
+                       String prefered_sex,
                        Page parent) {
         setTitle(title);
         setPermalink(permalink);
@@ -86,7 +89,7 @@ public class Page implements Serializable {
     public String getPreferedSex() {
         return preferedSex;
     }
-    
+
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -184,6 +187,25 @@ public class Page implements Serializable {
     public boolean hasChildren() {
 //        return !new GestionnairePagesBean().children(id).isEmpty();
         return true;
+    }
+
+    public static ArrayList<String[]> pagesForSelect(List<Page> pages_list) {
+        ArrayList<String[]> pages = new ArrayList<String[]>(pages_list.size());
+        String[] a = {"0", "Pas de parent"};
+        pages.add(a);
+        for (Page page : pages_list) {
+            pages.add(new String[]{page.id.toString(), page.title + (page.hasParent() ? " (" + page.
+                        getMyParent().getTitle() + ")" : "")});
+        }
+        return pages;
+    }
+
+    public static ArrayList<String[]> preferedSexesForSelect() {
+        ArrayList<String[]> sexes = new ArrayList<String[]>(2);
+        sexes.add(new String[]{"none", "Pas de sexe vis&eacute;"});
+        sexes.add(new String[]{"male", "Homme"});
+        sexes.add(new String[]{"female", "Femme"});
+        return sexes;
     }
 
     @Override

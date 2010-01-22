@@ -2,16 +2,17 @@ package icms_servlet.admin;
 
 import icms_ejb.*;
 import icms_servlet.*;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.servlet.*;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.*;
 
-public class PagesServlet extends HttpServlet {
-
+public class AdvertisementServlet extends HttpServlet {
+   
     @EJB
-    private GestionnairePagesLocal gestionnairePages;
+    private GestionnaireAdvertisementsLocal gestionnaireAdvertisements;
     @EJB
     private GestionnaireUsersLocal gestionnaireUsers;
     // Not EJB
@@ -31,68 +32,45 @@ public class PagesServlet extends HttpServlet {
                 parseInt(getServletConfig().
                 getInitParameter("action")) : -1;
 
-        List<Page> listPages = gestionnairePages.allPages();
-
         switch (action) {
             case Config.CREATE:
-                int sec = 0;
-                if (Integer.parseInt(request.getParameter("section_id")) != 0) {
-                    sec = gestionnairePages.find(
-                            Integer.parseInt(request.getParameter("section_id"))).getId();
-                }
-
-                gestionnairePages.create(request.getParameter("title"),
-                                         request.getParameter("permalink"),
-                                         request.getParameter("intro"),
+                gestionnaireAdvertisements.create(request.getParameter("title"),
+                                         request.getParameter("link"),
                                          request.getParameter("content"),
-                                         request.getParameter("prefered_sex"),
-                                         sec);
-                response.sendRedirect("/icms-war/admin/articles");
+                                         request.getParameter("service"),
+                                         request.getParameter("criteria"),
+                                         request.getParameter("criteria_value"));
+                response.sendRedirect("/icms-war/admin/advertisements");
                 return;
 
 
             case Config.EDIT:
-                Page articleEdit = gestionnairePages.find(Integer.parseInt(
-                        request.getParameter("id")));
-                request.setAttribute("article", articleEdit);
-
-                listPages = gestionnairePages.allPages();
-                listPages.remove(articleEdit);
-
-                request.setAttribute("listPages", listPages);
-                page = "admin/article_edit.jsp";
+                request.setAttribute("advertisement", gestionnaireAdvertisements.find(Integer.parseInt(
+                        request.getParameter("id"))));
+                page = "admin/advertisement_edit.jsp";
                 break;
 
             case Config.UPDATE:
-                int secUp = 0;
-                if (Integer.parseInt(request.getParameter("section_id")) != 0) {
-                    secUp = gestionnairePages.find(Integer.parseInt(request.getParameter(
-                            "section_id"))).getId();
-                }
-
-                gestionnairePages.update(Integer.parseInt(request.getParameter("id")),
+                gestionnaireAdvertisements.update(Integer.parseInt(request.getParameter("id")),
                                          request.getParameter("title"),
-                                         request.getParameter("permalink"),
-                                         request.getParameter("intro"),
+                                         request.getParameter("link"),
                                          request.getParameter("content"),
-                                         request.getParameter("prefered_sex"),
-                                         secUp);
-                listPages = gestionnairePages.allPages(); // reload all pages
-                page = "admin/articles.jsp";
+                                         request.getParameter("service"),
+                                         request.getParameter("criteria"),
+                                         request.getParameter("criteria_value"));
+                page = "admin/advertisements.jsp";
                 break;
 
             case Config.DESTROY:
-                gestionnairePages.destroy(Integer.parseInt(request.getParameter("id")));
-                listPages = gestionnairePages.allPages(); // reload all pages
+                gestionnaireAdvertisements.destroy(Integer.parseInt(request.getParameter("id")));
                 break;
 
             default:
-                page = "admin/articles.jsp"; // render
+                page = "admin/advertisements.jsp"; // render
                 break;
         }
-
-        request.setAttribute("listCategories", gestionnairePages.allRoots());
-        request.setAttribute("listPages", listPages);
+        
+        request.setAttribute("listeAdvertisements", gestionnaireAdvertisements.allAdvertisements());
 
         RequestDispatcher dp = request.getRequestDispatcher("/" + page);
         dp.forward(request, response);

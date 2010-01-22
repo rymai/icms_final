@@ -1,13 +1,20 @@
+<%@page language="java" import="icms_ejb.*" %>
+<%@page import="icms_helper.*;import java.util.List" %>
 <%@page import="icms_servlet.*;" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+        HtmlHelper htmlHelper = new HtmlHelper();
+        Page article = (Page) request.getAttribute("article");
+        List<Page> listPages = (List<Page>) request.getAttribute("listPages");
+%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Admin > Article > &Eacute;dition</title>
-        <link href="/icms-war/stylesheets/style.css" rel="stylesheet" type="text/css" media="screen" />
+        <jsp:include page="/partials/_head.jsp" />
         <jsp:include page="tinyMCE.html" />
     </head>
     <body>
@@ -19,35 +26,37 @@
             <form method="post" action="/icms-war/admin/articles">
                 <input type="hidden" id="action" name="action" value="<%= Config.UPDATE%>" />
                 <input type="hidden" id="id" name="id" value="<c:out value="${requestScope['article'].id}" />" />
-                <label for="section_id">Section :</label>
-                <select name="section_id" title="section_id" id="section_id">
-                    <option value="0">Pas de parent</option>
-                    <option value="<c:out value="${requestScope['article'].myParent.id}" escapeXml="false"/>" selected="selected"><c:out value="${requestScope['article'].myParent.title}" escapeXml="false"/></option>
-                    <c:forEach var="u" items="${requestScope['listePages']}">
-                        <option value="${u.id}">${u.title}</option>
-                    </c:forEach>
-                </select>
-                <br />
-                <label for="title">Titre de l'article :</label>
-                <input type="text" id="title" name="title" value="<c:out value="${requestScope['article'].title}" escapeXml="false"/>">
-                <br />
-                <label for="permalink">Permalink :</label>
-                <input type="text" id="permalink" name="permalink" value="<c:out value="${requestScope['article'].permalink}" escapeXml="false"/>"> (auto-g&eacute;n&eacute;r&eacute; par d&eacute;faut)
-                <br />
-                <label for="prefered_sex">Sexe vis&eacute; :</label>
-                <select name="prefered_sex" title="prefered_sex" id="prefered_sex">
-                    <option value="<c:out value="${requestScope['article'].preferedSex}" escapeXml="false"/>" selected="selected"><c:out value="${requestScope['article'].preferedSex}" escapeXml="false"/></option>
-                    <option value="none">Pas de sexe vis&eacute;</option>
-                    <option value="male">Homme</option>
-                    <option value="female">Femme</option>
-                </select>
-                <br />
-                <label for="intro">Intro :</label>
-                <textarea id="intro" name="intro" rows="5" cols="80" ><c:out value="${requestScope['article'].intro}" escapeXml="false"/></textarea>
-                <br />
-                <label for="content">Text :</label>
-                <textarea id="content" name="content" rows="20" cols="80"><c:out value="${requestScope['article'].content}" escapeXml="false"/></textarea>
-                <input type="submit" name="save" value="Valider" />
+
+                <table>
+                    <%
+        out.write(htmlHelper.select("section_id", "Article parent :", Page.pagesForSelect(listPages),
+                                    article.getMyParent().
+                getId()));
+                    %>
+                    <tr>
+                        <td><label for="title">Titre :</label></td>
+                        <td><input type="text" id="title" name="title" value="<c:out value="${requestScope['article'].title}" escapeXml="false"/>"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="permalink">Permalink :</label></td>
+                        <td><input type="text" id="permalink" name="permalink" value="<c:out value="${requestScope['article'].permalink}" escapeXml="false"/>"> (auto-g&eacute;n&eacute;r&eacute; par d&eacute;faut)</td>
+                    </tr>
+                    <%
+        out.write(htmlHelper.select("prefered_sex", "Sexe vis&eacute; :", Page.
+                preferedSexesForSelect(), article.getPreferedSex()));
+                    %>
+                    <tr>
+                        <td colspan="2"><label for="intro">Intro :</label>
+                            <textarea id="intro" name="intro" rows="5" cols="80"><c:out value="${requestScope['article'].intro}" escapeXml="false"/></textarea></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><label for="content">Texte :</label>
+                            <textarea id="content" name="content" rows="20" cols="80"><c:out value="${requestScope['article'].content}" escapeXml="false"/></textarea></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" name="save" value="Mettre &agrave; jour" /></td>
+                    </tr>
+                </table>
             </form>
         </div>
 

@@ -17,13 +17,13 @@
             <a href="" class="category">Cat&eacute;gories</a>
         </h2>
         <br />
-        <div id="listeCategories">
+        <div id="listCategories">
             <table border="1">
                 <tr>
                     <td>Titre</td>
                     <td>Supprimer</td>
                 </tr>
-                <c:forEach var="u" items="${requestScope['listeCategories']}">
+                <c:forEach var="u" items="${requestScope['listCategories']}">
                     <tr>
                         <td><a href="/icms-war/admin/categories?action=<%=Config.EDIT%>&id=${u.id}">${u.title}</a></td>
                         <td><a href="/icms-war/admin/categories?action=<%=Config.DESTROY%>&id=${u.id}">X</a></td>

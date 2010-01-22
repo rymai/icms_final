@@ -23,7 +23,7 @@
                 <label for="category_id">Cat&eacute;gorie :</label>
                 <select name="category_id" id="category_id">
                     <option value="<c:out value="${requestScope['section'].myCategory.id}" />"><c:out value="${requestScope['section'].myCategory.title}" /></option>
-                    <c:forEach var="u" items="${requestScope['listeCategories']}">
+                    <c:forEach var="u" items="${requestScope['listCategories']}">
                         <option value="${u.id}">${u.title}</option>
                     </c:forEach>
                 </select>

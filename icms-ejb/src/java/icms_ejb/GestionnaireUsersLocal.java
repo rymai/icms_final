@@ -14,7 +14,7 @@ public interface GestionnaireUsersLocal {
     public void update(int id, String login, String password, String level);
 
     public void destroy(int id);
-    
+
     // Find one
     public User find(int id);
 
@@ -26,5 +26,4 @@ public interface GestionnaireUsersLocal {
     public List<User> all();
 
     public List<User> findAdmins();
-
 }

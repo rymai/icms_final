@@ -33,8 +33,6 @@ public class UsersServlet extends HttpServlet {
 
         switch (action) {
             case Config.INDEX:
-                List<User> listeUsers = gestionnaireUsers.all();
-                request.setAttribute("listeUsers", listeUsers);
                 page = "admin/users.jsp"; // render
                 break;
 
@@ -44,12 +42,30 @@ public class UsersServlet extends HttpServlet {
                 response.sendRedirect("/icms-war/admin/users");
                 return;
 
+                case Config.EDIT:
+                request.setAttribute("user", gestionnaireUsers.find(Integer.parseInt(
+                        request.getParameter("id"))));
+                page = "admin/user_edit.jsp";
+                break;
+
+            case Config.UPDATE:
+                gestionnaireUsers.update(Integer.parseInt(request.getParameter("id")),
+                                         request.getParameter("login"),
+                                         request.getParameter("password"),
+                                         request.getParameter("level"));
+                page = "admin/advertisements.jsp";
+                break;
+
+            case Config.DESTROY:
+                gestionnaireUsers.destroy(Integer.parseInt(request.getParameter("id")));
+                break;
+
             default:
-                page = "admin/users"; // redirect
+                page = "admin/users.jsp"; // redirect
                 break;
         }
 
-        request.setAttribute("listeCategories", gestionnairePages.allRoots());
+        request.setAttribute("listUsers", gestionnaireUsers.all());
         RequestDispatcher dp = request.getRequestDispatcher("/" + page);
         dp.forward(request, response);
     }

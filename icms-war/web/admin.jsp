@@ -45,7 +45,7 @@
                 <label for="section">Section :</label>
                 <select name="sections" title="sections" id="sections">
                     <option value="">Choisissez une section</option>
-                    <c:forEach var="u" items="${requestScope['listeSections']}">
+                    <c:forEach var="u" items="${requestScope['listSections']}">
                         <option value="${u.title}">${u.title}</option>
                     </c:forEach>
                 </select>

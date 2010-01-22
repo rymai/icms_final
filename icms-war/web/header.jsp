@@ -14,11 +14,11 @@
     <% } else {%>
     <jsp:include page = "login.jsp" />
     <% }%>
-
-    <div id="user_infos"></div>
 </div>
 
-<div id="logo">
+<div id="user_infos"></div>
+
+<div id="logo">    
     <h1><a href="/icms-war">ICMS </a></h1>
     <p>the first intelligent CMS!</p>
 </div>
@@ -29,7 +29,7 @@
         <ul>
             <% boolean admin = request.getRequestURI().indexOf("admin") != -1;%>
             <li class="<%= !admin ? "current_page_item" : ""%>"><a href="/icms-war/articles" class="first">Home</a></li>
-            <%--            <c:forEach var="u" items="${requestScope['listeCategories']}">
+            <%--            <c:forEach var="u" items="${requestScope['listCategories']}">
                             <li class="<%= !admin ? "current_page_item" : ""%>"><a href="/icms-war/article/cat:${u.permalink}">${u.title}</a></li>
                         </c:forEach>--%>
             <li class="<%= admin ? "current_page_item" : ""%>"><a href="/icms-war/admin/articles">Admin</a></li>

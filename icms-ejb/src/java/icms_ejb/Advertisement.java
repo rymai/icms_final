@@ -159,6 +159,13 @@ public class Advertisement implements Serializable {
         return services;
     }
 
+    public static ArrayList<String[]> criteriasForSelect() {
+        ArrayList<String[]> criterias = new ArrayList<String[]>(2);
+        criterias.add(new String[]{"sex", "Sexe"});
+        criterias.add(new String[]{"relationship_status", "Situation"});
+        return criterias;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;

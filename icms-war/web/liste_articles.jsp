@@ -2,7 +2,7 @@
 <div class="posts">
     <h3>Les articles :</h3>
     <c:forEach var="a" items="${requestScope['listPages']}">
-        <div class="post" style="display:none;">
+        <div class="post">
             <span class="prefered_sex">${a.preferedSex}</span>
             <h2 class="title"><a href="/icms-war/article/${a.permalink}">${a.title}</a></h2>
             <p class="meta">

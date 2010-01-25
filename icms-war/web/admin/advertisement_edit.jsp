@@ -38,6 +38,9 @@
                     <%
             out.write(htmlHelper.select("service", "Service :", Advertisement.servicesForSelect(), ad.getService()));
                     %>
+                    <%
+            out.write(htmlHelper.select("criteria", "Crit&egrave;re :", Advertisement.criteriasForSelect(), ad.getCriteria()));
+                    %>
                     <tr>
                         <td><label for="criteria">Crit&egrave;re :</label></td>
                         <td><input type="text" id="criteria" name="criteria" value="<c:out value="${requestScope['advertisement'].criteria}" escapeXml="false"/>"></td>

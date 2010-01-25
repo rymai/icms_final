@@ -61,10 +61,9 @@
                     <%
             out.write(htmlHelper.select("service", "Service :", Advertisement.servicesForSelect(), ""));
                     %>
-                    <tr>
-                        <td><label for="criteria">Crit&egrave;re :</label></td>
-                        <td><input type="text" id="criteria" name="criteria"></td>
-                    </tr>
+                    <%
+            out.write(htmlHelper.select("criteria", "Crit&egrave;re :", Advertisement.criteriasForSelect(), ""));
+                    %>
                     <tr>
                         <td><label for="criteria_value">Valeur :</label></td>
                         <td><input type="text" id="criteria_value" name="criteria_value"></td>

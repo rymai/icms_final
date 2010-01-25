@@ -36,18 +36,38 @@ $(document).ready(function () {
                 user.relationship_status = pendingUserInfos.result[0].relationship_status;
                 $("#user_infos").html(markup + "<br />You're a " + user.relationship_status + " " + user.sex + ".");
 
-                sortArticlesByPreferedSex();
+                showArticlesByPreferedSex();
+                showAds();
             });            
         });
     });
 });
 
-function sortArticlesByPreferedSex() {
+function showArticlesByPreferedSex() {
     $("span.prefered_sex").each(function(i, el){
         if(el.innerText == user.sex || el.innerText == "none") {
             $(el).parent().show();
         }
     });
+}
+
+function showAds() {
+    var selected_ads = [];
+    $("div.advertisement").each(function(i, el){
+        if($(el).children(".advertisement_info.service").text().toLowerCase() == "facebook") {
+            if(($(el).children(".advertisement_info.criteria").text() == "sex" && $(el).children(".advertisement_info.criteriaValue").text().toLowerCase() == user.sex.toLowerCase())
+                || ($(el).children(".advertisement_info.criteria").text() == "relationship_status" && $(el).children(".advertisement_info.criteriaValue").text().toLowerCase() == user.relationship_status.toLowerCase())) {
+                selected_ads.push($(el));
+            }
+        }
+    });
+
+    var j = Math.round(Math.random()*selected_ads.length)-1;
+    if(j < 0) j = 0;
+    if(selected_ads.length > 0) {
+//        console.info("affichage de la pub : " + j);
+        selected_ads[j].show();
+    }
 }
 
 //dojo.require("dijit._base.scroll");
@@ -57,6 +77,7 @@ function sortArticlesByPreferedSex() {
 //dojo.addOnLoad(function(){
 //    if(dojo.byId("translate")){
 //        dojo.connect(dojo.byId("translate"), "onsubmit", function(e){
+
 //            e.preventDefault();
 //            ajaxTranslate();
 //        });

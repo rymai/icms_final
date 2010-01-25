@@ -512,3 +512,7 @@ div#log_top_right {
 .hidden {
     display:none;
 }
+
+.post, .advertisement, .advertisement_info {
+    display:none;
+}

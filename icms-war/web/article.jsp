@@ -15,6 +15,7 @@
         <jsp:include page="partials/_head.jsp" />
     </head>
     <body>
+
         <jsp:include page="header.jsp" />
         <p id="breadcrumb">
             <%= html.breadCrumb(a)%>

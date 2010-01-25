@@ -60,12 +60,16 @@ public class SessionsServlet extends HttpServlet {
     }
 
     public static HttpSession getSession(HttpServletRequest request) {
-        session = request.getSession(true);
-        return request.getSession(true);
+        if(session == null) session = request.getSession(true);
+        return session;
     }
 
     public static void setUserToSession(User user) {
         session.setAttribute("user_id", user.getId());
+    }
+
+    public static void setToSession(String var, Object o) {
+        session.setAttribute(var, o);
     }
 
     public static User getUserFromSession(GestionnaireUsersLocal gestionnaire) {

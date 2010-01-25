@@ -28,8 +28,8 @@
                     <td><input type="text" id="password" name="password"></td>
                 </tr>
                 <tr>
-                    <td><label for="level">Level :</label></td>
-                    <td><input type="text" id="level" name="level" value="<c:out value="${requestScope['user'].lvl}" escapeXml="false"/>"></td>
+                    <td><label for="permission">Permission :</label></td>
+                    <td><input type="text" id="permission" name="permission" value="<c:out value="${requestScope['user'].permission}" escapeXml="false"/>"></td>
                 </tr>
                 <tr>
                     <td colspan="2"><input type="submit" name="save" value="Mettre &agrave; jour" /></td>

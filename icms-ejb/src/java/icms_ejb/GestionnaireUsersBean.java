@@ -11,18 +11,22 @@ public class GestionnaireUsersBean implements GestionnaireUsersLocal {
     private EntityManager em;
 
     public void creerAdmin() {
-        em.persist(new User("admin", "admin", "99"));
+        em.persist(new User("admin", "admin", 99));
     }
 
-    public void create(String login, String password, String level) {
-        User u = new User(login, password, level);
+    public void create(String login, String password, int permission) {
+        User u = new User(login, password, permission);
         em.persist(u);
     }
 
-    public void update(int id, String login, String password, String level) {
+    public void update(int id, String login, String password, int permission) {
         User u = find(id);
-        u.update(login, password, level);
+        u.update(login, password, permission);
         em.merge(u);
+    }
+
+    public void save(int id) {
+        em.merge(find(id));
     }
 
     public void destroy(int id) {
@@ -86,10 +90,11 @@ public class GestionnaireUsersBean implements GestionnaireUsersLocal {
      * @return User instance or null if not found
      */
     public User findAdminByLoginAndPassword(String login, String password) {
-        Query queryUserByLoginAndPassword = em.createNamedQuery("Users.findByLoginAndPasswordAndLvl");
+        Query queryUserByLoginAndPassword = em.createNamedQuery(
+                "Users.findByLoginAndPasswordAndPermission");
         queryUserByLoginAndPassword.setParameter("login", login);
         queryUserByLoginAndPassword.setParameter("password", User.encryptPassword(password));
-        queryUserByLoginAndPassword.setParameter("lvl", "99");
+        queryUserByLoginAndPassword.setParameter("permission", 99);
         try {
             return (User) queryUserByLoginAndPassword.getSingleResult();
         } catch (Exception e) {

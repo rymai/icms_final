@@ -14,39 +14,43 @@ import javax.persistence.*;
                 query = "SELECT u FROM User u"),
     @NamedQuery(name = "Users.findByLoginAndPassword",
                 query = "SELECT u FROM User u WHERE u.login = :login AND u.password = :password"),
-    @NamedQuery(name = "Users.findByLoginAndPasswordAndLvl",
-                query = "SELECT u FROM User u WHERE u.login = :login AND u.password = :password AND u.lvl = :lvl"),
+    @NamedQuery(name = "Users.findByLoginAndPasswordAndPermission",
+                query = "SELECT u FROM User u WHERE u.login = :login AND u.password = :password AND u.permission = :permission"),
     @NamedQuery(name = "Users.findById",
                 query = "SELECT u FROM User u WHERE u.id = :id"),
     @NamedQuery(name = "Users.findAdmins",
-                query = "SELECT u FROM User u WHERE u.lvl = 99")
+                query = "SELECT u FROM User u WHERE u.permission = 99")
 })
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    @Column(unique = true, nullable = false)
     private String login;
+    @Column(nullable = false)
     private String password;
-    private String lvl;
+    @Column(nullable = false)
+    private int permission;
     @Column(name = "FACEBOOK_ID", unique = true)
-    private String facebookId;
+    private Long facebookId;
 
     // Ne pas supprimer, sinon erreur Toplink
     public User() {
     }
 
-    public User(String login, String password, String lvl) {
+    public User(String login, String password, int permission) {
         this.login = login;
         setPassword(password);
-        this.lvl = lvl;
+        setPermission(permission);
     }
 
-    public void update(String login, String password, String lvl) {
+    public void update(String login, String password, int permission) {
         this.login = login;
         if(!password.equals("")) setPassword(password);
-        this.lvl = lvl;
+        setPermission(permission);
     }
 
     public Integer getId() {
@@ -82,19 +86,27 @@ public class User implements Serializable {
     }
 
     /**
-     * @return the lvl
+     * @return the level
      */
-    public String getLvl() {
-        return lvl;
+    public int getPermission() {
+        return permission;
     }
 
     /**
-     * @param lvl the lvl to set
+     * @param lvl the level to set
      */
-    public void setLvl(String lvl) {
-        this.lvl = lvl;
+    public void setPermission(int permission) {
+        this.permission = permission;
     }
 
+    public Long getFacebookId() {
+        return facebookId;
+    }
+
+    public void setFacebookId(Long facebookId) {
+        this.facebookId = facebookId;
+    }
+    
     /**
      * Encrypt the password with SHA1 algorithm
      * @param password

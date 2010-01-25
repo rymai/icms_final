@@ -42,7 +42,7 @@ $(document).ready(function () {
     });
 });
 
-function sortArticlesBtPreferedSex() {
+function sortArticlesByPreferedSex() {
     $("span.prefered_sex").each(function(i, el){
         if(el.innerText == user.sex || el.innerText == "none") {
             $(el).parent().show();

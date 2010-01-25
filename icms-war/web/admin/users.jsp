@@ -18,7 +18,7 @@
             <tr>
                 <td><strong>Login</strong></td>
                 <td><strong>Password</strong></td>
-                <td><strong>Level</strong></td>
+                <td><strong>Permission</strong></td>
                 <td><strong>Supprimer</strong></td>
             </tr>
 
@@ -26,7 +26,7 @@
                 <tr>
                     <td><a href="/icms-war/admin/users?action=<%=Config.EDIT%>&id=${u.id}">${u.login}</a></td>
                     <td>${u.password}</td>
-                    <td>${u.lvl}</td>
+                    <td>${u.permission}</td>
                     <td><a href="/icms-war/admin/users?action=<%=Config.DESTROY%>&id=${u.id}"> X </a></td>
                 </tr>
             </c:forEach>
@@ -47,8 +47,8 @@
                     <td><input type="text" id="password" name="password"></td>
                 </tr>
                 <tr>
-                    <td><label for="level">Level :</label></td>
-                    <td><input type="text" id="level" name="level"></td>
+                    <td><label for="permission">Permission :</label></td>
+                    <td><input type="text" id="permission" name="permission"></td>
                 </tr>
                 <tr>
                     <td colspan="2"><input type="submit" name="save" value="Valider" /></td>

@@ -38,7 +38,7 @@ public class UsersServlet extends HttpServlet {
 
             case Config.CREATE:
                 gestionnaireUsers.create((String) request.getParameter("login"), (String) request.
-                        getParameter("password"), (String) request.getParameter("level"));
+                        getParameter("password"), Integer.parseInt(request.getParameter("permission")));
                 response.sendRedirect("/icms-war/admin/users");
                 return;
 
@@ -52,7 +52,7 @@ public class UsersServlet extends HttpServlet {
                 gestionnaireUsers.update(Integer.parseInt(request.getParameter("id")),
                                          request.getParameter("login"),
                                          request.getParameter("password"),
-                                         request.getParameter("level"));
+                                         Integer.parseInt(request.getParameter("permission")));
                 page = "admin/advertisements.jsp";
                 break;
 

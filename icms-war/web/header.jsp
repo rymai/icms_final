@@ -1,10 +1,11 @@
 <%@page language="java" import="icms_ejb.*" %>
-<%@page language="java" import="icms_servlet.PagesServlet" %>
+<%@page language="java" import="icms_servlet.*" %>
 <%@page language="java" import="java.util.List" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
         User u = (User) request.getAttribute("current_user");
 %>
+<%=SessionsServlet.getSession(request).getAttribute(Security.FACEBOOK_USER_CLIENT)%>
 <div id="log_top_right">
 
     <% if (u != null) {%>

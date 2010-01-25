@@ -17,7 +17,7 @@
     <body>
         <jsp:include page="header.jsp" />
         <p id="breadcrumb">
-            <%= html.generateBreadCrumb(a)%>
+            <%= html.breadCrumb(a)%>
         </p>
 
         <jsp:include page="article_template.jsp" />

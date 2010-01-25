@@ -41,4 +41,10 @@ public class HtmlHelper {
         }
         return html + "</select></td></tr>";
     }
+
+    public String ad() {
+//        FacebookRestClient client = new FacebookRestClient
+        return "";
+
+    }
 }

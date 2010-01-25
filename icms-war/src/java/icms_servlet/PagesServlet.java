@@ -4,9 +4,17 @@ import icms_ejb.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import com.maxmind.geoip.*;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import org.apache.xmlrpc.XmlRpcException;
 
 public class PagesServlet extends HttpServlet {
 
@@ -16,9 +24,10 @@ public class PagesServlet extends HttpServlet {
     private GestionnaireUsersLocal gestionnaireUsers;
     // Not EJB
     private String page;
+    private String data = "C:/Users/Chouchou/icms_final/GeoLiteCity.dat";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, XmlRpcException {
         response.setContentType("text/html;charset=UTF-8");
 
         SessionsServlet.getSession(request);
@@ -31,8 +40,7 @@ public class PagesServlet extends HttpServlet {
 
         // Priority for the action parameter passed by the page, not by the servlet config
         int action = request.getParameter("action") != null ? Integer.parseInt(request.getParameter(
-                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.
-                parseInt(getServletConfig().
+                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.parseInt(getServletConfig().
                 getInitParameter("action")) : -1;
 
         switch (action) {
@@ -49,13 +57,13 @@ public class PagesServlet extends HttpServlet {
                         request.setAttribute("article", pageLoad);
                         page = (request.getHeader("x-requested-with") != null && request.getHeader(
                                 "x-requested-with").equals("XMLHttpRequest")) ? "partials/_article.jsp" : "article.jsp";
+
                     } else if (myParent != null) {
                         request.setAttribute("article", pageLoad);
                         List<Page> sections = new ArrayList<Page>();
                         List<Page> articles = new ArrayList<Page>();
                         for (Page a : myChildren) {
-                            if (gestionnairePages.children(a.getId()) != null && gestionnairePages.
-                                    children(a.getId()).size() > 0) {
+                            if (gestionnairePages.children(a.getId()) != null && gestionnairePages.children(a.getId()).size() > 0) {
                                 sections.add(a);
                             } else {
                                 articles.add(a);
@@ -66,8 +74,7 @@ public class PagesServlet extends HttpServlet {
                         page = "section.jsp";
                     } else if (myParent == null) {
                         request.setAttribute("article", pageLoad);
-                        request.setAttribute("listeSections", gestionnairePages.children(pageLoad.
-                                getId()));
+                        request.setAttribute("listeSections", gestionnairePages.children(pageLoad.getId()));
                         page = "category.jsp";
 
 //                      request.setAttribute("translate_to", request.getParameter("translate_to"));
@@ -84,10 +91,25 @@ public class PagesServlet extends HttpServlet {
             default:
                 request.setAttribute("listePages", gestionnairePages.allArticles());
                 page = "index.jsp"; // render
+
                 break;
         }
         request.setAttribute("listeCategories", gestionnairePages.allRoots());
+        URL url = new URL("http://www.afficheip.net/scripts/AfficheIP.php?color=000000&bg=FFFFFF&taille=12&police=Verdana");
+        InputStream con = url.openStream();
+        BufferedReader in = new BufferedReader(new InputStreamReader(con));
 
+        String line = in.readLine();
+        line = line.trim();
+        String ip = line.substring(line.length() - 27, line.length() - 12);
+        ip = ip.substring(ip.indexOf(">"));
+        ip = ip.substring(2);
+        request.setAttribute("ip", ip);
+        LookupService cl = new LookupService(data, LookupService.GEOIP_MEMORY_CACHE);
+
+        request.setAttribute("ipCity", cl.getLocation(ip).city);
+
+        request.setAttribute("ipCountry", cl.getLocation(ip).countryName);
         RequestDispatcher dp = request.getRequestDispatcher("/" + page);
         dp.forward(request, response);
     }
@@ -103,8 +125,12 @@ public class PagesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException,
-                   IOException {
-        processRequest(request, response);
+            IOException {
+        try {
+            processRequest(request, response);
+        } catch (XmlRpcException ex) {
+            Logger.getLogger(PagesServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -117,8 +143,12 @@ public class PagesServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException,
-                   IOException {
-        processRequest(request, response);
+            IOException {
+        try {
+            processRequest(request, response);
+        } catch (XmlRpcException ex) {
+            Logger.getLogger(PagesServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

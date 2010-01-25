@@ -44,11 +44,18 @@
             </fieldset>
         </form>
     </div>
+ 
     <!-- end #search -->
 </div>
 <!-- end #header -->
 <!-- end #header-wrapper -->
 <div id="page">
+       <div id ="loc">
+        <br/>
+           Adresse IP : <c:out value="${requestScope['ip']}"/>
+       <br/>
+       Ville : <c:out value="${requestScope['ipCity']}"/> (<c:out value="${requestScope['ipCountry']}"/>)
+    </div>
     <div id="content2">
         <%
         if (request.getAttribute("flash") != null) {%>

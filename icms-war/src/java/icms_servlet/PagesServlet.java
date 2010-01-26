@@ -123,22 +123,26 @@ public class PagesServlet extends HttpServlet {
         request.setAttribute("listPages", articles);
         request.setAttribute("listAdvertisements", gestionnaireAdvertisements.allAdvertisements());
 
-//        URL url = new URL(
-//                "http://www.afficheip.net/scripts/AfficheIP.php");
-//        InputStream con = url.openStream();
-//        BufferedReader in = new BufferedReader(new InputStreamReader(con));
+        URL url = new URL(
+                "http://www.afficheip.net/scripts/AfficheIP.php?taille=30&police=Times&color=000000&bg=FFFFFF");
+        InputStream con = url.openStream();
+        BufferedReader in = new BufferedReader(new InputStreamReader(con));
 
-//        String line = in.readLine();
+        String ip = in.readLine().trim();
 //        line = line.trim();
-//        String ip = line.substring(line.length() - 27, line.length() - 12);
-//        ip = ip.substring(ip.indexOf(">"));
-//        ip = ip.substring(2);
-//        request.setAttribute("ip", ip);
-//        LookupService cl = new LookupService(data, LookupService.GEOIP_MEMORY_CACHE);
+        if (ip.length() >= 27) {
+            ip = ip.substring(ip.length() - 27, ip.length() - 12);
+            ip = ip.substring(ip.indexOf(">"));
+            ip = ip.substring(2);
+        } else {
+            ip = "no ip";
+        }
+        request.setAttribute("ip", ip);
+        LookupService cl = new LookupService(data, LookupService.GEOIP_MEMORY_CACHE);
 
-//        request.setAttribute("ipCity", cl.getLocation(ip).city);
+        request.setAttribute("ipCity", cl.getLocation(ip).city);
 
-//        request.setAttribute("ipCountry", cl.getLocation(ip).countryName);
+        request.setAttribute("ipCountry", cl.getLocation(ip).countryName);
         RequestDispatcher dp = request.getRequestDispatcher("/" + pagePath);
         dp.forward(request, response);
     }
@@ -156,7 +160,7 @@ public class PagesServlet extends HttpServlet {
             throws ServletException,
                    IOException {
 //        try {
-            processRequest(request, response);
+        processRequest(request, response);
 //        } catch (XmlRpcException ex) {
 //            Logger.getLogger(PagesServlet.class.getName()).log(Level.SEVERE, null, ex);
 //        }
@@ -174,7 +178,7 @@ public class PagesServlet extends HttpServlet {
             throws ServletException,
                    IOException {
 //        try {
-            processRequest(request, response);
+        processRequest(request, response);
 //        } catch (XmlRpcException ex) {
 //            Logger.getLogger(PagesServlet.class.getName()).log(Level.SEVERE, null, ex);
 //        }

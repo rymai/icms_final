@@ -4,7 +4,7 @@ var user = {
     "id": null,
     "first_name": null,
     "last_name": null,
-    "pic_square": null,
+    "pic_with_logo": null,
     "sex": null,
     "relationship_status": null
 };
@@ -25,16 +25,15 @@ $(document).ready(function () {
                 user.id = session.uid;
             }
             var sequencer = new FB.BatchSequencer();
-            pendingUserInfos = api.users_getInfo([user.id], ["first_name", "last_name", "pic_square", "sex", "relationship_status"], sequencer);
+            pendingUserInfos = api.users_getInfo([user.id], ["first_name", "last_name", "pic_with_logo", "sex", "relationship_status"], sequencer);
 
             sequencer.execute(function() {
                 user.first_name = pendingUserInfos.result[0].first_name;
                 user.last_name = pendingUserInfos.result[0].last_name;
-                user.pic_square = pendingUserInfos.result[0].pic_square;
+                user.pic_with_logo = pendingUserInfos.result[0].pic_with_logo;
                 user.sex = pendingUserInfos.result[0].sex;
                 user.relationship_status = pendingUserInfos.result[0].relationship_status;
-                $("#user_infos").html("Hey "+user.first_name+"!<br /><img src=\""+user.pic_square+"\" />");
-                //                    <br />You're a " + user.relationship_status + " " + user.sex + ".");
+                $("#user_infos").html("Hey "+user.first_name+"!<br /><img src=\""+user.pic_with_logo+"\" />");
 
                 showArticlesByPreferedSex();
                 showAds();
@@ -108,7 +107,7 @@ function commonElements(text1, text2) {
     var yes = false;
 
     for (i in arr1) {
-       if(arr2.lastIndexOf(arr1[i]) != -1) yes = true;
+        if(arr2.lastIndexOf(arr1[i]) != -1) yes = true;
     }
     return yes;
 }

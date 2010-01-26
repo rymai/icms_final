@@ -7,7 +7,6 @@
             <h2 class="title"><a href="/icms-war/article/${a.permalink}">${a.title}</a></h2>
             <p class="meta">
                 Dans <strong>${a.myParent.title}</strong>&nbsp;&agrave;&nbsp;${a.publishedAt}
-                <%--Posted by <a href="#">${u.author.name}</a>--%>
             </p>
             <div class="entry">
                 ${a.intro}

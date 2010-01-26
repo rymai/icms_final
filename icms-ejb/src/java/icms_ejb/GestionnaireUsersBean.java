@@ -15,8 +15,7 @@ public class GestionnaireUsersBean implements GestionnaireUsersLocal {
     }
 
     public void create(String login, String password, int permission) {
-        User u = new User(login, password, permission);
-        em.persist(u);
+        em.persist(new User(login, password, permission));
     }
 
     public void update(int id, String login, String password, int permission) {
@@ -30,8 +29,7 @@ public class GestionnaireUsersBean implements GestionnaireUsersLocal {
     }
 
     public void destroy(int id) {
-        User u = find(id);
-        em.remove(em.merge(u));
+        em.remove(em.merge(find(id)));
     }
 
     /**

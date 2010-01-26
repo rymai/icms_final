@@ -1,19 +1,10 @@
 package icms_helper;
 
-import icms_servlet.*;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+import java.io.*;
+import java.net.*;
+import javax.xml.parsers.*;
+import org.w3c.dom.*;
+import org.xml.sax.*;
 
 /**
  * Cette classe permet de recuperer diverses infos sur la meteo dans une ville
@@ -21,23 +12,26 @@ import org.xml.sax.SAXException;
  */
 public class MeteoHelper {
 
-    private String ville;
+    private String city;
     private Document apiResponse;
 
-    public MeteoHelper(String ville) throws MalformedURLException, IOException, ParserConfigurationException, SAXException {
-        this.ville = ville;
+    public MeteoHelper(String city) throws MalformedURLException, IOException,
+                                           ParserConfigurationException, SAXException {
+        this.city = city;
         URL url = new URL(
-                "http://www.google.fr/ig/api?weather=" + SessionsServlet.getFromSession("ipCity"));
+                "http://www.google.fr/ig/api?weather=" + city);
         this.apiResponse = DocumentBuilderFactory.newInstance().newDocumentBuilder().
-                    parse(new InputSource(new BufferedReader(new InputStreamReader(url.openStream()))));
+                parse(new InputSource(new BufferedReader(new InputStreamReader(url.openStream()))));
     }
 
     public String currentCondition() {
-        return currentConditions().getChildNodes().item(0).getAttributes().getNamedItem("data").getTextContent();
+        return currentConditions().getChildNodes().item(0).getAttributes().getNamedItem("data").
+                getTextContent();
     }
 
     public String currentTemperature() {
-        return currentConditions().getChildNodes().item(2).getAttributes().getNamedItem("data").getTextContent();
+        return currentConditions().getChildNodes().item(2).getAttributes().getNamedItem("data").
+                getTextContent();
     }
 
     private Node currentConditions() {

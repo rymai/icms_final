@@ -2,26 +2,14 @@ package icms_servlet;
 
 import icms_ejb.*;
 import icms_helper.UtilHelper;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.*;
 import javax.ejb.EJB;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import com.maxmind.geoip.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import icms_helper.IPHelper;
+import java.io.*;
 import java.net.URL;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.*;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 public class PagesServlet extends HttpServlet {
 
@@ -33,8 +21,6 @@ public class PagesServlet extends HttpServlet {
     private GestionnaireAdvertisementsLocal gestionnaireAdvertisements;
     // Not EJB
     private String pagePath;
-//    private String data = "C:/Users/Chouchou/icms_final/GeoLiteCity.dat";
-    private String data = "/Users/remy/Documents/Development/Java/M2 Miage/icms/GeoLiteCity.dat";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -111,26 +97,7 @@ public class PagesServlet extends HttpServlet {
         request.setAttribute("listPages", articles);
         request.setAttribute("listAdvertisements", gestionnaireAdvertisements.allAdvertisements());
 
-        URL url = new URL(
-                "http://www.afficheip.net/scripts/AfficheIP.php?taille=30&police=Times&color=000000&bg=FFFFFF");
-        InputStream con = url.openStream();
-        BufferedReader in = new BufferedReader(new InputStreamReader(con));
-
-        String ip = in.readLine().trim();
-        if (ip.length() >= 27) {
-            ip = ip.substring(ip.length() - 27, ip.length() - 12);
-            ip = ip.substring(ip.indexOf(">"));
-            ip = ip.substring(2);
-        } else {
-            ip = "no ip";
-        }
-        SessionsServlet.setToSession("ip", ip);
-        request.setAttribute("ip", ip);
-        LookupService cl = new LookupService(data, LookupService.GEOIP_MEMORY_CACHE);
-        SessionsServlet.setToSession("ipCity", cl.getLocation(ip).city);
-        SessionsServlet.setToSession("ipCountry", cl.getLocation(ip).countryName);
-//        request.setAttribute("ipCity", cl.getLocation(ip).city);
-//        request.setAttribute("ipCountry", cl.getLocation(ip).countryName);
+        new IPHelper();
 
         RequestDispatcher dp = request.getRequestDispatcher("/" + pagePath);
 

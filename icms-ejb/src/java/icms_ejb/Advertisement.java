@@ -1,18 +1,8 @@
 package icms_ejb;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import java.util.*;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "ADVERTISEMENTS")
@@ -23,6 +13,7 @@ import javax.persistence.TemporalType;
                 query = "SELECT a FROM Advertisement a WHERE a.service = :service")
 })
 public class Advertisement implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -57,7 +48,8 @@ public class Advertisement implements Serializable {
         return id;
     }
 
-    public Advertisement(String title, String link, String content, String service, String criteria, String criteria_value) {
+    public Advertisement(String title, String link, String content, String service, String criteria,
+                         String criteria_value) {
         this.title = title;
         this.link = link;
         this.content = content;
@@ -66,7 +58,8 @@ public class Advertisement implements Serializable {
         this.criteriaValue = criteria_value;
     }
 
-    public void update(String title, String link, String content, String service, String criteria, String criteria_value) {
+    public void update(String title, String link, String content, String service, String criteria,
+                       String criteria_value) {
         this.title = title;
         this.link = link;
         this.content = content;
@@ -193,5 +186,4 @@ public class Advertisement implements Serializable {
     public String toString() {
         return "icms_ejb.Advertisement[id=" + id + "]";
     }
-
 }

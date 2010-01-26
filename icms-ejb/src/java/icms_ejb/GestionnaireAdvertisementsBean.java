@@ -2,9 +2,7 @@ package icms_ejb;
 
 import java.util.List;
 import javax.ejb.Stateful;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.*;
 
 @Stateful
 public class GestionnaireAdvertisementsBean implements GestionnaireAdvertisementsLocal {
@@ -12,13 +10,15 @@ public class GestionnaireAdvertisementsBean implements GestionnaireAdvertisement
     @PersistenceContext
     private EntityManager em;
 
-    public void create(String title, String link, String content, String service, String criteria, String criteria_value) {
+    public void create(String title, String link, String content, String service, String criteria,
+                       String criteria_value) {
         Advertisement a = new Advertisement(title, link, content, service, criteria, criteria_value);
         em.persist(a);
         em.flush();
     }
 
-    public boolean update(int id, String title, String link, String content, String service, String criteria,
+    public boolean update(int id, String title, String link, String content, String service,
+                          String criteria,
                           String criteria_value) {
         Advertisement a = find(id);
 
@@ -32,8 +32,7 @@ public class GestionnaireAdvertisementsBean implements GestionnaireAdvertisement
     }
 
     public void destroy(int id) {
-        Advertisement a = find(id);
-        em.remove(em.merge(a));
+        em.remove(em.merge(find(id)));
     }
 
     public Advertisement find(int id) {
@@ -58,5 +57,4 @@ public class GestionnaireAdvertisementsBean implements GestionnaireAdvertisement
     public List<Advertisement> allAdvertisements() {
         return em.createNamedQuery("Advertisement.findAll").getResultList();
     }
-
 }

@@ -4,15 +4,10 @@ import com.aetrion.flickr.*;
 import com.aetrion.flickr.photos.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.*;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
-/**
- *
- * @author remy
- */
 public class FlickrHelper {
 
     private static final String FLICKR_KEY = "c6f7bf2330b720bc069579c6f7387523";
@@ -60,10 +55,6 @@ public class FlickrHelper {
             "<div id=\"description_flickr_" + p.getId() + "\" class=\"description hidden\"><img class=\"flickr_zoom\" src=\"" + p.
                     getMediumUrl() + "\"><p>" + p.getTitle() + "</p></div>";
 
-            // Zoom (caché)
-//                    flickrResults +=
-//                    "<div id=\"masterpiece_flickr_" + p.getId() + "\" class=\"masterpiece hidden\"><img class=\"flickr_zoom\" src=\"" + p.
-//                            getMediumUrl() + "\"></div>";
             flickrResults += "</td>";
             i++;
             if (i >= NB_PER_ROW_FLICKR) {

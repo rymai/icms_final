@@ -1,15 +1,8 @@
 package icms_helper;
 
 import icms_ejb.*;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 
-/**
- *
- * @author remy
- */
 public class HtmlHelper {
 
     public HtmlHelper() {
@@ -40,11 +33,5 @@ public class HtmlHelper {
             html += ">" + values_texts.get(i)[1] + "</option>";
         }
         return html + "</select></td></tr>";
-    }
-
-    public String ad() {
-//        FacebookRestClient client = new FacebookRestClient
-        return "";
-
     }
 }

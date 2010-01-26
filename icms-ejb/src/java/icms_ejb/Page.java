@@ -1,11 +1,7 @@
 package icms_ejb;
 
 import java.io.Serializable;
-import java.lang.String;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 import javax.persistence.*;
 
 @Entity

@@ -15,7 +15,7 @@
             <a href="/icms-war/article/<c:out value="${requestScope['article'].permalink}" escapeXml="true"/>" class="category"><c:out value="${requestScope['article'].title}" escapeXml="true"/></a>
         </h2>
         <div id="description">
-              <jsp:include page="article_template.jsp" />
+            <jsp:include page="article_template.jsp" />
         </div>
 
         <div class="sections">

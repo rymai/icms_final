@@ -1,10 +1,8 @@
 package icms_ejb;
 
 import java.io.Serializable;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.security.*;
+import java.util.logging.*;
 import javax.persistence.*;
 
 @Entity
@@ -24,7 +22,6 @@ import javax.persistence.*;
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -34,8 +31,6 @@ public class User implements Serializable {
     private String password;
     @Column(nullable = false)
     private int permission;
-    @Column(name = "FACEBOOK_ID", unique = true)
-    private Long facebookId;
 
     // Ne pas supprimer, sinon erreur Toplink
     public User() {
@@ -49,7 +44,9 @@ public class User implements Serializable {
 
     public void update(String login, String password, int permission) {
         this.login = login;
-        if(!password.equals("")) setPassword(password);
+        if (!password.equals("")) {
+            setPassword(password);
+        }
         setPermission(permission);
     }
 
@@ -99,14 +96,6 @@ public class User implements Serializable {
         this.permission = permission;
     }
 
-    public Long getFacebookId() {
-        return facebookId;
-    }
-
-    public void setFacebookId(Long facebookId) {
-        this.facebookId = facebookId;
-    }
-    
     /**
      * Encrypt the password with SHA1 algorithm
      * @param password

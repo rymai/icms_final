@@ -5,7 +5,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
         User u = (User) request.getAttribute("current_user");
-        MeteoHelper meteo = new MeteoHelper((String)SessionsServlet.getFromSession("ipCity"));
+        MeteoHelper meteo = new MeteoHelper((String) SessionsServlet.getFromSession("ipCity"));
 %>
 <div id="log_top_right">
 
@@ -31,21 +31,18 @@
         <ul>
             <% boolean admin = request.getRequestURI().indexOf("admin") != -1;%>
             <li class="<%= !admin ? "current_page_item" : ""%>"><a href="/icms-war/articles" class="first">Home</a></li>
-            <%--            <c:forEach var="u" items="${requestScope['listCategories']}">
-                            <li class="<%= !admin ? "current_page_item" : ""%>"><a href="/icms-war/article/cat:${u.permalink}">${u.title}</a></li>
-                        </c:forEach>--%>
             <li class="<%= admin ? "current_page_item" : ""%>"><a href="/icms-war/admin/articles">Admin</a></li>
         </ul>
     </div>
     <!-- end #menu -->
-    <div id="search">
-        <form method="get" action="/search">
-            <fieldset>
-                <input type="text" name="s" id="search-text" size="15" />
-                <input type="submit" id="search-submit" value="GO" />
-            </fieldset>
-        </form>
-    </div>
+    <%--    <div id="search">
+            <form method="get" action="/search">
+                <fieldset>
+                    <input type="text" name="s" id="search-text" size="15" />
+                    <input type="submit" id="search-submit" value="GO" />
+                </fieldset>
+            </form>
+        </div>--%>
 
     <!-- end #search -->
 </div>
@@ -53,15 +50,9 @@
 <!-- end #header-wrapper -->
 <div id="page">
     <div id="meteo">
-        <span id="conditions"><%= meteo.currentCondition() %></span>
-        <span id="temperature"><%= meteo.currentTemperature() %></span>
+        <span id="conditions"><%= meteo.currentCondition()%></span>
+        <span id="temperature"><%= meteo.currentTemperature()%></span>
     </div>
-<%--    <div id ="loc">
-        <br/>
-        Adresse IP : <c:out value="${requestScope['ip']}"/>
-        <br/>
-        Ville : <c:out value="${requestScope['ipCity']}"/> (<c:out value="${requestScope['ipCountry']}"/>)
-    </div>--%>
     <div id="content2">
         <%
         if (request.getAttribute("flash") != null) {%>

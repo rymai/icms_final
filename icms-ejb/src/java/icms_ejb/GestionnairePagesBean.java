@@ -2,9 +2,7 @@ package icms_ejb;
 
 import java.util.List;
 import javax.ejb.Stateful;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.*;
 
 @Stateful
 public class GestionnairePagesBean implements GestionnairePagesLocal {
@@ -125,8 +123,7 @@ public class GestionnairePagesBean implements GestionnairePagesLocal {
     }
 
     public void destroy(int id) {
-        Page a = find(id);
-        em.remove(em.merge(a));
+        em.remove(em.merge(find(id)));
     }
 
     /**

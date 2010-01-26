@@ -513,6 +513,6 @@ div#log_top_right {
     display:none;
 }
 
-.post, .advertisement, .advertisement_info {
+div.post, div.advertisement, span.advertisement_info, span.prefered_sex {
     display:none;
 }

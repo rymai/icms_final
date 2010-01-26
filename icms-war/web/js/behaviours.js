@@ -2,6 +2,9 @@ var user_pic_div = document.getElementById("user_pic");
 var user_sex_div = document.getElementById("user_sex");
 var user = {
     "id": null,
+    "first_name": null,
+    "last_name": null,
+    "pic_square": null,
     "sex": null,
     "relationship_status": null
 };
@@ -10,10 +13,6 @@ var markup = "";
 var api = null;
 
 $(document).ready(function () {
-    //    $("div.post").each(function(i, el){
-    //        $(el).hide();
-    //    });
-
     FB.ensureInit(function () {
         FB.Facebook.get_sessionState().waitUntilReady(function() {
             api = FB.Facebook.apiClient;
@@ -21,20 +20,21 @@ $(document).ready(function () {
             var session = api.get_session();
 
             if (!session) {
-                markup +=
-                '<fb:login-button v="2" size="xlarge" onlogin="window.location.reload(true);">Se connecter</fb:login-button>';
+                $("#user_infos").html('<fb:login-button v="2" size="xlarge" onlogin="window.location.reload(true);">Se connecter</fb:login-button>');
             } else {
                 user.id = session.uid;
-                markup += '<fb:profile-pic size="square" uid="'+user.id+'" facebook-logo="true"></fb:profile-pic>';
-                markup += '<br />Bienvenue <fb:name uid="'+user.id+'" useyou="false" linked="true"></fb:name> !!';
             }
             var sequencer = new FB.BatchSequencer();
-            pendingUserInfos = api.users_getInfo([user.id], ["first_name", "last_name", "sex", "relationship_status"], sequencer);
+            pendingUserInfos = api.users_getInfo([user.id], ["first_name", "last_name", "pic_square", "sex", "relationship_status"], sequencer);
 
             sequencer.execute(function() {
+                user.first_name = pendingUserInfos.result[0].first_name;
+                user.last_name = pendingUserInfos.result[0].last_name;
+                user.pic_square = pendingUserInfos.result[0].pic_square;
                 user.sex = pendingUserInfos.result[0].sex;
                 user.relationship_status = pendingUserInfos.result[0].relationship_status;
-                $("#user_infos").html(markup + "<br />You're a " + user.relationship_status + " " + user.sex + ".");
+                $("#user_infos").html("Hey "+user.first_name+"!<br /><img src=\""+user.pic_square+"\" />");
+//                    <br />You're a " + user.relationship_status + " " + user.sex + ".");
 
                 showArticlesByPreferedSex();
                 showAds();
@@ -65,7 +65,7 @@ function showAds() {
     var j = Math.round(Math.random()*selected_ads.length)-1;
     if(j < 0) j = 0;
     if(selected_ads.length > 0) {
-//        console.info("affichage de la pub : " + j);
+        //        console.info("affichage de la pub : " + j);
         selected_ads[j].show();
     }
 }

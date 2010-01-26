@@ -29,7 +29,7 @@
 </div>
 <!-- end #page -->
 <div id="footer">
-    <p>Copyright (c) 2009 ICMS.com. All rights reserved.</p>
+    <p>Copyright (c) 2010 ICMS.com. All rights reserved.</p>
 </div>
 <!-- end #footer -->
 

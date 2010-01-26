@@ -5,8 +5,6 @@ import icms_helper.UtilHelper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -15,7 +13,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-//import org.apache.xmlrpc.XmlRpcException;
 
 public class PagesServlet extends HttpServlet {
 
@@ -88,26 +85,8 @@ public class PagesServlet extends HttpServlet {
                     } else if (myParent == null) { // CATEGORY
                         sections = gestionnairePages.children(pageLoad.getId());
                         pagePath = "category.jsp";
-//=======
-//                        request.setAttribute("listeSections", sections);
-//                        request.setAttribute("listePages", articles);
-//                        page = "section.jsp";
-//                    } else if (myParent == null) {
-//                        request.setAttribute("article", pageLoad);
-//                        request.setAttribute("listeSections", gestionnairePages.children(pageLoad.getId()));
-//                        page = "category.jsp";
-//
-////                      request.setAttribute("translate_to", request.getParameter("translate_to"));
-////                        System.out.println("request.getHeader(\"x-requested-with\") : " + request.getHeader("x-requested-with"));
-//
-//                    } else {
-//                        page = "articles"; // redirect
-//>>>>>>> d07f95a8c7a880dca5dc537faebd9cf814d2032b
                     }
                     request.setAttribute("article", pageLoad);
-//                    else { // PAGE NOT FOUND => REDIRECT TO INDEX
-//                        pagePath = "articles";
-//                    }
                 } else {
                     pagePath = "error_404";
                 }
@@ -129,7 +108,6 @@ public class PagesServlet extends HttpServlet {
         BufferedReader in = new BufferedReader(new InputStreamReader(con));
 
         String ip = in.readLine().trim();
-//        line = line.trim();
         if (ip.length() >= 27) {
             ip = ip.substring(ip.length() - 27, ip.length() - 12);
             ip = ip.substring(ip.indexOf(">"));

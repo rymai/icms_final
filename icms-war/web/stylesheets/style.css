@@ -513,6 +513,6 @@ div#log_top_right {
     display:none;
 }
 
-div.post, div.advertisement, span.advertisement_info, span.prefered_sex {
+div.post, div.advertisement, div#meteo, span.advertisement_info, span.prefered_sex {
     display:none;
 }

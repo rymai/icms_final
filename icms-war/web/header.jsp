@@ -1,9 +1,11 @@
 <%@page language="java" import="icms_ejb.*" %>
+<%@page language="java" import="icms_helper.*" %>
 <%@page language="java" import="icms_servlet.*" %>
 <%@page language="java" import="java.util.List" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
         User u = (User) request.getAttribute("current_user");
+        MeteoHelper meteo = new MeteoHelper((String)SessionsServlet.getFromSession("ipCity"));
 %>
 <div id="log_top_right">
 
@@ -50,12 +52,16 @@
 <!-- end #header -->
 <!-- end #header-wrapper -->
 <div id="page">
-    <div id ="loc">
+    <div id="meteo">
+        <span id="conditions"><%= meteo.currentCondition() %></span>
+        <span id="temperature"><%= meteo.currentTemperature() %></span>
+    </div>
+<%--    <div id ="loc">
         <br/>
         Adresse IP : <c:out value="${requestScope['ip']}"/>
         <br/>
         Ville : <c:out value="${requestScope['ipCity']}"/> (<c:out value="${requestScope['ipCountry']}"/>)
-    </div>
+    </div>--%>
     <div id="content2">
         <%
         if (request.getAttribute("flash") != null) {%>

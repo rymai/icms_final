@@ -156,6 +156,7 @@ public class Advertisement implements Serializable {
         ArrayList<String[]> services = new ArrayList<String[]>(2);
         services.add(new String[]{"facebook", "Facebook"});
         services.add(new String[]{"twitter", "Twitter"});
+        services.add(new String[]{"meteo", "M&eacute;t&eacute;o"});
         return services;
     }
 
@@ -163,6 +164,8 @@ public class Advertisement implements Serializable {
         ArrayList<String[]> criterias = new ArrayList<String[]>(2);
         criterias.add(new String[]{"sex", "Sexe"});
         criterias.add(new String[]{"relationship_status", "Situation"});
+        criterias.add(new String[]{"conditions", "Conditions"});
+        criterias.add(new String[]{"temperature", "Temp&eacute;rature"});
         return criterias;
     }
 

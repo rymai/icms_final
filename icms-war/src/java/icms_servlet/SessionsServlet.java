@@ -64,6 +64,10 @@ public class SessionsServlet extends HttpServlet {
         return session;
     }
 
+    public static Object getFromSession(String attr) {
+        return getSession(null).getAttribute(attr);
+    }
+
     public static void setUserToSession(User user) {
         session.setAttribute("user_id", user.getId());
     }

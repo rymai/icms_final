@@ -5,14 +5,23 @@ import icms_helper.UtilHelper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import com.maxmind.geoip.*;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.*;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 public class PagesServlet extends HttpServlet {
 
@@ -115,17 +124,20 @@ public class PagesServlet extends HttpServlet {
         } else {
             ip = "no ip";
         }
+        SessionsServlet.setToSession("ip", ip);
         request.setAttribute("ip", ip);
         LookupService cl = new LookupService(data, LookupService.GEOIP_MEMORY_CACHE);
+        SessionsServlet.setToSession("ipCity", cl.getLocation(ip).city);
+        SessionsServlet.setToSession("ipCountry", cl.getLocation(ip).countryName);
+//        request.setAttribute("ipCity", cl.getLocation(ip).city);
+//        request.setAttribute("ipCountry", cl.getLocation(ip).countryName);
 
-        request.setAttribute("ipCity", cl.getLocation(ip).city);
-
-        request.setAttribute("ipCountry", cl.getLocation(ip).countryName);
         RequestDispatcher dp = request.getRequestDispatcher("/" + pagePath);
+
         dp.forward(request, response);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      * @param request servlet request
@@ -170,4 +182,4 @@ public class PagesServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    }
+}

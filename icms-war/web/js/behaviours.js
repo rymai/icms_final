@@ -34,7 +34,7 @@ $(document).ready(function () {
                 user.sex = pendingUserInfos.result[0].sex;
                 user.relationship_status = pendingUserInfos.result[0].relationship_status;
                 $("#user_infos").html("Hey "+user.first_name+"!<br /><img src=\""+user.pic_square+"\" />");
-//                    <br />You're a " + user.relationship_status + " " + user.sex + ".");
+                //                    <br />You're a " + user.relationship_status + " " + user.sex + ".");
 
                 showArticlesByPreferedSex();
                 showAds();
@@ -54,10 +54,30 @@ function showArticlesByPreferedSex() {
 function showAds() {
     var selected_ads = [];
     $("div.advertisement").each(function(i, el){
-        if($(el).children(".advertisement_info.service").text().toLowerCase() == "facebook") {
-            if(($(el).children(".advertisement_info.criteria").text() == "sex" && $(el).children(".advertisement_info.criteriaValue").text().toLowerCase() == user.sex.toLowerCase())
-                || ($(el).children(".advertisement_info.criteria").text() == "relationship_status" && $(el).children(".advertisement_info.criteriaValue").text().toLowerCase() == user.relationship_status.toLowerCase())) {
+        if(serv(el) == "facebook") {
+            if((crit(el) == "sex" && val(el) == user.sex.toLowerCase())
+                || (crit(el) == "relationship_status" && val(el) == user.relationship_status.toLowerCase())) {
                 selected_ads.push($(el));
+            }
+        } else if(serv(el) == "meteo") {
+            if(crit(el) == "conditions" && commonElements(val(el),$("#conditions").text())) {
+                selected_ads.push($(el));
+            } else if (crit(el) == "temperature") {
+                if(val(el).substr(0, 1) == ">" && parseInt($("#temperature").text()) > val(el).substring(1, val(el).length)) {
+                    selected_ads.push($(el));
+                }
+                else if(val(el).substr(0, 1) == ">=" && parseInt($("#temperature").text()) >= val(el).substring(1, val(el).length)) {
+                    selected_ads.push($(el));
+                }
+                else if(val(el).substr(0, 1) == "<" && parseInt($("#temperature").text()) < val(el).substring(1, val(el).length)) {
+                    selected_ads.push($(el));
+                }
+                else if(val(el).substr(0, 1) == "<=" && parseInt($("#temperature").text()) <= val(el).substring(1, val(el).length)) {
+                    selected_ads.push($(el));
+                }
+                else if(parseInt(val(el)) == parseInt($("#temperature").text())) {
+                    selected_ads.push($(el));
+                }
             }
         }
     });
@@ -68,6 +88,29 @@ function showAds() {
         //        console.info("affichage de la pub : " + j);
         selected_ads[j].show();
     }
+}
+
+function serv(el) {
+    return $(el).children(".advertisement_info.service").text().toLowerCase();
+}
+
+function crit(el) {
+    return $(el).children(".advertisement_info.criteria").text().toLowerCase();
+}
+
+function val(el) {
+    return $(el).children(".advertisement_info.criteriaValue").text().toLowerCase();
+}
+
+function commonElements(text1, text2) {
+    var arr1 = text1.toLowerCase().split(" ");
+    var arr2 = text2.toLowerCase().split(" ");
+    var yes = false;
+
+    for (i in arr1) {
+       if(arr2.lastIndexOf(arr1[i]) != -1) yes = true;
+    }
+    return yes;
 }
 
 //dojo.require("dijit._base.scroll");

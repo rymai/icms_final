@@ -7,6 +7,7 @@
         User u = (User) request.getAttribute("current_user");
         WeatherHelper meteo = new WeatherHelper((String) SessionsServlet.getFromSession("ipCity"));
 %>
+
 <div id="log_top_right">
 
     <% if (u != null) {%>

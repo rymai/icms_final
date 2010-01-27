@@ -1,12 +1,15 @@
-<%@page language="java" import="icms_ejb.*" %>
-<%@page import="icms_helper.*;" %>
-<%@page import="icms_servlet.*;import java.util.Vector" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="icms_ejb.*" %>
+<%@page import="icms_util.*" %>
+<%@page import="icms_plugin.advertisement.*" %>
+<%@page import="icms_servlet.*" %>
+<%@page import="java.util.*" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
         HtmlUtil HtmlUtil = new HtmlUtil();
         Advertisement ad = (Advertisement) request.getAttribute("advertisement");
 %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 <html>

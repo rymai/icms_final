@@ -1,6 +1,5 @@
 package icms_plugin.advertisement;
 
-import icms_plugin.advertisement.Advertisement;
 import java.util.List;
 import javax.ejb.Stateful;
 import javax.persistence.*;

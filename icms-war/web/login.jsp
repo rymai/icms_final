@@ -1,4 +1,5 @@
 <%@page import="icms_servlet.Config;" %>
+
 <form name="login_form" id="login_form" action="/icms-war/login" method="post">
     <input type="hidden" name="action" value="<%= Config.CREATE%>" />
     <table>

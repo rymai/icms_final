@@ -5,7 +5,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
         User u = (User) request.getAttribute("current_user");
-        MeteoHelper meteo = new MeteoHelper((String) SessionsServlet.getFromSession("ipCity"));
+        WeatherHelper meteo = new WeatherHelper((String) SessionsServlet.getFromSession("ipCity"));
 %>
 <div id="log_top_right">
 

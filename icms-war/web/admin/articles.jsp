@@ -4,7 +4,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
-        HtmlHelper htmlHelper = new HtmlHelper();
+        HtmlUtil HtmlUtil = new HtmlUtil();
         List<Page> listPages = (List<Page>) request.getAttribute("listPages");
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -52,7 +52,7 @@
 
                 <table>
                     <%
-        out.write(htmlHelper.select("section_id", "Article parent :", Page.pagesForSelect(listPages),
+        out.write(HtmlUtil.select("section_id", "Article parent :", Page.pagesForSelect(listPages),
                                     ""));
                     %>
                     <tr>
@@ -64,7 +64,7 @@
                         <td><input type="text" id="permalink" name="permalink"> (auto-g&eacute;n&eacute;r&eacute; par d&eacute;faut)</td>
                     </tr>
                     <%
-        out.write(htmlHelper.select("prefered_sex", "Sexe vis&eacute; :", Page.
+        out.write(HtmlUtil.select("prefered_sex", "Sexe vis&eacute; :", Page.
                 preferedSexesForSelect(), ""));
                     %>
                     <tr>

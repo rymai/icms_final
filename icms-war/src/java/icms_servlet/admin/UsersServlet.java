@@ -1,5 +1,8 @@
 package icms_servlet.admin;
 
+import icms_util.SecurityUtil;
+import icms_controller.GestionnaireUsersLocal;
+import icms_controller.GestionnairePagesLocal;
 import icms_servlet.*;
 import icms_ejb.*;
 import java.io.IOException;
@@ -21,7 +24,7 @@ public class UsersServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        if (!Security.checkUserIsAuthenticated(request, response, gestionnaireUsers)) {
+        if (!SecurityUtil.checkUserIsAuthenticated(request, response, gestionnaireUsers)) {
             return;
         }
 

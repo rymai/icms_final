@@ -1,5 +1,6 @@
 package icms_servlet;
 
+import icms_controller.*;
 import icms_ejb.*;
 import java.io.IOException;
 import javax.ejb.EJB;

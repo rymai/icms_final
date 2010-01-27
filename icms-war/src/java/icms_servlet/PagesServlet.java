@@ -1,15 +1,15 @@
 package icms_servlet;
 
+import icms_plugin.advertisement.GestionnaireAdvertisementsLocal;
+import icms_controller.*;
 import icms_ejb.*;
-import icms_helper.UtilHelper;
+import icms_util.*;
 import java.util.*;
 import javax.ejb.EJB;
 import javax.servlet.*;
 import javax.servlet.http.*;
-import com.maxmind.geoip.*;
 import icms_helper.IPHelper;
 import java.io.*;
-import java.net.URL;
 
 public class PagesServlet extends HttpServlet {
 
@@ -64,7 +64,7 @@ public class PagesServlet extends HttpServlet {
 
                     if (myChildren == null || myChildren.size() == 0) { // ARTICLE
                         // AJAX or not
-                        pagePath = UtilHelper.isAjaxRequest(request) ? "partials/_article.jsp" : "article.jsp";
+                        pagePath = RequestUtil.isAjaxRequest(request) ? "partials/_article.jsp" : "article.jsp";
 
                     } else if (myParent != null) { // SECTION
                         for (Page a : myChildren) {

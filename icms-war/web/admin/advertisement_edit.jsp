@@ -4,7 +4,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
-        HtmlHelper htmlHelper = new HtmlHelper();
+        HtmlUtil HtmlUtil = new HtmlUtil();
         Advertisement ad = (Advertisement) request.getAttribute("advertisement");
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -36,10 +36,10 @@
                         <td><input type="text" id="link" name="link" value="<c:out value="${requestScope['advertisement'].link}" escapeXml="false"/>"></td>
                     </tr>
                     <%
-            out.write(htmlHelper.select("service", "Service :", Advertisement.servicesForSelect(), ad.getService()));
+            out.write(HtmlUtil.select("service", "Service :", Advertisement.servicesForSelect(), ad.getService()));
                     %>
                     <%
-            out.write(htmlHelper.select("criteria", "Crit&egrave;re :", Advertisement.criteriasForSelect(), ad.getCriteria()));
+            out.write(HtmlUtil.select("criteria", "Crit&egrave;re :", Advertisement.criteriasForSelect(), ad.getCriteria()));
                     %>
                     <tr>
                         <td><label for="criteria">Crit&egrave;re :</label></td>

@@ -4,7 +4,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
-        HtmlHelper htmlHelper = new HtmlHelper();
+        HtmlUtil HtmlUtil = new HtmlUtil();
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
@@ -59,10 +59,10 @@
                         <td><input type="text" id="link" name="link"></td>
                     </tr>
                     <%
-            out.write(htmlHelper.select("service", "Service :", Advertisement.servicesForSelect(), ""));
+            out.write(HtmlUtil.select("service", "Service :", Advertisement.servicesForSelect(), ""));
                     %>
                     <%
-            out.write(htmlHelper.select("criteria", "Crit&egrave;re :", Advertisement.criteriasForSelect(), ""));
+            out.write(HtmlUtil.select("criteria", "Crit&egrave;re :", Advertisement.criteriasForSelect(), ""));
                     %>
                     <tr>
                         <td><label for="criteria_value">Valeur :</label></td>

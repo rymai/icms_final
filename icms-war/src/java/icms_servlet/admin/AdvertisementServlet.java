@@ -1,5 +1,8 @@
 package icms_servlet.admin;
 
+import icms_util.SecurityUtil;
+import icms_plugin.advertisement.GestionnaireAdvertisementsLocal;
+import icms_controller.GestionnaireUsersLocal;
 import icms_ejb.*;
 import icms_servlet.*;
 import java.io.*;
@@ -22,7 +25,7 @@ public class AdvertisementServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        if (!Security.checkUserIsAuthenticated(request, response, gestionnaireUsers)) {
+        if (!SecurityUtil.checkUserIsAuthenticated(request, response, gestionnaireUsers)) {
             return;
         }
 

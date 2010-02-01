@@ -3,7 +3,6 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
         Page a = (Page) request.getAttribute("article");
-        HtmlUtil html = new HtmlUtil();
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -18,10 +17,10 @@
     <body>
         <jsp:include page="header.jsp" />
         <p id="breadcrumb">
-            <%= html.breadCrumb(a)%>
+            <%= HtmlUtil.breadCrumb(a).substring(0, HtmlUtil.breadCrumb(a).length()-20)%>
         </p>
         <div id="description">
-            <jsp:include page="article_template.jsp" />
+            <jsp:include page="section_template.jsp" />
         </div>
 
         <jsp:include page="liste_sections.jsp" />

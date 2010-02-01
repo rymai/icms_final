@@ -78,7 +78,7 @@ public class Page implements Serializable {
         setContent(content);
         setPreferedSex(prefered_sex);
         updatedAt = GregorianCalendar.getInstance().getTime();
-        myParent = parent;
+        setMyParent(parent);
 
     }
 

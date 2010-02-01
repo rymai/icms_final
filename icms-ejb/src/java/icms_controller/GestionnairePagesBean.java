@@ -160,4 +160,16 @@ public class GestionnairePagesBean implements GestionnairePagesLocal {
 
         return perme + (r == 0 ? "" : r);
     }
+
+    public boolean isCategory(int id) {
+        return parent(id) == null;
+    }
+
+    public boolean isSection(int id) {
+        return children(id) != null && children(id).size() > 0;
+    }
+
+    public boolean isArticle(int id) {
+        return children(id) == null || children(id).size() == 0;
+    }
 }

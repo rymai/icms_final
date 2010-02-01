@@ -4,7 +4,7 @@
 <div id="sidebar">
     <ul>
         <li>
-            <h2>Categories</h2>
+            <h2>Cat&eacute;gories</h2>
             <ul>
                 <c:forEach var="c" items="${requestScope['listCategories']}">
                     <li><a href="/icms-war/article/${c.permalink}">${c.title}</a></li>
@@ -30,7 +30,7 @@
 </div>
 <!-- end #page -->
 <div id="footer">
-    <p>Copyright (c) 2010 ICMS.com. All rights reserved.</p>
+    <p>Copyright &copy; 2010 ICMS SARL. All rights reserved.</p>
 </div>
 <!-- end #footer -->
 

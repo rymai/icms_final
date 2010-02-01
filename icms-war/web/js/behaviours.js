@@ -33,7 +33,7 @@ $(document).ready(function () {
                 user.pic_with_logo = pendingUserInfos.result[0].pic_with_logo;
                 user.sex = pendingUserInfos.result[0].sex;
                 user.relationship_status = pendingUserInfos.result[0].relationship_status;
-                $("#user_infos").html("Hey "+user.first_name+"!<br /><img src=\""+user.pic_with_logo+"\" />");
+                $("#user_infos").html("<img src=\""+user.pic_with_logo+"\" />");
 
                 showArticlesByPreferedSex();
                 showAds();

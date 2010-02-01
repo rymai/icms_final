@@ -11,44 +11,45 @@ import javax.ejb.EJB;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-public class UsersServlet extends HttpServlet {
+public class UsersServlet extends BaseServlet {
 
-    @EJB
-    private GestionnaireUsersLocal gestionnaireUsers;
-    @EJB
-    private GestionnairePagesLocal gestionnairePages;
-    // Not EJB
-    private String page;
+//    @EJB
+//    private GestionnaireUsersLocal gestionnaireUsers;
+//    @EJB
+//    private GestionnairePagesLocal gestionnairePages;
+//    // Not EJB
+//    private String page;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        super.processRequest(request, response);
 
         if (!SecurityUtil.checkUserIsAuthenticated(request, response, gestionnaireUsers)) {
             return;
         }
 
-        // Priority for the action parameter passed by the page, not by the servlet config
-        int action = request.getParameter("action") != null ? Integer.parseInt(request.getParameter(
-                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.
-                parseInt(getServletConfig().
-                getInitParameter("action")) : -1;
+//        // Priority for the action parameter passed by the page, not by the servlet config
+//        int action = request.getParameter("action") != null ? Integer.parseInt(request.getParameter(
+//                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.
+//                parseInt(getServletConfig().
+//                getInitParameter("action")) : -1;
 
         switch (action) {
             case Config.INDEX:
-                page = "admin/users.jsp"; // render
+                pagePath = "admin/users.jsp"; // render
                 break;
 
             case Config.CREATE:
                 gestionnaireUsers.create((String) request.getParameter("login"), (String) request.
-                        getParameter("password"), Integer.parseInt(request.getParameter("permission")));
+                        getParameter("password"), Integer.parseInt(
+                        request.getParameter("permission")));
                 response.sendRedirect("/icms-war/admin/users");
                 return;
 
-                case Config.EDIT:
+            case Config.EDIT:
                 request.setAttribute("user", gestionnaireUsers.find(Integer.parseInt(
                         request.getParameter("id"))));
-                page = "admin/user_edit.jsp";
+                pagePath = "admin/user_edit.jsp";
                 break;
 
             case Config.UPDATE:
@@ -56,7 +57,7 @@ public class UsersServlet extends HttpServlet {
                                          request.getParameter("login"),
                                          request.getParameter("password"),
                                          Integer.parseInt(request.getParameter("permission")));
-                page = "admin/advertisements.jsp";
+                pagePath = "admin/advertisements.jsp";
                 break;
 
             case Config.DESTROY:
@@ -64,12 +65,12 @@ public class UsersServlet extends HttpServlet {
                 break;
 
             default:
-                page = "admin/users.jsp"; // redirect
+                pagePath = "admin/users.jsp"; // redirect
                 break;
         }
 
         request.setAttribute("listUsers", gestionnaireUsers.all());
-        RequestDispatcher dp = request.getRequestDispatcher("/" + page);
+        RequestDispatcher dp = request.getRequestDispatcher("/" + pagePath);
         dp.forward(request, response);
     }
 

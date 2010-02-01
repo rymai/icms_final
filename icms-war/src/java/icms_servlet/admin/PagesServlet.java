@@ -11,28 +11,29 @@ import javax.ejb.EJB;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-public class PagesServlet extends HttpServlet {
+public class PagesServlet extends BaseServlet {
 
     @EJB
     private GestionnairePagesLocal gestionnairePages;
     @EJB
     private GestionnaireUsersLocal gestionnaireUsers;
-    // Not EJB
-    private String page;
+//    // Not EJB
+//    private String page;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+    super.processRequest(request, response);
 
+        SessionsServlet.getSession(request);
         if (!SecurityUtil.checkUserIsAuthenticated(request, response, gestionnaireUsers)) {
             return;
         }
 
-        // Priority for the action parameter passed by the page, not by the servlet config
-        int action = request.getParameter("action") != null ? Integer.parseInt(request.getParameter(
-                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.
-                parseInt(getServletConfig().
-                getInitParameter("action")) : -1;
+//        // Priority for the action parameter passed by the page, not by the servlet config
+//        int action = request.getParameter("action") != null ? Integer.parseInt(request.getParameter(
+//                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.
+//                parseInt(getServletConfig().
+//                getInitParameter("action")) : -1;
 
         List<Page> listPages = gestionnairePages.allPages();
 
@@ -63,7 +64,7 @@ public class PagesServlet extends HttpServlet {
                 listPages.remove(articleEdit);
 
                 request.setAttribute("listPages", listPages);
-                page = "admin/article_edit.jsp";
+                pagePath = "admin/article_edit.jsp";
                 break;
 
             case Config.UPDATE:
@@ -81,7 +82,7 @@ public class PagesServlet extends HttpServlet {
                                          request.getParameter("prefered_sex"),
                                          secUp);
                 listPages = gestionnairePages.allPages(); // reload all pages
-                page = "admin/articles.jsp";
+                pagePath = "admin/articles.jsp";
                 break;
 
             case Config.DESTROY:
@@ -90,14 +91,14 @@ public class PagesServlet extends HttpServlet {
                 break;
 
             default:
-                page = "admin/articles.jsp"; // render
+                pagePath = "admin/articles.jsp"; // render
                 break;
         }
 
         request.setAttribute("listCategories", gestionnairePages.allRoots());
         request.setAttribute("listPages", listPages);
 
-        RequestDispatcher dp = request.getRequestDispatcher("/" + page);
+        RequestDispatcher dp = request.getRequestDispatcher("/" + pagePath);
         dp.forward(request, response);
     }
 

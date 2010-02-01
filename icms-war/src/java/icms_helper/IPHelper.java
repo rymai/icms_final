@@ -1,5 +1,6 @@
 package icms_helper;
 
+import com.maxmind.geoip.Location;
 import com.maxmind.geoip.LookupService;
 import icms_servlet.SessionsServlet;
 import java.io.BufferedReader;
@@ -25,14 +26,17 @@ public class IPHelper {
             ip = in.readLine().trim();
             if (ip.length() >= 27) {
                 ip = ip.substring(ip.length() - 27, ip.length() - 12);
-                ip = ip.substring(ip.indexOf(">")).substring(2);
+                if(ip.indexOf(">") != -1) {
+                    ip = ip.substring(ip.indexOf(">")).substring(2);
+                }
             }
 
             LookupService cl = new LookupService(data, LookupService.GEOIP_MEMORY_CACHE);
             SessionsServlet.setToSession("ip", ip);
-            country = cl.getLocation(ip).countryName;
+            Location loc = cl.getLocation(ip);
+            country = loc == null ? "" : cl.getLocation(ip).countryName;
             SessionsServlet.setToSession("ipCountry", country);
-            city = cl.getLocation(ip).city;
+            city = loc == null ? "" : cl.getLocation(ip).city;
             SessionsServlet.setToSession("ipCity", city);
         }
     }

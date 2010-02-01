@@ -1,37 +1,20 @@
 package icms_servlet;
 
-import icms_plugin.advertisement.GestionnaireAdvertisementsLocal;
-import icms_controller.*;
 import icms_ejb.*;
 import icms_util.*;
 import java.util.*;
-import javax.ejb.EJB;
 import javax.servlet.*;
 import javax.servlet.http.*;
-import icms_helper.IPHelper;
 import java.io.*;
 
-public class PagesServlet extends HttpServlet {
-
-    @EJB
-    private GestionnairePagesLocal gestionnairePages;
-    @EJB
-    private GestionnaireUsersLocal gestionnaireUsers;
-    @EJB
-    private GestionnaireAdvertisementsLocal gestionnaireAdvertisements;
-    // Not EJB
-    private String pagePath;
+public class PagesServlet extends BaseServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        super.processRequest(request, response);
 
-        SessionsServlet.getSession(request);
-        User u = SessionsServlet.getUserFromSession(gestionnaireUsers);
-        request.setAttribute("current_user", u);
-
-        if (u == null) {
-            User user = gestionnaireUsers.findAdminByLoginAndPassword("admin", "admin");
+        if (user == null) {
+            user = gestionnaireUsers.findAdminByLoginAndPassword("admin", "admin");
             if (user != null) {
                 SessionsServlet.setUserToSession(user);
                 response.sendRedirect("/icms-war/admin/articles");
@@ -39,15 +22,6 @@ public class PagesServlet extends HttpServlet {
             }
         }
 
-        if (gestionnaireUsers.findAdmins().size() == 0) {
-            gestionnaireUsers.creerAdmin();
-        }
-
-        // Priority for the action parameter passed by the page, not by the servlet config
-        int action = request.getParameter("action") != null ? Integer.parseInt(request.getParameter(
-                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.
-                parseInt(getServletConfig().
-                getInitParameter("action")) : -1;
         List<Page> sections = new ArrayList<Page>();
         List<Page> articles = new ArrayList<Page>();
 
@@ -59,17 +33,14 @@ public class PagesServlet extends HttpServlet {
                 Page pageLoad = gestionnairePages.findByPermalink(perme);
 
                 if (pageLoad != null) {
-                    List<Page> myChildren = gestionnairePages.children((int) pageLoad.getId());
-                    Page myParent = ((Page) pageLoad).getMyParent();
-
-                    if (myChildren == null || myChildren.size() == 0) { // ARTICLE
+                    int page_id = (int) pageLoad.getId();
+                    if (gestionnairePages.isArticle(page_id)) { // ARTICLE
                         // AJAX or not
                         pagePath = RequestUtil.isAjaxRequest(request) ? "partials/_article.jsp" : "article.jsp";
 
-                    } else if (myParent != null) { // SECTION
-                        for (Page a : myChildren) {
-                            if (gestionnairePages.children(a.getId()) != null && gestionnairePages.
-                                    children(a.getId()).size() > 0) {
+                    } else if (gestionnairePages.isSection(page_id)) { // SECTION
+                        for (Page a : gestionnairePages.children(page_id)) {
+                            if (gestionnairePages.isSection(a.getId())) {
                                 sections.add(a);
                             } else {
                                 articles.add(a);
@@ -77,7 +48,7 @@ public class PagesServlet extends HttpServlet {
                         }
                         pagePath = "section.jsp";
 
-                    } else if (myParent == null) { // CATEGORY
+                    } else if (gestionnairePages.isCategory(page_id)) { // CATEGORY
                         sections = gestionnairePages.children(pageLoad.getId());
                         pagePath = "category.jsp";
                     }
@@ -94,10 +65,8 @@ public class PagesServlet extends HttpServlet {
         }
         request.setAttribute("listCategories", gestionnairePages.allRoots());
         request.setAttribute("listSections", sections);
-        request.setAttribute("listPages", articles);
+        request.setAttribute("listArticles", articles);
         request.setAttribute("listAdvertisements", gestionnaireAdvertisements.allAdvertisements());
-
-        new IPHelper();
 
         RequestDispatcher dp = request.getRequestDispatcher("/" + pagePath);
 

@@ -3,9 +3,6 @@
 <%@page import="icms_plugin.advertisement.*" %>
 <%@page import="icms_servlet.*;" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%
-        HtmlUtil HtmlUtil = new HtmlUtil();
-%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -23,23 +20,23 @@
         <h2><a href="" class="category">Publicit&eacute;s</a></h2>
         <br />
         <div id="listeAdvertisements">
-            <table border="1">
+            <table class="admin_table">
                 <tr>
-                    <td><strong>Titre</strong></td>
-                    <td><strong>Lien</strong></td>
-                    <td><strong>Service</strong></td>
-                    <td><strong>Crit&egrave;re</strong></td>
-                    <td><strong>Valeur</strong></td>
-                    <td><strong>Supprimer</strong></td>
+                    <th>Titre</th>
+                    <th>Lien</th>
+                    <th>Service</th>
+                    <th>Crit&egrave;re</th>
+                    <th>Valeur</th>
+                    <th>Supprimer</th>
                 </tr>
                 <c:forEach var="u" items="${requestScope['listeAdvertisements']}">
                     <tr>
                         <td><a href="/icms-war/admin/advertisements?action=<%=Config.EDIT%>&id=${u.id}">${u.title}</a></td>
                         <td>${u.link}</td>
-                        <td>${u.service}</td>
-                        <td>${u.criteria}</td>
-                        <td>${u.criteriaValue}</td>
-                        <td><a href="/icms-war/admin/advertisements?action=<%=Config.DESTROY%>&id=${u.id}"> X </a></td>
+                        <td class="center">${u.service}</td>
+                        <td class="center">${u.criteria}</td>
+                        <td class="center">${u.criteriaValue}</td>
+                        <td><a href="/icms-war/admin/advertisements?action=<%=Config.DESTROY%>&id=${u.id}" class="destroy"><span>X</span></a></td>
                     </tr>
                 </c:forEach>
             </table>
@@ -48,7 +45,7 @@
 
         <div id="tinyMCE">
             <h3>Nouvelle publicit&eacute;</h3>
-            <form method="post" action="/icms-war/admin/advertisements">
+            <form method="post" action="/icms-war/admin/advertisements" class="new">
                 <input type="hidden" id="action" name="action" value="<%= Config.CREATE%>" />
 
                 <table>
@@ -71,11 +68,13 @@
                         <td><input type="text" id="criteria_value" name="criteria_value"></td>
                     </tr>
                     <tr>
-                        <td colspan="2"><label for="content">Text :</label>
-                            <textarea id="content" name="content" rows="20" cols="80"></textarea></td>
+                        <td colspan="2">
+                            <label for="content">Texte :</label>
+                            <textarea id="content" name="content" rows="20" cols="80"></textarea>
+                        </td>
                     </tr>
                     <tr>
-                        <td colspan="2"><input type="submit" name="save" value="Valider" /></td>
+                        <td colspan="2"><input type="submit" name="save" value="Cr&eacute;er" /></td>
                     </tr>
                 </table>
             </form>

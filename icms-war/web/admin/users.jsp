@@ -15,27 +15,27 @@
 
         <h2><a href="" class="category">Utilisateurs</a></h2>
 
-        <table border="1">
+        <table class="admin_table">
             <tr>
-                <td><strong>Login</strong></td>
-                <td><strong>Password</strong></td>
-                <td><strong>Permission</strong></td>
-                <td><strong>Supprimer</strong></td>
+                <th>Login</th>
+                <th>Password</th>
+                <th>Permission</th>
+                <th>Supprimer</th>
             </tr>
 
             <c:forEach var="u" items="${requestScope['listUsers']}">
                 <tr>
                     <td><a href="/icms-war/admin/users?action=<%=Config.EDIT%>&id=${u.id}">${u.login}</a></td>
                     <td>${u.password}</td>
-                    <td>${u.permission}</td>
-                    <td><a href="/icms-war/admin/users?action=<%=Config.DESTROY%>&id=${u.id}"> X </a></td>
+                    <td class="center">${u.permission}</td>
+                    <td><a href="/icms-war/admin/users?action=<%=Config.DESTROY%>&id=${u.id}" class="destroy"><span>X</span></a></td>
                 </tr>
             </c:forEach>
         </table>
 
         <br />
         <h3>Nouvel utilisateur</h3>
-        <form method="post" action="/icms-war/admin/users">
+        <form method="post" action="/icms-war/admin/users" class="new">
             <input type="hidden" id="action" name="action" value="<%= Config.CREATE%>" />
 
             <table>
@@ -52,7 +52,7 @@
                     <td><input type="text" id="permission" name="permission"></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><input type="submit" name="save" value="Valider" /></td>
+                    <td colspan="2"><input type="submit" name="save" value="Cr&eacute;er" /></td>
                 </tr>
             </table>
         </form>

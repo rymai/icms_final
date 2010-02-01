@@ -5,9 +5,11 @@
         Page a = (Page) request.getAttribute("article");
         FlickrHelper flickr = new FlickrHelper(a.getTermsForSearch());
 %>
-<h2 class="title"><a href="/icms-war/article/<c:out value="${requestScope['article'].permalink}" escapeXml="true"/>">
+<h2>
+    <a class="article" href="/icms-war/article/<c:out value="${requestScope['article'].permalink}" escapeXml="true"/>">
         <c:out value="${requestScope['article'].title}" escapeXml="false"/>
-    </a></h2>
+    </a>
+</h2>
 <p class="meta">
     <c:out value="${requestScope['article'].publishedAt}" escapeXml="false"/>
 </p>

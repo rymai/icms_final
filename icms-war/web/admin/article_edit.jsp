@@ -4,7 +4,6 @@
 <%@page import="java.util.*" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
-        HtmlUtil HtmlUtil = new HtmlUtil();
         Page article = (Page) request.getAttribute("article");
         List<Page> listPages = (List<Page>) request.getAttribute("listPages");
 %>

@@ -6,13 +6,15 @@
 <%
         User u = (User) request.getAttribute("current_user");
         WeatherHelper meteo = new WeatherHelper((String) SessionsServlet.getFromSession("ipCity"));
+        List<Page> listCategories = (List<Page>) request.getAttribute("listCategories");
+        String url = (String)request.getAttribute("url");
 %>
 
 <div id="log_top_right">
 
     <% if (u != null) {%>
     <form name="logout_form" id="logout_form" method="post" action="/icms-war/logout">
-        <input type="submit" name="logout" value="Log out <%= u.getLogin()%>" />
+        <input type="submit" name="logout" value="Se d&eacute;connecter (<%= u.getLogin()%>)" />
     </form>
     <% } else {%>
     <jsp:include page = "login.jsp" />
@@ -30,9 +32,15 @@
 <div id="header">
     <div id="menu">
         <ul>
-            <% boolean admin = request.getRequestURI().indexOf("admin") != -1;%>
-            <li class="<%= !admin ? "current_page_item" : ""%>"><a href="/icms-war/articles" class="first">Home</a></li>
-            <li class="<%= admin ? "current_page_item" : ""%>"><a href="/icms-war/admin/articles">Admin</a></li>
+            <% Boolean current_item = url.indexOf("icms-war/articles") != -1; %>
+            <li class="<%= current_item ? "current_page_item" : ""%>"><a href="/icms-war/articles">Accueil</a></li>
+            <%
+            for (Page p : listCategories) {
+                        current_item = url.indexOf(p.getPermalink()) != -1;
+                        out.write("<li class=\"" + (current_item ? "current_page_item" : "") + "\"><a href=\"/icms-war/article/" + p.
+                                getPermalink() + "\">" + p.getTitle() + "</a></li>");
+                    }%>
+            <li class="<%= url.indexOf("icms-war/admin") != -1 ? "current_page_item" : "" %>"><a href="/icms-war/admin/articles">Admin</a></li>
         </ul>
     </div>
     <!-- end #menu -->

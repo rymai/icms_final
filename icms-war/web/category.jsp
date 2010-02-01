@@ -12,22 +12,11 @@
     <body>
         <jsp:include page="header.jsp" />
 
-        <h2>
-            <a href="/icms-war/article/<c:out value="${requestScope['article'].permalink}" escapeXml="true"/>" class="category"><c:out value="${requestScope['article'].title}" escapeXml="true"/></a>
-        </h2>
         <div id="description">
-            <jsp:include page="article_template.jsp" />
+            <jsp:include page="category_template.jsp" />
         </div>
 
-        <div class="sections">
-            <br />
-            <h3>Les sections :</h3>
-            <ul>
-                <c:forEach var="u" items="${requestScope['listSections']}">
-                    <li><a href="/icms-war/article/${u.permalink}">${u.title}</a></li>
-                </c:forEach>
-            </ul>
-        </div>
+        <jsp:include page="liste_sections.jsp" />
 
         <jsp:include page="footer.jsp" />
     </body>

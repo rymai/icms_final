@@ -12,28 +12,28 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 
-public class AdvertisementServlet extends HttpServlet {
+public class AdvertisementServlet extends BaseServlet {
    
-    @EJB
-    private GestionnaireAdvertisementsLocal gestionnaireAdvertisements;
-    @EJB
-    private GestionnaireUsersLocal gestionnaireUsers;
-    // Not EJB
-    private String page;
+//    @EJB
+//    private GestionnaireAdvertisementsLocal gestionnaireAdvertisements;
+//    @EJB
+//    private GestionnaireUsersLocal gestionnaireUsers;
+//    // Not EJB
+//    private String page;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        super.processRequest(request, response);
 
         if (!SecurityUtil.checkUserIsAuthenticated(request, response, gestionnaireUsers)) {
             return;
         }
 
         // Priority for the action parameter passed by the page, not by the servlet config
-        int action = request.getParameter("action") != null ? Integer.parseInt(request.getParameter(
-                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.
-                parseInt(getServletConfig().
-                getInitParameter("action")) : -1;
+//        int action = request.getParameter("action") != null ? Integer.parseInt(request.getParameter(
+//                "action")) : getServletConfig().getInitParameter("action") != null ? Integer.
+//                parseInt(getServletConfig().
+//                getInitParameter("action")) : -1;
 
         switch (action) {
             case Config.CREATE:
@@ -50,7 +50,7 @@ public class AdvertisementServlet extends HttpServlet {
             case Config.EDIT:
                 request.setAttribute("advertisement", gestionnaireAdvertisements.find(Integer.parseInt(
                         request.getParameter("id"))));
-                page = "admin/advertisement_edit.jsp";
+                pagePath = "admin/advertisement_edit.jsp";
                 break;
 
             case Config.UPDATE:
@@ -61,7 +61,7 @@ public class AdvertisementServlet extends HttpServlet {
                                          request.getParameter("service"),
                                          request.getParameter("criteria"),
                                          request.getParameter("criteria_value"));
-                page = "admin/advertisements.jsp";
+                pagePath = "admin/advertisements.jsp";
                 break;
 
             case Config.DESTROY:
@@ -69,13 +69,13 @@ public class AdvertisementServlet extends HttpServlet {
                 break;
 
             default:
-                page = "admin/advertisements.jsp"; // render
+                pagePath = "admin/advertisements.jsp"; // render
                 break;
         }
         
         request.setAttribute("listeAdvertisements", gestionnaireAdvertisements.allAdvertisements());
 
-        RequestDispatcher dp = request.getRequestDispatcher("/" + page);
+        RequestDispatcher dp = request.getRequestDispatcher("/" + pagePath);
         dp.forward(request, response);
     }
 

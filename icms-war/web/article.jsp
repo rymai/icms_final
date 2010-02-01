@@ -3,7 +3,6 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
         Page a = (Page) request.getAttribute("article");
-        HtmlUtil html = new HtmlUtil();
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -14,12 +13,15 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><c:out value="${requestScope['article'].title}"/></title>
         <jsp:include page="partials/_head.jsp" />
+        <script src="/icms-war/js/FancyZoom.js" type="text/javascript"></script>
+        <script src="/icms-war/js/FancyZoomHTML.js" type="text/javascript"></script>
     </head>
-    <body>
+    <body onload="setupZoom()">
 
         <jsp:include page="header.jsp" />
         <p id="breadcrumb">
-            <%= html.breadCrumb(a)%>
+            <%= HtmlUtil.breadCrumb(a).substring(0,
+                                                              HtmlUtil.breadCrumb(a).length() - 20)%>
         </p>
 
         <jsp:include page="article_template.jsp" />

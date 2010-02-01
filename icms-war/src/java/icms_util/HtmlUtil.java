@@ -5,10 +5,7 @@ import java.util.*;
 
 public class HtmlUtil {
 
-    public HtmlUtil() {
-    }
-
-    public String breadCrumb(Page page) {
+    public static String breadCrumb(Page page) {
         Page parent = page.getMyParent();
         String html = "";
         if (parent != null) {
@@ -21,8 +18,9 @@ public class HtmlUtil {
         return html;
     }
 
-    public String select(String select_name, String select_label, ArrayList<String[]> values_texts,
-                         Object selected_value) {
+    public static String select(String select_name, String select_label,
+                                ArrayList<String[]> values_texts,
+                                Object selected_value) {
         String html = "<tr><td><label for=\"" + select_name + "\">" + select_label + "</label></td><td><select id=\"" + select_name + "\" name=\"" + select_name + "\">";
 
         for (int i = 0; i < values_texts.size(); i++) {
@@ -33,5 +31,10 @@ public class HtmlUtil {
             html += ">" + values_texts.get(i)[1] + "</option>";
         }
         return html + "</select></td></tr>";
+    }
+
+    public static String formatDate(String utc_date) {
+        String[] date_fields = utc_date.split(" ");
+        return date_fields[2] + " " + date_fields[1] + ", " + date_fields[3].substring(0, 4);
     }
 }

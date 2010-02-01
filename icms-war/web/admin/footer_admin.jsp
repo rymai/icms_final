@@ -4,7 +4,7 @@
 <div id="sidebar">
     <ul>
         <li>
-            <h2>Menu</h2>
+            <h2>Menu Admin</h2>
             <ul>
                 <li><a href="/icms-war/admin/articles">Articles</a></li>
                 <li><a href="/icms-war/admin/users">Utilisateurs</a></li>
@@ -18,6 +18,6 @@
 </div>
 <!-- end #page -->
 <div id="footer">
-    <p>Copyright (c) 2009 ICMS.com. All rights reserved.</p>
+    <p>Copyright &copy; 2010 ICMS  SARL. All rights reserved.</p>
 </div>
 <!-- end #footer -->

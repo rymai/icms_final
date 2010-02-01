@@ -5,7 +5,6 @@
 <%@page import="java.util.*" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
-        HtmlUtil HtmlUtil = new HtmlUtil();
         Advertisement ad = (Advertisement) request.getAttribute("advertisement");
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

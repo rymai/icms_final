@@ -34,4 +34,10 @@ public interface GestionnairePagesLocal {
     public List<Page> allSections();
 
     public List<Page> allArticles();
+
+    public boolean isCategory(int id);
+
+    public boolean isSection(int id);
+
+    public boolean isArticle(int id);
 }

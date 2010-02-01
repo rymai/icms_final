@@ -1,11 +1,12 @@
 <%@page import="icms_ejb.*" %>
+<%@page import="icms_controller.*" %>
 <%@page import="icms_util.*" %>
 <%@page import="icms_servlet.*;" %>
 <%@page import="java.util.*" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
-        HtmlUtil HtmlUtil = new HtmlUtil();
         List<Page> listPages = (List<Page>) request.getAttribute("listPages");
+        GestionnairePagesLocal gestionnairePages = (GestionnairePagesLocal) request.getAttribute("gestionnairePages");
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -24,14 +25,14 @@
         <h2><a href="" class="category">Articles</a></h2>
         <br />
         <div id="listPages">
-            <table border="1">
+            <table class="admin_table">
                 <tr>
-                    <td><strong>Titre</strong></td>
-                    <td><strong>Parent</strong></td>
-                    <td><strong>Sexe vis&eacute;</strong></td>
-                    <td><strong>Publi&eacute; le</strong></td>
-                    <td><strong>Modifi&eacute; le</strong></td>
-                    <td><strong>Supprimer</strong></td>
+                    <th>Titre</th>
+                    <th>Parent</th>
+                    <th>Sexe vis&eacute;</th>
+                    <th>Publi&eacute; le</th>
+                    <th>Modifi&eacute; le</th>
+                    <th>Supprimer</th>
                 </tr>
                 <c:forEach var="u" items="${requestScope['listPages']}">
                     <tr>
@@ -39,8 +40,9 @@
                         <td>${u.myParent.title}</td>
                         <td>${u.preferedSex}</td>
                         <td>${u.publishedAt}</td>
+
                         <td>${u.updatedAt}</td>
-                        <td><a href="/icms-war/admin/articles?action=<%=Config.DESTROY%>&id=${u.id}"> X </a></td>
+                        <td><a href="/icms-war/admin/articles?action=<%=Config.DESTROY%>&id=${u.id}" class="destroy"><span>X</span></a></td>
                     </tr>
                 </c:forEach>
             </table>
@@ -49,7 +51,7 @@
 
         <div id="tinyMCE">
             <h3>Nouvel article</h3>
-            <form method="post" action="/icms-war/admin/articles">
+            <form method="post" action="/icms-war/admin/articles" class="new">
                 <input type="hidden" id="action" name="action" value="<%= Config.CREATE%>" />
 
                 <table>
@@ -71,14 +73,14 @@
                     %>
                     <tr>
                         <td colspan="2"><label for="intro">Intro :</label>
-                            <textarea id="intro" name="intro" rows="5" cols="80"></textarea></td>
+                            <textarea id="intro" name="intro" rows="5"  cols="80"></textarea></td>
                     </tr>
                     <tr>
                         <td colspan="2"><label for="content">Texte :</label>
-                            <textarea id="content" name="content" rows="20" cols="80"></textarea></td>
+                            <textarea id="content" name="content" rows="20"  cols="80"></textarea></td>
                     </tr>
                     <tr>
-                        <td colspan="2"><input type="submit" name="save" value="Valider" /></td>
+                        <td colspan="2"><input type="submit" name="save" value="Cr&eacute;er" /></td>
                     </tr>
                 </table>
             </form>

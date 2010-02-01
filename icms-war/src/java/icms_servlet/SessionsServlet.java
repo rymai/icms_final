@@ -43,7 +43,7 @@ public class SessionsServlet extends HttpServlet {
                 break;
 
             case Config.DESTROY:
-                session.removeAttribute("user_id");
+                if(session != null) session.removeAttribute("user_id");
                 if (gestionnaireSessions.destroy()) {
                     response.sendRedirect("/icms-war/articles");
                     request.setAttribute("flash", "Vous êtes maintenant délogué!");

@@ -47,7 +47,7 @@ public class FlickrHelper {
 
             flickrResults += "<td id=\"flickr_" + p.getId() + "\" class=\"flickr_item\">";
 
-            flickrResults += "<a href=\"" + p.getUrl() + "\"><img id=\"thumb_flickr_" + p.getId() + "\" class=\"flickr_thumb\" src=\"" + p.
+            flickrResults += "<a href=\"" + p.getMediumUrl() + "\" title=\""+p.getTitle()+"\"><img id=\"thumb_flickr_" + p.getId() + "\" class=\"flickr_thumb\" src=\"" + p.
                     getSmallSquareUrl() + "\"></a>";
 
             // Description (caché)

@@ -25,12 +25,12 @@ public class WeatherHelper {
     }
 
     public String currentCondition() {
-        return currentConditions().getChildNodes().item(0).getAttributes().getNamedItem("data").
+        return currentConditions() == null ? "" : currentConditions().getChildNodes().item(0).getAttributes().getNamedItem("data").
                 getTextContent();
     }
 
     public String currentTemperature() {
-        return currentConditions().getChildNodes().item(2).getAttributes().getNamedItem("data").
+        return currentConditions() == null ? "" : currentConditions().getChildNodes().item(2).getAttributes().getNamedItem("data").
                 getTextContent();
     }
 
